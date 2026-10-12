@@ -359,7 +359,7 @@ function AnalogVUMeter({
 }) {
   const needleAngle = isPlaying ? -28 + level * 7 : -34;
   return (
-    <div className="bg-[#101216] border-2 border-black p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[160px]">
+    <div className="bg-[#101216] border-2 border-black p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[135px] sm:max-w-[160px]">
       <div className="flex justify-between items-center w-full text-[9px] font-mono text-[#888] font-bold px-1 mb-1">
         <span className="text-[#FFE500]">CH {channel}</span>
         <span className={isPlaying ? "text-[#00FF66] animate-pulse" : "text-[#555]"}>
@@ -1707,21 +1707,21 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Mobile VU Meters row */}
-              <div className="flex md:hidden justify-center gap-3 mt-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full max-w-[280px] mx-auto mt-4 md:hidden">
                 <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
                 <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
               </div>
             </div>
 
             {/* FULL-WIDTH TAPE DECK WELL & CONTROLS */}
-            <div className="bg-[#14161C] border-3 border-black p-5 sm:p-7 shadow-inner relative">
+            <div className="bg-[#14161C] border-3 border-black p-4 sm:p-7 shadow-inner relative">
               {/* Cassette Label Header */}
-              <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000]">
+              <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000] gap-2">
                 <div>
-                  <div className="text-[10px] uppercase font-bold tracking-widest text-[#333]">
+                  <div className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#333]">
                     SIDE A • HIGH BIAS TYPE II • C-30 ANALOG CASSETTE
                   </div>
-                  <div className="text-xl sm:text-2xl font-black uppercase tracking-tight">
+                  <div className="text-lg sm:text-2xl font-black uppercase tracking-tight">
                     RANTAI REAKSI [EP]
                   </div>
                 </div>
@@ -1729,61 +1729,61 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#D90429]">
                     SILLY N VALLEY
                   </div>
-                  <div className="text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
+                  <div className="text-[9px] sm:text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
                 </div>
               </div>
 
               {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
-              <div className="my-5 bg-[#0B0C0E] border-3 border-black p-5 sm:p-8 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)]">
+              <div className="my-5 bg-[#0B0C0E] border-3 border-black p-3 sm:p-8 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden">
                 {/* Backlight Glow inside cassette well */}
                 <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
                   isPlaying ? "bg-[#00F0FF]/10" : "bg-transparent"
                 }`} />
 
                 {/* Magnetic tape ribbon */}
-                <div className="absolute inset-x-12 top-1/2 -translate-y-1/2 h-9 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
+                <div className="absolute inset-x-6 sm:inset-x-12 top-1/2 -translate-y-1/2 h-7 sm:h-9 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
 
                 {/* Rotating Spools */}
-                <div className="grid grid-cols-2 gap-10 items-center max-w-lg mx-auto relative z-10">
+                <div className="grid grid-cols-2 gap-4 sm:gap-10 items-center max-w-lg mx-auto relative z-10">
                   {/* Left Spool (Supply) */}
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                      className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
                         isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
                       }`}
                     >
-                      <div className="w-12 h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-4 h-4 rounded-full bg-[#FFE500]/60" />
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#FFE500]/60" />
                       </div>
                       {/* Spokes */}
                       <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
                       <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
                     </div>
-                    <span className="text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">SUPPLY REEL</span>
+                    <span className="text-[9px] sm:text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">SUPPLY REEL</span>
                   </div>
 
                   {/* Right Spool (Take-up) */}
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                      className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
                         isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
                       }`}
                     >
-                      <div className="w-12 h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-4 h-4 rounded-full bg-[#FFE500]/60" />
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#FFE500]/60" />
                       </div>
                       <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
                       <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
                     </div>
-                    <span className="text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">TAKE-UP REEL</span>
+                    <span className="text-[9px] sm:text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">TAKE-UP REEL</span>
                   </div>
                 </div>
 
                 {/* Digital VFD Tape Counter HUD */}
-                <div className="mt-5 text-center relative z-10">
-                  <div className="inline-flex items-center gap-3 bg-[#0A0C10] border-2 border-black px-4 py-1.5 font-mono text-xs shadow-[2px_2px_0px_#000]">
-                    <span className="text-[#888]">TAPE COUNTER:</span>
-                    <span className="text-[#00FF66] font-black tracking-widest text-sm">
+                <div className="mt-4 sm:mt-5 text-center relative z-10">
+                  <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#0A0C10] border-2 border-black px-3 sm:px-4 py-1.5 font-mono text-[11px] sm:text-xs shadow-[2px_2px_0px_#000]">
+                    <span className="text-[#888] hidden sm:inline">TAPE COUNTER:</span>
+                    <span className="text-[#00FF66] font-black tracking-widest text-xs sm:text-sm">
                       {formatTime(playbackSec)} / {activeTrack.duration}
                     </span>
                     <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
@@ -1793,6 +1793,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </div>
                 </div>
               </div>
+
 
               {/* NOW PLAYING TRACK STRIP */}
               <div className="bg-[#0F1116] border-2 border-black p-4 flex flex-wrap items-center justify-between gap-4 font-mono shadow-[2px_2px_0px_#000]">
@@ -1879,12 +1880,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* HEAVY TACTILE TRANSPORT BUTTONS */}
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black/80">
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t-2 border-black/80">
                 {/* Left Controls: Buttons */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
                   <button
                     onClick={handlePrevTrack}
-                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
+                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 sm:px-4 sm:py-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Sebelumnya"
                     aria-label="Previous track"
                   >
@@ -1893,7 +1894,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <button
                     onClick={togglePlayPause}
-                    className={`px-8 py-3 font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
+                    className={`flex-1 sm:flex-initial px-5 sm:px-8 py-3 min-h-[44px] font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
                       isPlaying
                         ? "bg-[#FF0055] text-white shadow-[4px_4px_0px_#FFE500] animate-pulse"
                         : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#FF0055]"
@@ -1912,7 +1913,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <button
                     onClick={handleNextTrack}
-                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
+                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 sm:px-4 sm:py-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Selanjutnya"
                     aria-label="Next track"
                   >
@@ -1921,7 +1922,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
 
                 {/* Right Controls: Volume */}
-                <div className="flex items-center gap-4 text-xs font-mono">
+                <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto text-xs font-mono">
+
                   <div className="flex items-center gap-2 bg-[#0E1015] px-3 py-2 border border-black shadow-[2px_2px_0px_#000]">
                     <button
                       onClick={() => setIsMuted(!isMuted)}
@@ -2494,8 +2496,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
 
                 {/* Table Patch */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left font-mono text-xs">
+                <div className="overflow-x-auto -mx-2 sm:mx-0">
+                  <table className="w-full text-left font-mono text-xs min-w-[520px]">
                     <thead>
                       <tr className="border-b-2 border-black bg-[#EAE5DA] text-black font-black">
                         <th className="p-3">CH</th>
@@ -2588,6 +2590,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       </tr>
                     </tbody>
                   </table>
+                </div>
+                <div className="sm:hidden text-[10px] text-[#666] font-mono italic mt-1.5">
+                  ↔ Geser tabel ke samping untuk melihat detail mic & stands
                 </div>
 
                 {/* Electric & Monitoring Note */}
