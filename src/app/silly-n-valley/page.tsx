@@ -1634,7 +1634,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
-            <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500]">
+            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000]">
               <Headphones className="w-3.5 h-3.5" /> OFFICIAL TRACKS
             </div>
             <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white">
@@ -1662,7 +1662,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#D90429]">
+                      <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
                         SILLY N VALLEY
                       </div>
                       <div className="text-[9px] sm:text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
@@ -1715,11 +1715,11 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       </div>
                     </div>
 
-                    {/* Digital VFD Tape Counter HUD */}
+                    {/* Amber LED Tape Counter HUD */}
                     <div className="mt-3 text-center relative z-10">
                       <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#0A0C10] border-2 border-black px-3 py-1 font-mono text-[11px] sm:text-xs shadow-[2px_2px_0px_#000]">
                         <span className="text-[#888] hidden sm:inline">TAPE COUNTER:</span>
-                        <span className="text-[#00FF66] font-black tracking-widest text-xs sm:text-sm">
+                        <span className="text-[#FFE500] font-black tracking-widest text-xs sm:text-sm">
                           {formatTime(playbackSec)} / {activeTrack.duration}
                         </span>
                         <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
@@ -1741,7 +1741,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="bg-[#D90429] text-white border border-black px-2 py-0.5 text-[11px] font-bold uppercase shadow-[2px_2px_0px_#000]">
+                      <span className="bg-[#1A1D24] text-[#FFE500] border border-black px-2 py-0.5 text-[11px] font-bold uppercase shadow-[2px_2px_0px_#000]">
                         {activeTrack.energy}
                       </span>
                       <button
@@ -1841,7 +1841,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onClick={togglePlayPause}
                         className={`flex-1 sm:flex-initial px-6 sm:px-9 py-3 min-h-[44px] font-mono font-black text-sm uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
                           isPlaying
-                            ? "bg-[#D90429] text-white shadow-[4px_4px_0px_#000]"
+                            ? "bg-[#101217] text-[#FFE500] border-[#FFE500] shadow-[4px_4px_0px_#000]"
                             : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#000]"
                         }`}
                       >
@@ -1875,7 +1875,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         title={isMuted ? "Unmute" : "Mute"}
                       >
                         {isMuted ? (
-                          <VolumeX className="w-4 h-4 text-[#D90429]" />
+                          <VolumeX className="w-4 h-4 text-[#FFE500]" />
                         ) : (
                           <Volume2 className="w-4 h-4" />
                         )}
@@ -1907,9 +1907,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     <div className="bg-[#0C0D11] border-2 border-black p-4 font-mono text-xs shadow-[3px_3px_0px_#000]">
                       <div className="flex justify-between items-center mb-2 pb-1 border-b border-[#222]">
                         <span className="text-[#FFE500] font-black uppercase flex items-center gap-1.5">
-                          <Flame className="w-3.5 h-3.5 text-[#D90429]" /> Lirik: {activeTrack.title}
+                          <Flame className="w-3.5 h-3.5 text-[#FFE500]" /> Lirik: {activeTrack.title}
                         </span>
-                        <span className="text-[10px] text-[#00FF66] font-bold">
+                        <span className="text-[10px] text-[#FFE500] font-bold">
                           {activeTrack.sourceType === "live" ? "🔴 LIVE SESSION" : "⚡ STUDIO MASTER"}
                         </span>
                       </div>
@@ -1987,8 +1987,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                             }}
                             className={`p-2.5 text-left font-mono border-2 transition-all flex items-center justify-between cursor-pointer ${
                               isSelected
-                                ? "bg-[#FFE500] text-black border-black shadow-[3px_3px_0px_#D90429]"
-                                : "bg-[#1E2026] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
+                                ? "bg-[#FFE500] text-black border-black shadow-[3px_3px_0px_#000]"
+                                : "bg-[#1A1D24] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
                             }`}
                           >
                             <div className="flex items-center gap-2 truncate">
