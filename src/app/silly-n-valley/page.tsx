@@ -107,6 +107,246 @@ function GrungeStamp({
   );
 }
 
+// ─── PUNK SKULL WITH MIC ANIMATED MASCOT COMPONENT ────────────────────────
+function PunkSkullWithMic({
+  isPlaying,
+  bpm = 200,
+  currentTrackTitle = "Berhala-Run!"
+}: {
+  isPlaying: boolean;
+  bpm?: number;
+  currentTrackTitle?: string;
+}) {
+  const [shoutIndex, setShoutIndex] = useState(0);
+  const [isRoaring, setIsRoaring] = useState(false);
+
+  const PUNK_SHOUTS = [
+    "OI! OI! OI!",
+    "HIGHLY MOTIVATED!",
+    "DISTORSI MAKSIMAL!",
+    "RANTAI REAKSI!",
+    "LEDAKKAN SPEAKER!",
+    "SWADAYA MANDIRI!",
+    "TANGERANG HARDCORE!"
+  ];
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setShoutIndex(prev => (prev + 1) % PUNK_SHOUTS.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const handleSkullPoke = () => {
+    setIsRoaring(true);
+    setShoutIndex(prev => (prev + 1) % PUNK_SHOUTS.length);
+    setTimeout(() => setIsRoaring(false), 900);
+  };
+
+  return (
+    <div
+      onClick={handleSkullPoke}
+      className="relative flex flex-col items-center select-none cursor-pointer group"
+      title="Klik tengkorak untuk memicu shout punk!"
+    >
+      {/* Punk Shout Comic Speech Bubble */}
+      <div
+        className={`transition-all duration-300 transform mb-1 z-20 ${
+          isPlaying || isRoaring
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-40 scale-95"
+        }`}
+      >
+        <div className="bg-[#FFE500] text-black font-black text-[10px] sm:text-xs px-2.5 py-1 border-2 border-black shadow-[3px_3px_0px_#FF0055] uppercase font-mono tracking-tight flex items-center gap-1.5 rotate-[-2deg]">
+          <Flame className="w-3.5 h-3.5 text-[#D90429] fill-current animate-bounce" />
+          <span>{PUNK_SHOUTS[shoutIndex]}</span>
+        </div>
+        <div className="w-2.5 h-2.5 bg-[#FFE500] border-r-2 border-b-2 border-black rotate-45 mx-auto -mt-1.5 shadow-[1px_1px_0px_#FF0055]" />
+      </div>
+
+      {/* SVG SKULL & VINTAGE MIC CANVAS */}
+      <div className="relative w-44 h-52 sm:w-52 sm:h-60">
+        {/* Soundwaves radiating from mic (left side) */}
+        {isPlaying && (
+          <div className="absolute left-2 top-24 pointer-events-none z-0">
+            <div className="w-16 h-16 rounded-full border-2 border-[#00F0FF] animate-soundwave absolute -top-8 -left-8" />
+            <div className="w-24 h-24 rounded-full border-2 border-[#FFE500] animate-soundwave absolute -top-12 -left-12 [animation-delay:0.3s]" />
+            <div className="w-32 h-32 rounded-full border-2 border-[#FF0055] animate-soundwave absolute -top-16 -left-16 [animation-delay:0.6s]" />
+          </div>
+        )}
+
+        <svg
+          viewBox="0 0 240 250"
+          className="w-full h-full drop-shadow-[0_0_15px_rgba(255,0,85,0.4)]"
+        >
+          <defs>
+            {/* Neon Mohawk Gradient */}
+            <linearGradient id="mohawkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFE500" />
+              <stop offset="50%" stopColor="#FF0055" />
+              <stop offset="100%" stopColor="#00F0FF" />
+            </linearGradient>
+            {/* Vintage Chrome Mic Gradient */}
+            <linearGradient id="chromeMic" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#8A92A0" />
+              <stop offset="35%" stopColor="#FFFFFF" />
+              <stop offset="70%" stopColor="#4A5260" />
+              <stop offset="100%" stopColor="#1E2229" />
+            </linearGradient>
+          </defs>
+
+          {/* ── MOHAWK SPIKES ── */}
+          <g className={isPlaying ? "animate-pulse" : ""}>
+            <polygon points="120,8 108,60 128,55" fill="url(#mohawkGrad)" stroke="#000" strokeWidth="3" />
+            <polygon points="102,18 95,68 112,62" fill="#FFE500" stroke="#000" strokeWidth="3" />
+            <polygon points="138,18 128,62 145,68" fill="#00F0FF" stroke="#000" strokeWidth="3" />
+            <polygon points="86,34 82,75 100,70" fill="#FF0055" stroke="#000" strokeWidth="3" />
+            <polygon points="154,34 140,70 158,75" fill="#FFE500" stroke="#000" strokeWidth="3" />
+            <polygon points="72,55 75,85 90,80" fill="#00F0FF" stroke="#000" strokeWidth="3" />
+            <polygon points="168,55 150,80 165,85" fill="#FF0055" stroke="#000" strokeWidth="3" />
+          </g>
+
+          {/* ── STUDDED LEATHER COLLAR ── */}
+          <path d="M78,205 Q120,225 162,205 L165,225 Q120,245 75,225 Z" fill="#15171C" stroke="#000" strokeWidth="3" />
+          <polygon points="88,212 92,205 96,212 92,216" fill="#FFF" stroke="#000" strokeWidth="1.5" />
+          <polygon points="108,217 112,210 116,217 112,221" fill="#FFF" stroke="#000" strokeWidth="1.5" />
+          <polygon points="128,217 132,210 136,217 132,221" fill="#FFF" stroke="#000" strokeWidth="1.5" />
+          <polygon points="148,212 152,205 156,212 152,216" fill="#FFF" stroke="#000" strokeWidth="1.5" />
+
+          {/* ── HEADBANGING CRANIUM & FACE ── */}
+          <g className={isPlaying || isRoaring ? "animate-headbang-fast" : ""}>
+            {/* Skull Head Base */}
+            <path
+              d="M80,82 C65,95 62,130 68,150 C72,165 82,170 88,172 L88,180 C95,182 145,182 152,180 L152,172 C158,170 168,165 172,150 C178,130 175,95 160,82 C148,70 92,70 80,82 Z"
+              fill="#EAE5DA"
+              stroke="#000"
+              strokeWidth="4"
+            />
+
+            {/* Forehead punk fracture / crack */}
+            <path d="M115,75 L120,90 L112,100 L118,110" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
+
+            {/* Safety Pin Piercing on Brow */}
+            <path d="M74,96 Q70,90 76,86 L90,92 Q94,96 88,100 Z" fill="none" stroke="#FFE500" strokeWidth="2.5" />
+            <circle cx="74" cy="92" r="2.5" fill="#000" />
+
+            {/* Eye Sockets */}
+            <path d="M85,115 C82,102 102,100 106,112 C108,126 88,128 85,115 Z" fill="#111317" stroke="#000" strokeWidth="3" />
+            <path d="M134,112 C138,100 158,102 155,115 C152,128 132,126 134,112 Z" fill="#111317" stroke="#000" strokeWidth="3" />
+
+            {/* Glowing Neon Cross / Star Pupils */}
+            <g className={isPlaying ? "animate-neon-flicker" : ""}>
+              <polygon
+                points="95,108 97,113 102,113 98,116 100,121 95,118 90,121 92,116 88,113 93,113"
+                fill={isPlaying ? "#FFE500" : "#555"}
+                className={isPlaying ? "filter drop-shadow-[0_0_8px_#FFE500]" : ""}
+              />
+              <polygon
+                points="145,108 147,113 152,113 148,116 150,121 145,118 140,121 142,116 138,113 143,113"
+                fill={isPlaying ? "#00F0FF" : "#555"}
+                className={isPlaying ? "filter drop-shadow-[0_0_8px_#00F0FF]" : ""}
+              />
+            </g>
+
+            {/* Triangular Inverted Nose Cavity */}
+            <polygon points="120,126 114,142 126,142" fill="#111317" stroke="#000" strokeWidth="2" />
+
+            {/* Cheekbone shadow accents */}
+            <path d="M74,136 Q80,148 88,152" fill="none" stroke="#C4BEB1" strokeWidth="3" strokeLinecap="round" />
+            <path d="M166,136 Q160,148 152,152" fill="none" stroke="#C4BEB1" strokeWidth="3" strokeLinecap="round" />
+
+            {/* Upper Teeth */}
+            <rect x="94" y="170" width="8" height="11" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
+            <rect x="103" y="170" width="9" height="12" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
+            <rect x="113" y="170" width="9" height="12" rx="1" fill="#FFE500" stroke="#000" strokeWidth="2" />
+            <rect x="123" y="170" width="9" height="12" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
+            <rect x="133" y="170" width="8" height="11" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
+
+            {/* ── LOWER JAW (CHATTERS/ROARS WHEN PLAYING) ── */}
+            <g className={isPlaying || isRoaring ? "animate-skull-jaw" : ""}>
+              <path
+                d="M90,183 L150,183 L144,204 Q120,214 96,204 Z"
+                fill="#EAE5DA"
+                stroke="#000"
+                strokeWidth="3.5"
+              />
+              <rect x="98" y="181" width="8" height="8" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
+              <rect x="107" y="181" width="8" height="9" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
+              <rect x="116" y="181" width="8" height="9" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
+              <rect x="125" y="181" width="8" height="8" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
+
+              {/* Chin Studded Spike Piercing */}
+              <circle cx="120" cy="207" r="3" fill="#FFE500" stroke="#000" strokeWidth="1.5" />
+              <polygon points="118,210 120,217 122,210" fill="#FFF" stroke="#000" strokeWidth="1" />
+            </g>
+          </g>
+
+          {/* ── VINTAGE CHROME DYNAMIC MICROPHONE & SKELETAL HAND ── */}
+          <g transform="translate(20, 115) rotate(-15)">
+            {/* Curled Mic Cord */}
+            <path
+              d="M32,80 Q20,110 38,125 T25,145"
+              fill="none"
+              stroke="#181A20"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+            {isPlaying && (
+              <path
+                d="M32,80 Q20,110 38,125 T25,145"
+                fill="none"
+                stroke="#00F0FF"
+                strokeWidth="2"
+                strokeDasharray="8 12"
+                className="animate-pulse"
+              />
+            )}
+
+            {/* Vintage Mic Grille Head */}
+            <rect x="15" y="10" width="34" height="42" rx="10" fill={isPlaying ? "#FF0055" : "#4A1020"} />
+            <rect x="14" y="8" width="36" height="46" rx="12" fill="url(#chromeMic)" stroke="#000" strokeWidth="3" opacity="0.9" />
+            <line x1="16" y1="16" x2="48" y2="16" stroke="#111" strokeWidth="2.5" />
+            <line x1="15" y1="23" x2="49" y2="23" stroke="#111" strokeWidth="2.5" />
+            <line x1="15" y1="30" x2="49" y2="30" stroke="#111" strokeWidth="2.5" />
+            <line x1="16" y1="37" x2="48" y2="37" stroke="#111" strokeWidth="2.5" />
+            <line x1="18" y1="44" x2="46" y2="44" stroke="#111" strokeWidth="2.5" />
+            <line x1="32" y1="8" x2="32" y2="54" stroke="#FFF" strokeWidth="3" />
+            <line x1="32" y1="8" x2="32" y2="54" stroke="#000" strokeWidth="1" />
+
+            {/* Mic Base Collar & Shaft */}
+            <rect x="24" y="54" width="16" height="30" rx="3" fill="#22252C" stroke="#000" strokeWidth="2.5" />
+            <circle cx="32" cy="62" r="3" fill="#FFE500" />
+
+            {/* Skeletal Bony Hand Clutched Around Mic Handle */}
+            <g>
+              <path d="M12,58 Q26,52 38,58" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
+              <path d="M12,58 Q26,52 38,58" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M10,66 Q26,60 39,66" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
+              <path d="M10,66 Q26,60 39,66" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M12,74 Q26,68 38,74" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
+              <path d="M12,74 Q26,68 38,74" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M14,81 Q26,76 36,81" fill="none" stroke="#EAE5DA" strokeWidth="4.5" strokeLinecap="round" />
+              <path d="M40,56 Q44,66 36,72" fill="none" stroke="#EAE5DA" strokeWidth="5" strokeLinecap="round" />
+              <path d="M40,56 Q44,66 36,72" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      {/* Status Tag beneath Skull */}
+      <div className="mt-2 text-center">
+        <div className="inline-flex items-center gap-1.5 bg-black/80 px-2.5 py-0.5 border border-[#FF0055] text-[9px] font-mono font-bold">
+          <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#00FF66] animate-ping" : "bg-[#888]"}`} />
+          <span className={isPlaying ? "text-[#FFE500]" : "text-[#888]"}>
+            {isPlaying ? "SCREAMING INTO MIC" : "IDLE • CLICK TO ROAR"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── TYPES & DATA ──────────────────────────────────────────────────────────
 
 interface Track {
@@ -306,32 +546,32 @@ const INSTAGRAM_PHOTOS: ZinePhoto[] = [
   {
     id: 5,
     src: "/assets/silly-n-valley/photo_5.jpg",
-    title: "KASET PITA C-30 FISIK RESMI",
+    title: "GUITAR LEAD & RIFF RUN",
     caption:
-      "Rilisan fisik kaset analog EP 'Rantai Reaksi' dengan shell smokey & j-card lirik lipat 3.",
-    venue: "Tangerang DIY Workshop",
-    credit: "@silly.n.valley",
-    category: "gear",
+      "Gitaris memuntahkan riff cepat chord minor di atas panggung HALA Koffie. Karakter distorsi analog mentah.",
+    venue: "HALA Koffie Stage",
+    credit: "@mqrifisnqini",
+    category: "stage",
     tilt: "-rotate-3"
   },
   {
     id: 6,
     src: "/assets/silly-n-valley/photo_6.jpg",
-    title: "OFFICIAL MERCH T-SHIRT",
+    title: "BASS LINE POGO ATTACK",
     caption:
-      "Kaos resmi rilisan mandiri berbahan heavy cotton 24s dengan sablon plastisol tebal.",
-    venue: "Merch Distro Stall",
-    credit: "@silly.n.valley",
-    category: "gear",
+      "Dentuman bassline rendah dari arah belakang panggung, memicu lompatan massa penonton festival.",
+    venue: "Gigsgoks Fest Stage",
+    credit: "@gigsgoks",
+    category: "stage",
     tilt: "rotate-1"
   },
   {
     id: 7,
     src: "/assets/silly-n-valley/photo_7.jpg",
-    title: "HALA KOFFIE VENUE SETUP",
+    title: "OFFICIAL MERCH T-SHIRT",
     caption:
-      "Panggung intim tanpa sekat sebelum open gate dimulai. Karpet usang dan ampli berserakan.",
-    venue: "HALA Koffie Stage",
+      "Model showcase kaos resmi Silly N Valley 'Rantai Reaksi'. Heavyweight cotton 24s dengan sablon plastisol artwork band.",
+    venue: "Merch Distro Stall",
     credit: "@silly.n.valley",
     category: "gear",
     tilt: "-rotate-2"
@@ -339,33 +579,33 @@ const INSTAGRAM_PHOTOS: ZinePhoto[] = [
   {
     id: 8,
     src: "/assets/silly-n-valley/photo_8.jpg",
-    title: "POGO AKBAR GIGSGOKS FEST",
+    title: "DOUBLE PEDAL PUNCH",
     caption:
-      "Gelombang moshpit terbuka di lapangan parkir Mal Ciputra CitraRaya di bawah terik senja.",
+      "Aksi kaki drummer memompa ketukan cepat D-beat punk di atas panggung terbuka Gigsgoks Fest.",
     venue: "Mal Ciputra CitraRaya",
     credit: "@gigsgoks",
-    category: "crowd",
+    category: "gear",
     tilt: "rotate-2"
   },
   {
     id: 9,
     src: "/assets/silly-n-valley/photo_9.jpg",
-    title: "BACKSTAGE SQUAD CHILL",
+    title: "BALACLAVA BASSIST ROAR",
     caption:
-      "Personil Silly N Valley rehat santai di pojok venue sehabis soundcheck 8-channel.",
+      "Bassist dengan topeng balaclava hitam membetot 4-senar sebelum set dimulai di Tangerang.",
     venue: "Backstage Area, Tangerang",
     credit: "@silly.n.valley",
-    category: "backstage",
+    category: "stage",
     tilt: "-rotate-1"
   },
   {
     id: 10,
     src: "/assets/silly-n-valley/photo_10.jpg",
-    title: "PEDALBOARD SPAGHETTI CABLE",
+    title: "OFFICIAL MERCH CATALOG DROP",
     caption:
-      "Rangkaian stompbox overdrive, distorsi, dan tuner di atas lantai kayu venue.",
-    venue: "Live Soundcheck",
-    credit: "@mqrifisnqini",
+      "Poster resmi rilisan fisik EP 'Rantai Reaksi', kaos Berhala-Run, paket bundle, dan kaset pita C-30.",
+    venue: "Tangerang DIY Workshop",
+    credit: "@silly.n.valley",
     category: "gear",
     tilt: "rotate-3"
   },
@@ -383,12 +623,12 @@ const INSTAGRAM_PHOTOS: ZinePhoto[] = [
   {
     id: 12,
     src: "/assets/silly-n-valley/photo_12.jpg",
-    title: "MIC GRAB KARAOKE MASSAL",
+    title: "OFFICIAL MERCH T-SHIRT",
     caption:
-      "Vokalis mengarahkan mic ke tengah crowd. Semua hafal bait demi bait tanpa kompromi.",
-    venue: "Latihan Di Lihatin #4",
-    credit: "@mqrifisnqini",
-    category: "crowd",
+      "Kaos resmi Silly N Valley dipakai santai di studio. Jahitan rapi, fitting boxy mantap untuk dipakai manggung.",
+    venue: "Studio Chill Session",
+    credit: "@silly.n.valley",
+    category: "gear",
     tilt: "rotate-1"
   }
 ];
@@ -1146,7 +1386,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <div
                   key={photo.id}
                   onClick={() => setActivePhotoIndex(originalIndex)}
-                  className={`group bg-white border-3 border-black p-3.5 shadow-[5px_5px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#D90429] hover:-translate-y-1 transition-all cursor-pointer relative ${photo.tilt}`}
+                  className={`group bg-white border-3 border-black p-3.5 shadow-[5px_5px_0px_#0D0D0D] hover:shadow-[7px_7px_0px_#00F0FF,-7px_-7px_0px_#FF0055] hover:-translate-y-2 hover:rotate-0 transition-all duration-300 cursor-pointer relative ${photo.tilt}`}
                 >
                   {/* Duct Tape on top of each polaroid */}
                   <DuctTape
@@ -1162,10 +1402,18 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 contrast-105"
                       loading="lazy"
                     />
-                    <div className="absolute top-2 right-2 bg-black/80 text-white p-1 rounded-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* Animated Xerox Scanline Sweep on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    {/* Pop-up Authenticity Punk Stamp */}
+                    <div className="absolute top-2 left-2 bg-[#FF0055] text-white text-[8px] font-black px-1.5 py-0.5 border border-black uppercase -rotate-6 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-[1px_1px_0px_#000] z-10 scale-90 group-hover:scale-100">
+                      AUTHENTIC PUNK
+                    </div>
+
+                    <div className="absolute top-2 right-2 bg-black/80 text-white p-1 rounded-xs opacity-0 group-hover:opacity-100 transition-opacity z-10">
                       <Maximize2 className="w-3.5 h-3.5" />
                     </div>
-                    <div className="absolute bottom-2 left-2 bg-[#FFE500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black uppercase">
+                    <div className="absolute bottom-2 left-2 bg-[#FFE500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black uppercase z-10">
                       #{photo.id.toString().padStart(2, "0")}
                     </div>
                   </div>
@@ -1317,86 +1565,102 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         </div>
       )}
 
-      {/* ─── SECTION 3: VINTAGE 80s CASSETTE TAPE DECK PLAYER ──────────────── */}
-      <section id="music" className="py-20 bg-[#161616] text-[#EBE7DF] border-b-4 border-black relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ─── SECTION 3: VINTAGE 80s CASSETTE TAPE DECK & NEON PUNK JUKEBOX ──── */}
+      <section id="music" className="py-20 bg-[#0E0F14] text-[#EBE7DF] border-b-4 border-black relative overflow-hidden">
+        {/* Ambient Neon Atmosphere Blobs & Sparks */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#FF0055]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#FFE500]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#00F0FF]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#D90429]">
-              <Headphones className="w-3.5 h-3.5" /> 80s ANALOG TAPE DECK SIMULATOR
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <div className="inline-flex items-center gap-2 bg-[#FF0055] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500] animate-pulse">
+              <Headphones className="w-3.5 h-3.5" /> 80s NEON JUKEBOX & TAPE DECK
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white neon-text-glow">
               Kaset Pita &apos;Rantai Reaksi&apos;
             </h2>
             <p className="text-[#A4ACB9] text-xs sm:text-sm font-mono">
-              Pemutar kaset model tape deck retro 80s dengan rekaman audio asli Silly N Valley langsung dari rilis resmi Bandcamp. Dengarkan distorsi power chord dan vokal raw tanpa kompromi!
+              Jukebox analog underground retro 80s dengan visualizer neon dan audio master rekaman resmi Bandcamp. Headbang bareng maskot tengkorak punk di panggung digital!
             </p>
           </div>
 
-          {/* CHUNKY TAPE DECK HOUSING */}
-          <div className="bg-[#2B2D31] border-4 border-black p-6 sm:p-9 shadow-[10px_10px_0px_#000] relative max-w-4xl mx-auto">
-            {/* Screws in 4 Corners */}
-            <div className="absolute top-3 left-3 w-4 h-4 rounded-full bg-[#18191B] border border-black flex items-center justify-center text-[8px] text-[#888] font-bold select-none">+</div>
-            <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-[#18191B] border border-black flex items-center justify-center text-[8px] text-[#888] font-bold select-none">+</div>
-            <div className="absolute bottom-3 left-3 w-4 h-4 rounded-full bg-[#18191B] border border-black flex items-center justify-center text-[8px] text-[#888] font-bold select-none">+</div>
-            <div className="absolute bottom-3 right-3 w-4 h-4 rounded-full bg-[#18191B] border border-black flex items-center justify-center text-[8px] text-[#888] font-bold select-none">+</div>
+          {/* CHUNKY NEON PUNK JUKEBOX HOUSING */}
+          <div className="bg-[#181A22] border-4 border-[#FF0055] p-5 sm:p-8 animate-neon-box relative max-w-5xl mx-auto rounded-none shadow-[0_0_35px_rgba(255,0,85,0.4)]">
+            {/* Neon Corner Brackets */}
+            <div className="absolute top-2 left-2 w-6 h-6 border-t-3 border-l-3 border-[#00F0FF] pointer-events-none" />
+            <div className="absolute top-2 right-2 w-6 h-6 border-t-3 border-r-3 border-[#FFE500] pointer-events-none" />
+            <div className="absolute bottom-2 left-2 w-6 h-6 border-b-3 border-l-3 border-[#FFE500] pointer-events-none" />
+            <div className="absolute bottom-2 right-2 w-6 h-6 border-b-3 border-r-3 border-[#00F0FF] pointer-events-none" />
 
-            {/* Top Deck Banner & VU Meters */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-5 border-b-2 border-black/60">
-              <div className="flex items-center gap-2">
-                <span className="bg-black text-[#FFE500] font-mono text-xs font-black px-2 py-1 border border-black uppercase">
-                  MODEL: TNG-C30
-                </span>
-                <span className="text-xs font-mono font-bold text-[#888]">
-                  SOLID STATE HIGH-BIAS CASSETTE RECORDER
+            {/* TOP NEON ARCADE BANNER & REALTIME VU METERS */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 border-b-2 border-[#FF0055]/40 font-mono">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 bg-black px-3 py-1.5 border-2 border-[#FFE500] shadow-[0_0_12px_rgba(255,229,0,0.6)]">
+                  <Zap className="w-4 h-4 text-[#FFE500] fill-current animate-bounce" />
+                  <span className="text-xs font-black uppercase text-[#FFE500] tracking-wider animate-neon-flicker neon-text-glow">
+                    ⚡ NEON PUNK JUKEBOX ⚡
+                  </span>
+                </div>
+                <span className="hidden md:inline-block text-[11px] text-[#00F0FF] font-bold uppercase tracking-wider neon-cyan-glow">
+                  SOLID STATE TNG-C30 • 192KBPS BANDCAMP MASTER
                 </span>
               </div>
 
-              {/* VU METER BARS */}
-              <div className="flex items-center gap-4 bg-[#181A1D] border-2 border-black px-3 py-1.5 font-mono text-[10px]">
-                <div className="flex items-center gap-1">
-                  <span className="text-[#888] font-bold">L:</span>
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(bar => (
+              {/* LIVE NEON SPECTRUM EQUALIZER BARS */}
+              <div className="flex items-center gap-3 bg-black/90 px-3.5 py-1.5 border border-[#00F0FF] shadow-[0_0_10px_rgba(0,240,255,0.3)]">
+                <span className="text-[10px] text-[#888] font-bold">SPECTRUM:</span>
+                <div className="flex items-end gap-1 h-5">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(bar => {
+                    const height = isPlaying
+                      ? `${Math.max(25, ((bar * 19 + playbackSec * 23) % 75) + 25)}%`
+                      : "25%";
+                    return (
                       <div
                         key={bar}
-                        className={`w-1.5 h-3 ${
-                          bar <= vuLevelLeft
-                            ? bar > 6
-                              ? "bg-[#D90429]"
-                              : bar > 4
-                              ? "bg-[#FFE500]"
-                              : "bg-[#00FF66]"
-                            : "bg-[#2A2E35]"
+                        className={`w-1.5 transition-all duration-150 ${
+                          bar % 3 === 0
+                            ? "bg-[#FF0055] shadow-[0_0_5px_#FF0055]"
+                            : bar % 2 === 0
+                            ? "bg-[#FFE500] shadow-[0_0_5px_#FFE500]"
+                            : "bg-[#00F0FF] shadow-[0_0_5px_#00F0FF]"
                         }`}
+                        style={{ height }}
                       />
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-[#888] font-bold">R:</span>
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(bar => (
-                      <div
-                        key={bar}
-                        className={`w-1.5 h-3 ${
-                          bar <= vuLevelRight
-                            ? bar > 6
-                              ? "bg-[#D90429]"
-                              : bar > 4
-                              ? "bg-[#FFE500]"
-                              : "bg-[#00FF66]"
-                            : "bg-[#2A2E35]"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* CASSETTE WELL / COMPARTMENT */}
-            <div className="bg-[#181A1E] border-3 border-black p-5 sm:p-7 rounded-sm shadow-inner relative">
+            {/* JUKEBOX 2-COLUMN GRID: TENGKORAK PUNK BAWA MIC + CASSETTE WELL */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              {/* LEFT COLUMN (lg:col-span-4): TENGKORAK PUNK BAWA MIC MASCOT */}
+              <div className="lg:col-span-4 flex flex-col items-center justify-center bg-[#111218] border-2 border-[#00F0FF] p-4 shadow-[0_0_20px_rgba(0,240,255,0.25)] relative group">
+                <div className="absolute top-2 left-2 text-[9px] font-mono text-[#00F0FF] uppercase font-bold tracking-widest neon-cyan-glow">
+                  [PUNK VOCAL MASCOT]
+                </div>
+                <div className="absolute top-2 right-2 text-[9px] font-mono text-[#FFE500] uppercase font-bold">
+                  {activeTrack.bpm} BPM
+                </div>
+
+                {/* Animated Punk Skull Component */}
+                <PunkSkullWithMic
+                  isPlaying={isPlaying}
+                  bpm={activeTrack.bpm}
+                  currentTrackTitle={activeTrack.title}
+                />
+
+                <div className="mt-3 text-center text-[10px] font-mono text-[#8E95A5]">
+                  <span className="text-[#00F0FF] font-bold">SHURE 55SH MIC</span> • VOCAL HEADBANG
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN (lg:col-span-8): CASSETTE WELL & CONTROLS */}
+              <div className="lg:col-span-8">
+                {/* CASSETTE WELL / COMPARTMENT */}
+                <div className="bg-[#14161C] border-3 border-black p-4 sm:p-6 rounded-sm shadow-inner relative">
               {/* Cassette Label Header */}
               <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono">
                 <div>
@@ -1637,6 +1901,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
               )}
             </div>
+          </div>
+        </div>
 
             {/* TRACKLIST SELECTION J-CARD BUTTONS (6 TRACKS DARI BANDCAMP) */}
             <div className="mt-6">
