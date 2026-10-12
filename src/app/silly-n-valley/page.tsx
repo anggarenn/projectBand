@@ -166,7 +166,7 @@ function PunkSkullWithMic({
       </div>
 
       {/* SVG SKULL & VINTAGE MIC CANVAS */}
-      <div className="relative w-44 h-52 sm:w-52 sm:h-60">
+      <div className="relative w-28 h-36 sm:w-36 sm:h-44">
         {/* Soundwaves radiating from mic (left side) */}
         {isPlaying && (
           <div className="absolute left-2 top-24 pointer-events-none z-0">
@@ -359,15 +359,15 @@ function AnalogVUMeter({
 }) {
   const needleAngle = isPlaying ? -28 + level * 7 : -34;
   return (
-    <div className="bg-[#101216] border-2 border-black p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[135px] sm:max-w-[160px]">
-      <div className="flex justify-between items-center w-full text-[9px] font-mono text-[#888] font-bold px-1 mb-1">
+    <div className="bg-[#101216] border-2 border-black p-1.5 sm:p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[105px] sm:max-w-[130px]">
+      <div className="flex justify-between items-center w-full text-[8.5px] font-mono text-[#888] font-bold px-0.5 mb-1">
         <span className="text-[#FFE500]">CH {channel}</span>
         <span className={isPlaying ? "text-[#00FF66] animate-pulse" : "text-[#555]"}>
           {isPlaying ? "LIVE" : "IDLE"}
         </span>
       </div>
       {/* Dial Face */}
-      <div className="relative w-full h-16 bg-[#F5EEDC] border border-black rounded-t overflow-hidden shadow-inner flex flex-col justify-end items-center">
+      <div className="relative w-full h-13 sm:h-15 bg-[#F5EEDC] border border-black rounded-t overflow-hidden shadow-inner flex flex-col justify-end items-center">
         <div className={`absolute inset-0 transition-opacity duration-300 ${isPlaying ? "bg-[#FFE500]/25" : "bg-[#FFE500]/5"}`} />
         <svg viewBox="0 0 100 50" className="w-full h-full absolute inset-0">
           <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="1.5" />
@@ -1635,23 +1635,20 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
             <div className="inline-flex items-center gap-2 bg-[#FF0055] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500]">
-              <Headphones className="w-3.5 h-3.5" /> 80s NEON JUKEBOX & TAPE DECK
+              <Headphones className="w-3.5 h-3.5" /> OFFICIAL TRACKS
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white neon-text-glow">
-              Kaset Pita &apos;Rantai Reaksi&apos;
+            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white neon-text-glow">
+              LISTEN TO US
             </h2>
-            <p className="text-[#A4ACB9] text-xs sm:text-sm font-mono">
-              Jukebox analog underground retro 80s dengan visualizer neon dan audio master rekaman resmi Bandcamp. Headbang bareng maskot tengkorak punk di panggung digital!
-            </p>
           </div>
 
           {/* CHUNKY NEON PUNK JUKEBOX HOUSING */}
-          <div className="bg-[#181A22] border-4 border-[#FF0055] p-5 sm:p-8 animate-neon-jukebox-glow relative max-w-5xl mx-auto rounded-none shadow-[0_0_45px_rgba(255,0,85,0.5)]">
+          <div className="bg-[#181A22] border-4 border-[#FF0055] p-4 sm:p-7 relative max-w-6xl mx-auto rounded-none shadow-[0_0_40px_rgba(255,0,85,0.4)]">
             {/* Glowing Neon Side Pillars */}
-            <div className="absolute top-0 bottom-0 -left-2 w-2.5 bg-gradient-to-b from-[#FF0055] via-[#FFE500] to-[#00F0FF] shadow-[0_0_15px_#FF0055] hidden sm:block pointer-events-none animate-pulse" />
-            <div className="absolute top-0 bottom-0 -right-2 w-2.5 bg-gradient-to-b from-[#00F0FF] via-[#FFE500] to-[#FF0055] shadow-[0_0_15px_#00F0FF] hidden sm:block pointer-events-none animate-pulse [animation-delay:1s]" />
+            <div className="absolute top-0 bottom-0 -left-2 w-2.5 bg-gradient-to-b from-[#FF0055] via-[#FFE500] to-[#00F0FF] shadow-[0_0_15px_#FF0055] hidden sm:block pointer-events-none" />
+            <div className="absolute top-0 bottom-0 -right-2 w-2.5 bg-gradient-to-b from-[#00F0FF] via-[#FFE500] to-[#FF0055] shadow-[0_0_15px_#00F0FF] hidden sm:block pointer-events-none" />
 
             {/* Neon Corner Brackets */}
             <div className="absolute top-2 left-2 w-6 h-6 border-t-3 border-l-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
@@ -1659,365 +1656,350 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             <div className="absolute bottom-2 left-2 w-6 h-6 border-b-3 border-l-3 border-[#FFE500] pointer-events-none shadow-[0_0_10px_#FFE500]" />
             <div className="absolute bottom-2 right-2 w-6 h-6 border-b-3 border-r-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
 
-            {/* TOP ARCADE STAGE: DUAL ANALOG VU METERS + CENTER ANIMATED PUNK SKULL MASCOT */}
-            <div className="mb-6 pb-6 border-b-2 border-[#FF0055]/50 bg-[#101217] p-4 sm:p-6 border-2 border-[#2A2E39] shadow-inner relative overflow-hidden">
-              {/* Stage Lighting Flare */}
-              <div className="absolute inset-0 bg-radial from-[#FFE500]/10 via-transparent to-transparent pointer-events-none" />
-              
-              {/* Arcade Marquee Header Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-[#2A2E39]">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#FF0055] animate-ping" />
-                  <span className="font-mono text-xs sm:text-sm font-black text-[#FFE500] uppercase tracking-wider animate-neon-flicker neon-text-glow">
-                    ⚡ SILLY N VALLEY • LIVE PUNK JUKEBOX ⚡
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-[10px] font-mono text-[#00F0FF] neon-cyan-glow">
-                  <span className="hidden sm:inline">FORMAT:</span>
-                  <span className="bg-black px-2 py-0.5 border border-[#00F0FF]">192KBPS BANDCAMP MASTER</span>
-                </div>
-              </div>
-
-              {/* 3-Column Arcade Stage: Left VU Meter + Center Skull with Mic + Right VU Meter */}
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                {/* Left Analog VU Meter */}
-                <div className="hidden md:flex flex-col items-center">
-                  <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
-                  <span className="text-[9px] font-mono text-[#888] mt-1 font-bold">LEFT MASTER</span>
-                </div>
-
-                {/* Center Mascot Performer: Tengkorak Punk Bawa Mic */}
-                <div className="flex-1 flex flex-col items-center justify-center relative">
-                  <PunkSkullWithMic
-                    isPlaying={isPlaying}
-                    bpm={activeTrack.bpm}
-                    currentTrackTitle={activeTrack.title}
-                  />
-                </div>
-
-                {/* Right Analog VU Meter */}
-                <div className="hidden md:flex flex-col items-center">
-                  <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
-                  <span className="text-[9px] font-mono text-[#888] mt-1 font-bold">RIGHT MASTER</span>
-                </div>
-              </div>
-
-              {/* Mobile VU Meters row */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full max-w-[280px] mx-auto mt-4 md:hidden">
-                <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
-                <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
-              </div>
-            </div>
-
-            {/* FULL-WIDTH TAPE DECK WELL & CONTROLS */}
-            <div className="bg-[#14161C] border-3 border-black p-4 sm:p-7 shadow-inner relative">
-              {/* Cassette Label Header */}
-              <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000] gap-2">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+              {/* LEFT COLUMN (7 COLS): FULL CASSETTE TAPE DECK & CONTROLS */}
+              <div className="lg:col-span-7 bg-[#14161C] border-3 border-black p-4 sm:p-6 shadow-inner flex flex-col justify-between">
                 <div>
-                  <div className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#333]">
-                    SIDE A • HIGH BIAS TYPE II • C-30 ANALOG CASSETTE
-                  </div>
-                  <div className="text-lg sm:text-2xl font-black uppercase tracking-tight">
-                    RANTAI REAKSI [EP]
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#D90429]">
-                    SILLY N VALLEY
-                  </div>
-                  <div className="text-[9px] sm:text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
-                </div>
-              </div>
-
-              {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
-              <div className="my-5 bg-[#0B0C0E] border-3 border-black p-3 sm:p-8 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden">
-                {/* Backlight Glow inside cassette well */}
-                <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-                  isPlaying ? "bg-[#00F0FF]/10" : "bg-transparent"
-                }`} />
-
-                {/* Magnetic tape ribbon */}
-                <div className="absolute inset-x-6 sm:inset-x-12 top-1/2 -translate-y-1/2 h-7 sm:h-9 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
-
-                {/* Rotating Spools */}
-                <div className="grid grid-cols-2 gap-4 sm:gap-10 items-center max-w-lg mx-auto relative z-10">
-                  {/* Left Spool (Supply) */}
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
-                        isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
-                      }`}
-                    >
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#FFE500]/60" />
+                  {/* Cassette Label Header */}
+                  <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000] gap-2">
+                    <div>
+                      <div className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#333]">
+                        SIDE A • HIGH BIAS TYPE II • C-30 ANALOG CASSETTE
                       </div>
-                      {/* Spokes */}
-                      <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
-                      <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
-                    </div>
-                    <span className="text-[9px] sm:text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">SUPPLY REEL</span>
-                  </div>
-
-                  {/* Right Spool (Take-up) */}
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
-                        isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
-                      }`}
-                    >
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#FFE500]/60" />
+                      <div className="text-lg sm:text-2xl font-black uppercase tracking-tight">
+                        RANTAI REAKSI [EP]
                       </div>
-                      <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
-                      <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
                     </div>
-                    <span className="text-[9px] sm:text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">TAKE-UP REEL</span>
+                    <div className="text-right">
+                      <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#D90429]">
+                        SILLY N VALLEY
+                      </div>
+                      <div className="text-[9px] sm:text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Digital VFD Tape Counter HUD */}
-                <div className="mt-4 sm:mt-5 text-center relative z-10">
-                  <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#0A0C10] border-2 border-black px-3 sm:px-4 py-1.5 font-mono text-[11px] sm:text-xs shadow-[2px_2px_0px_#000]">
-                    <span className="text-[#888] hidden sm:inline">TAPE COUNTER:</span>
-                    <span className="text-[#00FF66] font-black tracking-widest text-xs sm:text-sm">
-                      {formatTime(playbackSec)} / {activeTrack.duration}
-                    </span>
-                    <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
-                    <span className="text-[#FF0055] font-black uppercase text-[10px] hidden sm:inline">
-                      {activeTrack.energy}
-                    </span>
+                  {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
+                  <div className="my-4 bg-[#0B0C0E] border-3 border-black p-3 sm:p-5 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden">
+                    {/* Backlight Glow inside cassette well */}
+                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                      isPlaying ? "bg-[#00F0FF]/10" : "bg-transparent"
+                    }`} />
+
+                    {/* Magnetic tape ribbon */}
+                    <div className="absolute inset-x-6 sm:inset-x-12 top-1/2 -translate-y-1/2 h-7 sm:h-8 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
+
+                    {/* Rotating Spools */}
+                    <div className="grid grid-cols-2 gap-4 sm:gap-8 items-center max-w-sm mx-auto relative z-10">
+                      {/* Left Spool (Supply) */}
+                      <div className="flex flex-col items-center">
+                        <div
+                          className={`w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                            isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
+                          }`}
+                        >
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                            <div className="w-3 h-3 rounded-full bg-[#FFE500]/60" />
+                          </div>
+                          {/* Spokes */}
+                          <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
+                          <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
+                        </div>
+                        <span className="text-[9px] text-[#00F0FF] mt-1.5 font-mono font-bold uppercase">SUPPLY REEL</span>
+                      </div>
+
+                      {/* Right Spool (Take-up) */}
+                      <div className="flex flex-col items-center">
+                        <div
+                          className={`w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                            isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
+                          }`}
+                        >
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                            <div className="w-3 h-3 rounded-full bg-[#FFE500]/60" />
+                          </div>
+                          <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
+                          <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
+                        </div>
+                        <span className="text-[9px] text-[#00F0FF] mt-1.5 font-mono font-bold uppercase">TAKE-UP REEL</span>
+                      </div>
+                    </div>
+
+                    {/* Digital VFD Tape Counter HUD */}
+                    <div className="mt-3 text-center relative z-10">
+                      <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#0A0C10] border-2 border-black px-3 py-1 font-mono text-[11px] sm:text-xs shadow-[2px_2px_0px_#000]">
+                        <span className="text-[#888] hidden sm:inline">TAPE COUNTER:</span>
+                        <span className="text-[#00FF66] font-black tracking-widest text-xs sm:text-sm">
+                          {formatTime(playbackSec)} / {activeTrack.duration}
+                        </span>
+                        <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-
-              {/* NOW PLAYING TRACK STRIP */}
-              <div className="bg-[#0F1116] border-2 border-black p-4 flex flex-wrap items-center justify-between gap-4 font-mono shadow-[2px_2px_0px_#000]">
-                <div>
-                  <div className="text-[11px] text-[#FFE500] font-bold uppercase">
-                    NOW PLAYING • TRACK #{activeTrack.id} OF 6
+                  {/* NOW PLAYING TRACK STRIP */}
+                  <div className="bg-[#0F1116] border-2 border-black p-3.5 flex flex-wrap items-center justify-between gap-3 font-mono shadow-[2px_2px_0px_#000]">
+                    <div>
+                      <div className="text-[10px] text-[#FFE500] font-bold uppercase">
+                        NOW PLAYING • TRACK #{activeTrack.id} OF 6
+                      </div>
+                      <div className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
+                        {activeTrack.title}
+                      </div>
+                      <div className="text-xs text-[#8E95A5] mt-0.5">
+                        {activeTrack.story}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-[#D90429] text-white border border-black px-2 py-0.5 text-[11px] font-bold uppercase shadow-[2px_2px_0px_#000]">
+                        {activeTrack.energy}
+                      </span>
+                      <button
+                        onClick={() => setLyricsOpen(!lyricsOpen)}
+                        className="bg-[#22252D] hover:bg-[#2C303A] text-white px-3 py-1.5 text-xs font-bold border border-black flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_#000]"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-[#FFE500]" />
+                        {lyricsOpen ? "Tutup Lirik" : "Baca Lirik"}
+                      </button>
+                    </div>
                   </div>
-                  <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
-                    {activeTrack.title}
-                  </div>
-                  <div className="text-xs text-[#8E95A5] mt-0.5">
-                    {activeTrack.story}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="bg-[#D90429] text-white border border-black px-2.5 py-1 text-xs font-bold uppercase shadow-[2px_2px_0px_#000]">
-                    {activeTrack.energy}
-                  </span>
-                  <button
-                    onClick={() => setLyricsOpen(!lyricsOpen)}
-                    className="bg-[#22252D] hover:bg-[#2C303A] text-white px-3 py-1.5 text-xs font-bold border border-black flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_#000]"
-                  >
-                    <FileText className="w-3.5 h-3.5 text-[#FFE500]" />
-                    {lyricsOpen ? "Tutup Lirik" : "Baca Lirik"}
-                  </button>
-                </div>
-              </div>
 
-              {/* NATIVE HTML5 AUDIO ELEMENT */}
-              <audio
-                ref={audioRef}
-                src={activeTrack.audioSrc}
-                onTimeUpdate={() => {
-                  if (audioRef.current) {
-                    setPlaybackSec(Math.floor(audioRef.current.currentTime));
-                  }
-                }}
-                onEnded={handleNextTrack}
-                preload="auto"
-              />
-
-              {/* DANCING NEON SPECTRUM EQUALIZER BARS & SEEK BAR */}
-              <div className="mt-4">
-                <div className="flex items-end gap-1 h-6 mb-1.5 px-1">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(bar => {
-                    const height = isPlaying
-                      ? `${Math.max(20, ((bar * 23 + playbackSec * 29) % 80) + 20)}%`
-                      : "20%";
-                    return (
-                      <div
-                        key={bar}
-                        className={`flex-1 transition-all duration-150 ${
-                          bar % 3 === 0
-                            ? "bg-[#FF0055]"
-                            : bar % 2 === 0
-                            ? "bg-[#FFE500]"
-                            : "bg-[#00F0FF]"
-                        }`}
-                        style={{ height }}
-                      />
-                    );
-                  })}
-                </div>
-                <div
-                  className="w-full bg-[#0A0C10] h-3 rounded-none overflow-hidden border border-black cursor-pointer shadow-inner"
-                  onClick={e => {
-                    if (!audioRef.current) return;
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const clickX = e.clientX - rect.left;
-                    const newPct = clickX / rect.width;
-                    const targetSec = newPct * activeTrack.durationSec;
-                    audioRef.current.currentTime = targetSec;
-                    setPlaybackSec(Math.floor(targetSec));
-                  }}
-                  title="Klik untuk seek posisi audio"
-                >
-                  <div
-                    className="bg-gradient-to-r from-[#FFE500] via-[#00F0FF] to-[#FF0055] h-full transition-all duration-150"
-                    style={{
-                      width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
+                  {/* NATIVE HTML5 AUDIO ELEMENT */}
+                  <audio
+                    ref={audioRef}
+                    src={activeTrack.audioSrc}
+                    onTimeUpdate={() => {
+                      if (audioRef.current) {
+                        setPlaybackSec(Math.floor(audioRef.current.currentTime));
+                      }
                     }}
+                    onEnded={handleNextTrack}
+                    preload="auto"
                   />
-                </div>
-              </div>
 
-              {/* HEAVY TACTILE TRANSPORT BUTTONS */}
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t-2 border-black/80">
-                {/* Left Controls: Buttons */}
-                <div className="flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
-                  <button
-                    onClick={handlePrevTrack}
-                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 sm:px-4 sm:py-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
-                    title="Track Sebelumnya"
-                    aria-label="Previous track"
-                  >
-                    <SkipBack className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    onClick={togglePlayPause}
-                    className={`flex-1 sm:flex-initial px-5 sm:px-8 py-3 min-h-[44px] font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
-                      isPlaying
-                        ? "bg-[#FF0055] text-white shadow-[4px_4px_0px_#FFE500] animate-pulse"
-                        : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#FF0055]"
-                    }`}
-                  >
-                    {isPlaying ? (
-                      <>
-                        <Pause className="w-4 h-4 fill-current" /> STOP TAPE
-                      </>
-                    ) : (
-                      <>
-                        <Play className="w-4 h-4 fill-current" /> PLAY TAPE
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={handleNextTrack}
-                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 sm:px-4 sm:py-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
-                    title="Track Selanjutnya"
-                    aria-label="Next track"
-                  >
-                    <SkipForward className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Right Controls: Volume */}
-                <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto text-xs font-mono">
-
-                  <div className="flex items-center gap-2 bg-[#0E1015] px-3 py-2 border border-black shadow-[2px_2px_0px_#000]">
-                    <button
-                      onClick={() => setIsMuted(!isMuted)}
-                      className="text-[#8E95A5] hover:text-[#FFE500] cursor-pointer"
-                      aria-label="Toggle mute"
+                  {/* DANCING NEON SPECTRUM EQUALIZER BARS & SEEK BAR */}
+                  <div className="mt-3">
+                    <div className="flex items-end gap-1 h-5 mb-1 px-0.5">
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(bar => {
+                        const height = isPlaying
+                          ? `${Math.max(20, ((bar * 23 + playbackSec * 29) % 80) + 20)}%`
+                          : "20%";
+                        return (
+                          <div
+                            key={bar}
+                            className={`flex-1 transition-all duration-150 ${
+                              bar % 3 === 0
+                                ? "bg-[#FF0055]"
+                                : bar % 2 === 0
+                                ? "bg-[#FFE500]"
+                                : "bg-[#00F0FF]"
+                            }`}
+                            style={{ height }}
+                          />
+                        );
+                      })}
+                    </div>
+                    <div
+                      className="w-full bg-[#0A0C10] h-3 rounded-none overflow-hidden border border-black cursor-pointer shadow-inner"
+                      onClick={e => {
+                        if (!audioRef.current) return;
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const clickX = e.clientX - rect.left;
+                        const newPct = clickX / rect.width;
+                        const targetSec = newPct * activeTrack.durationSec;
+                        audioRef.current.currentTime = targetSec;
+                        setPlaybackSec(Math.floor(targetSec));
+                      }}
+                      title="Klik untuk seek posisi audio"
                     >
-                      {isMuted ? (
-                        <VolumeX className="w-4 h-4 text-[#D90429]" />
-                      ) : (
-                        <Volume2 className="w-4 h-4" />
-                      )}
-                    </button>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      value={volume}
-                      onChange={e => setVolume(parseFloat(e.target.value))}
-                      className="w-20 accent-[#FFE500] cursor-pointer"
-                      aria-label="Volume slider"
-                    />
-                    <span className="text-[10px] text-[#717A8A]">
-                      {isMuted ? "MUTE" : `${Math.round(volume * 100)}%`}
-                    </span>
+                      <div
+                        className="bg-gradient-to-r from-[#FFE500] via-[#00F0FF] to-[#FF0055] h-full transition-all duration-150"
+                        style={{
+                          width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
+                        }}
+                      />
+                    </div>
                   </div>
 
-                  <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-[#888]">
-                    <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#00FF66] animate-ping" : "bg-[#666]"}`} />
-                    <span className="text-white font-mono font-bold">BANDCAMP MASTER AUDIO</span>
-                  </div>
-                </div>
-              </div>
+                  {/* HEAVY TACTILE TRANSPORT BUTTONS */}
+                  <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t-2 border-black/80">
+                    {/* Buttons */}
+                    <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                      <button
+                        onClick={handlePrevTrack}
+                        className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform cursor-pointer"
+                        title="Track Sebelumnya"
+                        aria-label="Previous track"
+                      >
+                        <SkipBack className="w-4 h-4" />
+                      </button>
 
-              {/* LYRICS DRAWER ACCORDION */}
-              {lyricsOpen && (
-                <div className="mt-6 pt-6 border-t-2 border-dashed border-[#444] animate-fadeIn">
-                  <div className="bg-[#0C0D11] border-2 border-black p-5 font-mono text-xs sm:text-sm shadow-[3px_3px_0px_#000]">
-                    <div className="flex justify-between items-center mb-3 pb-2 border-b border-[#222]">
-                      <span className="text-[#FFE500] font-black uppercase flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-[#D90429]" /> Lirik & Info: {activeTrack.title}
-                      </span>
-                      <span className="text-[11px] text-[#00FF66] font-bold">
-                        {activeTrack.sourceType === "live" ? "🔴 LIVE SESSION HALA" : "⚡ OFFICIAL STUDIO SINGLE"}
+                      <button
+                        onClick={togglePlayPause}
+                        className={`flex-1 sm:flex-initial px-6 sm:px-9 py-3 min-h-[44px] font-mono font-black text-sm uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
+                          isPlaying
+                            ? "bg-[#FF0055] text-white shadow-[4px_4px_0px_#FFE500]"
+                            : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#FF0055]"
+                        }`}
+                      >
+                        {isPlaying ? (
+                          <>
+                            <Pause className="w-4 h-4 fill-current" /> STOP TAPE
+                          </>
+                        ) : (
+                          <>
+                            <Play className="w-4 h-4 fill-current" /> PLAY TAPE
+                          </>
+                        )}
+                      </button>
+
+                      <button
+                        onClick={handleNextTrack}
+                        className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform cursor-pointer"
+                        title="Track Selanjutnya"
+                        aria-label="Next track"
+                      >
+                        <SkipForward className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Volume */}
+                    <div className="flex items-center gap-2 bg-[#0E1015] px-3 py-2 border border-black shadow-[2px_2px_0px_#000] text-xs font-mono w-full sm:w-auto justify-between sm:justify-start">
+                      <button
+                        onClick={() => setIsMuted(!isMuted)}
+                        className="text-[#8E95A5] hover:text-[#FFE500] cursor-pointer"
+                        aria-label="Toggle mute"
+                      >
+                        {isMuted ? (
+                          <VolumeX className="w-4 h-4 text-[#D90429]" />
+                        ) : (
+                          <Volume2 className="w-4 h-4" />
+                        )}
+                      </button>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={volume}
+                        onChange={e => setVolume(parseFloat(e.target.value))}
+                        className="w-20 accent-[#FFE500] cursor-pointer"
+                        aria-label="Volume slider"
+                      />
+                      <span className="text-[10px] text-[#717A8A]">
+                        {isMuted ? "MUTE" : `${Math.round(volume * 100)}%`}
                       </span>
                     </div>
-                    <pre className="font-mono text-[#D4D8E2] whitespace-pre-wrap leading-relaxed">
-                      {activeTrack.lyrics}
-                    </pre>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* TRACKLIST SELECTION J-CARD BUTTONS (6 TRACKS DARI BANDCAMP) */}
-            <div className="mt-6">
-              <div className="flex justify-between items-center mb-3 text-xs font-mono font-bold text-[#A4ACB9]">
-                <span>PILIH TRACK DARI CASSETTE PITA / BANDCAMP:</span>
-                <a
-                  href="https://sillynvalley.bandcamp.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#FFE500] hover:underline flex items-center gap-1"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" /> Buka Bandcamp Resmi
-                </a>
+                {/* LYRICS DRAWER ACCORDION */}
+                {lyricsOpen && (
+                  <div className="mt-4 pt-4 border-t-2 border-dashed border-[#444] animate-fadeIn">
+                    <div className="bg-[#0C0D11] border-2 border-black p-4 font-mono text-xs shadow-[3px_3px_0px_#000]">
+                      <div className="flex justify-between items-center mb-2 pb-1 border-b border-[#222]">
+                        <span className="text-[#FFE500] font-black uppercase flex items-center gap-1.5">
+                          <Flame className="w-3.5 h-3.5 text-[#D90429]" /> Lirik: {activeTrack.title}
+                        </span>
+                        <span className="text-[10px] text-[#00FF66] font-bold">
+                          {activeTrack.sourceType === "live" ? "🔴 LIVE SESSION" : "⚡ STUDIO MASTER"}
+                        </span>
+                      </div>
+                      <pre className="font-mono text-[#D4D8E2] whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto text-xs">
+                        {activeTrack.lyrics}
+                      </pre>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {TRACKS.map((t, idx) => {
-                  const isSelected = idx === currentTrackIndex;
-                  return (
-                    <button
-                      key={t.id}
-                      onClick={() => {
-                        setCurrentTrackIndex(idx);
-                        setPlaybackSec(0);
-                        setIsPlaying(true);
-                      }}
-                      className={`p-3 text-left font-mono border-2 transition-all flex flex-col justify-between cursor-pointer ${
-                        isSelected
-                          ? "bg-[#FFE500] text-black border-black shadow-[4px_4px_0px_#D90429]"
-                          : "bg-[#1E2026] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
-                      }`}
-                    >
-                      <div className="flex justify-between items-center text-xs font-bold mb-1">
-                        <span>0{t.id}.</span>
-                        <span className="text-[10px] bg-black/30 px-1 text-white">{t.duration}</span>
-                      </div>
-                      <div className="font-black text-sm uppercase tracking-tight truncate">
-                        {t.title}
-                      </div>
-                      <div className="text-[10px] mt-1 font-bold opacity-80 uppercase flex justify-between items-center">
-                        <span>{t.sourceType === "live" ? "HALA LIVE" : "STUDIO SINGLE"}</span>
-                        <span>{isSelected && isPlaying ? "▶ PLAYING" : `${t.bpm} BPM`}</span>
-                      </div>
-                    </button>
-                  );
-                })}
+
+              {/* RIGHT COLUMN (5 COLS): COMPACT PUNK STAGE & PLAYLIST */}
+              <div className="lg:col-span-5 flex flex-col gap-4">
+                {/* COMPACT PUNK STAGE: DUAL VU METERS + SKULL MASCOT */}
+                <div className="bg-[#101217] border-2 border-[#2A2E39] p-3 sm:p-4 shadow-inner relative overflow-hidden">
+                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-[#2A2E39]">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#FF0055]" />
+                      <span className="font-mono text-xs font-black text-[#FFE500] uppercase tracking-wider">
+                        ⚡ LIVE STAGE MASCOT ⚡
+                      </span>
+                    </div>
+                    <div className="text-[10px] font-mono text-[#00F0FF]">
+                      <span className="bg-black px-2 py-0.5 border border-[#00F0FF]">192KBPS MASTER</span>
+                    </div>
+                  </div>
+
+                  {/* Stage row: Left VU + Center Skull + Right VU */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col items-center shrink-0">
+                      <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
+                      <span className="text-[8px] font-mono text-[#888] mt-1 font-bold">CH L</span>
+                    </div>
+
+                    <div className="flex-1 flex justify-center">
+                      <PunkSkullWithMic
+                        isPlaying={isPlaying}
+                        bpm={activeTrack.bpm}
+                        currentTrackTitle={activeTrack.title}
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-center shrink-0">
+                      <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
+                      <span className="text-[8px] font-mono text-[#888] mt-1 font-bold">CH R</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* TRACKLIST SELECTOR */}
+                <div className="bg-[#14161C] border-2 border-black p-3 sm:p-4 shadow-inner flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-center mb-2.5 text-xs font-mono font-bold text-[#A4ACB9]">
+                      <span className="text-white">PILIH LAGU ({TRACKS.length} TRACKS):</span>
+                      <a
+                        href="https://sillynvalley.bandcamp.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#FFE500] hover:underline flex items-center gap-1 text-[11px]"
+                      >
+                        <ExternalLink className="w-3 h-3" /> Bandcamp Resmi
+                      </a>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-2">
+                      {TRACKS.map((t, idx) => {
+                        const isSelected = idx === currentTrackIndex;
+                        return (
+                          <button
+                            key={t.id}
+                            onClick={() => {
+                              setCurrentTrackIndex(idx);
+                              setPlaybackSec(0);
+                              setIsPlaying(true);
+                            }}
+                            className={`p-2.5 text-left font-mono border-2 transition-all flex items-center justify-between cursor-pointer ${
+                              isSelected
+                                ? "bg-[#FFE500] text-black border-black shadow-[3px_3px_0px_#D90429]"
+                                : "bg-[#1E2026] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 truncate">
+                              <span className="font-black text-xs">0{t.id}.</span>
+                              <span className="font-black text-xs sm:text-sm uppercase tracking-tight truncate">
+                                {t.title}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 text-[10px] font-bold shrink-0 ml-2">
+                              <span>{t.duration}</span>
+                              <span className={`px-1.5 py-0.5 text-[9px] ${isSelected && isPlaying ? "bg-black text-[#FFE500]" : "bg-black/40 text-[#BBB]"}`}>
+                                {isSelected && isPlaying ? "▶ PLAYING" : `${t.bpm} BPM`}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
