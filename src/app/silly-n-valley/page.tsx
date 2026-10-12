@@ -410,75 +410,75 @@ interface MerchItem {
 const MERCH_CATALOG: MerchItem[] = [
   {
     id: "bundle-rantai-reaksi",
-    name: "Rantai Reaksi Package (Boxset)",
-    category: "ULTIMATE COLLECTOR PACK",
+    name: "Rantai Reaksi Bulk (T-Shirt + Cassette Tape)",
+    category: "OFFICIAL BUNDLE",
     price: 220000,
     formattedPrice: "Rp 220.000",
-    badge: "BEST VALUE",
+    badge: "BEST DEAL",
     stockStatus: "LIMITED EDITION",
-    desc: "Bundling rilisan fisik kaset pita resmi + Kaos Rantai Reaksi + 5x Vinyl Waterproof Stickers + Zine Foto Eksklusif doc @mqrifisnqini.",
+    desc: "Paket bundling resmi: T-Shirt Rantai Reaksi + Kaset Pita Rantai Reaksi C-30 dengan packaging stensil underground.",
     specs: [
-      "Heavyweight T-Shirt 24s",
-      "Kaset Pita C-30 Smokey Shell",
-      "Bonus 5 Vinyl Sticker Pack",
-      "A5 Gigs Photozine 12 Halaman"
+      "Heavyweight T-Shirt 24s Rantai Reaksi",
+      "Kaset Pita C-30 Smokey Shell Rantai Reaksi",
+      "Bonus Vinyl Sticker Pack",
+      "Limited physical release"
     ],
     sizes: ["S", "M", "L", "XL", "XXL"],
-    photoSrc: "/assets/silly-n-valley/photo_5.jpg"
+    photoSrc: "/assets/silly-n-valley/merch_bundle.jpg"
   },
   {
     id: "tshirt-rantai-reaksi",
-    name: "Rantai Reaksi Official T-Shirt",
+    name: "Rantai Reaksi T-Shirt",
     category: "APPAREL",
     price: 175000,
     formattedPrice: "Rp 175.000",
-    badge: "OFFICIAL MERCH",
+    badge: "OFFICIAL T-SHIRT",
     stockStatus: "READY STOCK",
-    desc: "Kaos grafis utama rilisan EP 'Rantai Reaksi'. Artwork ilustrasi punk moshpit Tangerang dengan sablon plastisol tebal warna kuning volt & putih di atas kain hitam pekat.",
+    desc: "Kaos grafis utama Silly N Valley artwork ungu-kuning 'Rantai Reaksi'. Sablon plastisol tebal di atas kain katun hitam pekat.",
     specs: [
       "100% Cotton Combed 24s Heavyweight",
-      "High Density Plastisol Screenprint",
+      "Plastisol High-Density Screenprint",
       "Seamless collar & double needle hems",
-      "Woven label Silly N Valley on hem"
+      "Woven label Silly N Valley"
     ],
     sizes: ["S", "M", "L", "XL", "XXL"],
-    photoSrc: "/assets/silly-n-valley/photo_6.jpg"
+    photoSrc: "/assets/silly-n-valley/merch_tshirt_rantai_reaksi.jpg"
   },
   {
     id: "tshirt-berhala-run",
-    name: "Berhala Run Vintage Wash T-Shirt",
+    name: "Berhala-Run T-Shirt",
     category: "APPAREL",
     price: 150000,
     formattedPrice: "Rp 150.000",
     badge: "FAN FAVORITE",
-    stockStatus: "LOW STOCK",
-    desc: "Kaos streetwear boxy cut dengan treatment acid-wash vintage. Grafis satir anti-algoritma di dada kiri dan punggung penuh typography fanzine brutalist.",
+    stockStatus: "READY STOCK",
+    desc: "Kaos resmi single 'Berhala-Run!'. Artwork grafis api & patung berhala satir karya kolaborasi dengan sablon discharge tahan lama.",
     specs: [
-      "Cotton 20s Washed Vintage Charcoal",
+      "100% Cotton Combed Black Heavyweight",
       "Discharge soft-hand screenprinting",
       "Oversized Boxy Fit",
       "Pre-shrunk fabric"
     ],
-    sizes: ["M", "L", "XL"],
-    photoSrc: "/assets/silly-n-valley/photo_6.jpg"
+    sizes: ["S", "M", "L", "XL"],
+    photoSrc: "/assets/silly-n-valley/merch_tshirt_berhala_run.jpg"
   },
   {
     id: "cassette-rantai-reaksi",
-    name: "Rantai Reaksi C-30 Cassette Tape",
+    name: "Rantai Reaksi Cassette Tape",
     category: "PHYSICAL AUDIO",
     price: 50000,
     formattedPrice: "Rp 50.000",
     badge: "PHYSICAL CASSETTE",
     stockStatus: "READY STOCK",
-    desc: "Kaset pita fisik analog durasi C-30 pita magnetik murni. Shell kaset warna transparan smokey dengan pad printing logo, j-card 3 panel full color lirik & ucapan terima kasih.",
+    desc: "Rilisan kaset analog resmi 'Rantai Reaksi' C-30 pita magnetik. Clear smokey case dengan full color 3-panel J-card lirik lipat.",
     specs: [
       "High-bias Magnetic Tape C-30",
       "Transparent Smokey Tint C-Shell",
       "3-Panel J-Card with Full Lyrics",
-      "Hala Koffie Tangerang Edition stamp"
+      "Official Silly N Valley Tangerang"
     ],
     sizes: ["One Size"],
-    photoSrc: "/assets/silly-n-valley/photo_5.jpg"
+    photoSrc: "/assets/silly-n-valley/merch_cassette.jpg"
   }
 ];
 
@@ -1958,11 +1958,11 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     </div>
 
                     {/* Merch Real Photo Frame */}
-                    <div className="aspect-square bg-black border-2 border-black overflow-hidden relative mb-4">
+                    <div className="aspect-square bg-[#D2D2D2] border-2 border-black overflow-hidden relative mb-4">
                       <img
                         src={item.photoSrc}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 contrast-105"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute bottom-2 left-2 bg-[#FFE500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black uppercase">
                         ORIGINAL ITEM
