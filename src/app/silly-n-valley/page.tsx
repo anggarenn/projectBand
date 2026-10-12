@@ -158,11 +158,11 @@ function PunkSkullWithMic({
             : "opacity-40 scale-95"
         }`}
       >
-        <div className="bg-[#FFE500] text-black font-black text-[10px] sm:text-xs px-2.5 py-1 border-2 border-black shadow-[3px_3px_0px_#FF0055] uppercase font-mono tracking-tight flex items-center gap-1.5 rotate-[-2deg]">
-          <Flame className="w-3.5 h-3.5 text-[#D90429] fill-current" />
+        <div className="bg-[#FFE500] text-black font-black text-[10px] sm:text-xs px-2.5 py-1 border-2 border-black shadow-[3px_3px_0px_#000] uppercase font-mono tracking-tight flex items-center gap-1.5 rotate-[-2deg]">
+          <Flame className="w-3.5 h-3.5 text-black fill-current" />
           <span>{PUNK_SHOUTS[shoutIndex]}</span>
         </div>
-        <div className="w-2.5 h-2.5 bg-[#FFE500] border-r-2 border-b-2 border-black rotate-45 mx-auto -mt-1.5 shadow-[1px_1px_0px_#FF0055]" />
+        <div className="w-2.5 h-2.5 bg-[#FFE500] border-r-2 border-b-2 border-black rotate-45 mx-auto -mt-1.5 shadow-[1px_1px_0px_#000]" />
       </div>
 
       {/* SVG SKULL & VINTAGE MIC CANVAS */}
@@ -170,22 +170,21 @@ function PunkSkullWithMic({
         {/* Soundwaves radiating from mic (left side) */}
         {isPlaying && (
           <div className="absolute left-2 top-24 pointer-events-none z-0">
-            <div className="w-16 h-16 rounded-full border-2 border-[#00F0FF] animate-soundwave absolute -top-8 -left-8" />
-            <div className="w-24 h-24 rounded-full border-2 border-[#FFE500] animate-soundwave absolute -top-12 -left-12 [animation-delay:0.3s]" />
-            <div className="w-32 h-32 rounded-full border-2 border-[#FF0055] animate-soundwave absolute -top-16 -left-16 [animation-delay:0.6s]" />
+            <div className="w-16 h-16 rounded-full border-2 border-[#FFE500]/40 animate-soundwave absolute -top-8 -left-8" />
+            <div className="w-24 h-24 rounded-full border-2 border-[#FFE500]/25 animate-soundwave absolute -top-12 -left-12 [animation-delay:0.3s]" />
+            <div className="w-32 h-32 rounded-full border-2 border-[#FFE500]/15 animate-soundwave absolute -top-16 -left-16 [animation-delay:0.6s]" />
           </div>
         )}
 
         <svg
           viewBox="0 0 240 250"
-          className="w-full h-full drop-shadow-[0_0_15px_rgba(255,0,85,0.4)]"
+          className="w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
         >
           <defs>
-            {/* Neon Mohawk Gradient */}
+            {/* Punk Mohawk Duotone Gradient */}
             <linearGradient id="mohawkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#FFE500" />
-              <stop offset="50%" stopColor="#FF0055" />
-              <stop offset="100%" stopColor="#00F0FF" />
+              <stop offset="100%" stopColor="#1A1D24" />
             </linearGradient>
             {/* Vintage Chrome Mic Gradient */}
             <linearGradient id="chromeMic" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -200,11 +199,11 @@ function PunkSkullWithMic({
           <g className={isPlaying ? "animate-pulse" : ""}>
             <polygon points="120,8 108,60 128,55" fill="url(#mohawkGrad)" stroke="#000" strokeWidth="3" />
             <polygon points="102,18 95,68 112,62" fill="#FFE500" stroke="#000" strokeWidth="3" />
-            <polygon points="138,18 128,62 145,68" fill="#00F0FF" stroke="#000" strokeWidth="3" />
-            <polygon points="86,34 82,75 100,70" fill="#FF0055" stroke="#000" strokeWidth="3" />
+            <polygon points="138,18 128,62 145,68" fill="#1A1D24" stroke="#000" strokeWidth="3" />
+            <polygon points="86,34 82,75 100,70" fill="#2E333E" stroke="#000" strokeWidth="3" />
             <polygon points="154,34 140,70 158,75" fill="#FFE500" stroke="#000" strokeWidth="3" />
-            <polygon points="72,55 75,85 90,80" fill="#00F0FF" stroke="#000" strokeWidth="3" />
-            <polygon points="168,55 150,80 165,85" fill="#FF0055" stroke="#000" strokeWidth="3" />
+            <polygon points="72,55 75,85 90,80" fill="#1A1D24" stroke="#000" strokeWidth="3" />
+            <polygon points="168,55 150,80 165,85" fill="#2E333E" stroke="#000" strokeWidth="3" />
           </g>
 
           {/* ── STUDDED LEATHER COLLAR ── */}
@@ -235,17 +234,17 @@ function PunkSkullWithMic({
             <path d="M85,115 C82,102 102,100 106,112 C108,126 88,128 85,115 Z" fill="#111317" stroke="#000" strokeWidth="3" />
             <path d="M134,112 C138,100 158,102 155,115 C152,128 132,126 134,112 Z" fill="#111317" stroke="#000" strokeWidth="3" />
 
-            {/* Glowing Neon Cross / Star Pupils */}
-            <g className={isPlaying ? "animate-neon-flicker" : ""}>
+            {/* Analog Amber Eye Pupils */}
+            <g className={isPlaying ? "animate-pulse" : ""}>
               <polygon
                 points="95,108 97,113 102,113 98,116 100,121 95,118 90,121 92,116 88,113 93,113"
                 fill={isPlaying ? "#FFE500" : "#555"}
-                className={isPlaying ? "filter drop-shadow-[0_0_8px_#FFE500]" : ""}
+                className={isPlaying ? "filter drop-shadow-[0_0_4px_#FFE500]" : ""}
               />
               <polygon
                 points="145,108 147,113 152,113 148,116 150,121 145,118 140,121 142,116 138,113 143,113"
-                fill={isPlaying ? "#00F0FF" : "#555"}
-                className={isPlaying ? "filter drop-shadow-[0_0_8px_#00F0FF]" : ""}
+                fill={isPlaying ? "#FFE500" : "#555"}
+                className={isPlaying ? "filter drop-shadow-[0_0_4px_#FFE500]" : ""}
               />
             </g>
 
@@ -296,7 +295,7 @@ function PunkSkullWithMic({
               <path
                 d="M32,80 Q20,110 38,125 T25,145"
                 fill="none"
-                stroke="#00F0FF"
+                stroke="#FFE500"
                 strokeWidth="2"
                 strokeDasharray="8 12"
                 className="animate-pulse"
@@ -304,7 +303,7 @@ function PunkSkullWithMic({
             )}
 
             {/* Vintage Mic Grille Head */}
-            <rect x="15" y="10" width="34" height="42" rx="10" fill={isPlaying ? "#FF0055" : "#4A1020"} />
+            <rect x="15" y="10" width="34" height="42" rx="10" fill={isPlaying ? "#FFE500" : "#22252C"} />
             <rect x="14" y="8" width="36" height="46" rx="12" fill="url(#chromeMic)" stroke="#000" strokeWidth="3" opacity="0.9" />
             <line x1="16" y1="16" x2="48" y2="16" stroke="#111" strokeWidth="2.5" />
             <line x1="15" y1="23" x2="49" y2="23" stroke="#111" strokeWidth="2.5" />
@@ -336,10 +335,10 @@ function PunkSkullWithMic({
 
       {/* Status Tag beneath Skull */}
       <div className="mt-2 text-center">
-        <div className="inline-flex items-center gap-1.5 bg-black/80 px-2.5 py-0.5 border border-[#FF0055] text-[9px] font-mono font-bold">
-          <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#00FF66] animate-ping" : "bg-[#888]"}`} />
+        <div className="inline-flex items-center gap-1.5 bg-black/80 px-2.5 py-0.5 border border-black text-[9px] font-mono font-bold">
+          <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#FFE500] animate-ping" : "bg-[#888]"}`} />
           <span className={isPlaying ? "text-[#FFE500]" : "text-[#888]"}>
-            {isPlaying ? "SCREAMING INTO MIC" : "IDLE • CLICK TO ROAR"}
+            {isPlaying ? "VOCAL TRACK LIVE" : "IDLE • CLICK TO ROAR"}
           </span>
         </div>
       </div>
@@ -362,7 +361,7 @@ function AnalogVUMeter({
     <div className="bg-[#101216] border-2 border-black p-1.5 sm:p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[105px] sm:max-w-[130px]">
       <div className="flex justify-between items-center w-full text-[8.5px] font-mono text-[#888] font-bold px-0.5 mb-1">
         <span className="text-[#FFE500]">CH {channel}</span>
-        <span className={isPlaying ? "text-[#00FF66] animate-pulse" : "text-[#555]"}>
+        <span className={isPlaying ? "text-[#FFE500] animate-pulse" : "text-[#555]"}>
           {isPlaying ? "LIVE" : "IDLE"}
         </span>
       </div>
@@ -371,12 +370,12 @@ function AnalogVUMeter({
         <div className={`absolute inset-0 transition-opacity duration-300 ${isPlaying ? "bg-[#FFE500]/25" : "bg-[#FFE500]/5"}`} />
         <svg viewBox="0 0 100 50" className="w-full h-full absolute inset-0">
           <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="1.5" />
-          <path d="M 68 20 A 35 35 0 0 1 85 45" fill="none" stroke="#D90429" strokeWidth="2.5" />
+          <path d="M 68 20 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="2.5" />
           <text x="18" y="42" fontSize="5" fill="#555" fontWeight="bold">-20</text>
           <text x="32" y="27" fontSize="5" fill="#555" fontWeight="bold">-10</text>
           <text x="50" y="19" fontSize="5" fill="#555" fontWeight="bold">-3</text>
-          <text x="68" y="20" fontSize="5" fill="#D90429" fontWeight="bold">0</text>
-          <text x="80" y="32" fontSize="5" fill="#D90429" fontWeight="bold">+3</text>
+          <text x="68" y="20" fontSize="5" fill="#111" fontWeight="bold">0</text>
+          <text x="80" y="32" fontSize="5" fill="#111" fontWeight="bold">+3</text>
           <text x="50" y="34" fontSize="6" fill="#111" fontWeight="900" textAnchor="middle">VU</text>
         </svg>
         {/* Needle */}
@@ -386,13 +385,13 @@ function AnalogVUMeter({
           }`}
           style={{ transform: `rotate(${needleAngle}deg)` }}
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[#D90429] -ml-0.5 -mt-0.5" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#111] -ml-0.5 -mt-0.5" />
         </div>
         <div className="w-3.5 h-2 rounded-t-full bg-[#111] z-20" />
       </div>
       <div className="mt-1 flex items-center justify-between w-full text-[7.5px] font-mono text-[#777]">
         <span>-20dB</span>
-        <span className="text-[#D90429] font-bold">PEAK +3dB</span>
+        <span className="text-[#FFE500] font-bold">PEAK +3dB</span>
       </div>
     </div>
   );
@@ -1627,34 +1626,26 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
       )}
 
       {/* ─── SECTION 3: VINTAGE 80s CASSETTE TAPE DECK & NEON PUNK JUKEBOX ──── */}
+      {/* ─── SECTION 3: VINTAGE CASSETTE TAPE DECK & AUDIO PLAYER ──── */}
       <section id="music" className="py-20 bg-[#0E0F14] text-[#EBE7DF] border-b-4 border-black relative overflow-hidden">
-        {/* Ambient Neon Atmosphere Blobs & Sparks */}
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#FF0055]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#FFE500]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#00F0FF]/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Subtle Ambient Studio Backdrop */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#FFE500]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
-            <div className="inline-flex items-center gap-2 bg-[#FF0055] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500]">
+            <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500]">
               <Headphones className="w-3.5 h-3.5" /> OFFICIAL TRACKS
             </div>
-            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white neon-text-glow">
+            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white">
               LISTEN TO US
             </h2>
           </div>
 
-          {/* CHUNKY NEON PUNK JUKEBOX HOUSING */}
-          <div className="bg-[#181A22] border-4 border-[#FF0055] p-4 sm:p-7 relative max-w-6xl mx-auto rounded-none shadow-[0_0_40px_rgba(255,0,85,0.4)]">
-            {/* Glowing Neon Side Pillars */}
-            <div className="absolute top-0 bottom-0 -left-2 w-2.5 bg-gradient-to-b from-[#FF0055] via-[#FFE500] to-[#00F0FF] shadow-[0_0_15px_#FF0055] hidden sm:block pointer-events-none" />
-            <div className="absolute top-0 bottom-0 -right-2 w-2.5 bg-gradient-to-b from-[#00F0FF] via-[#FFE500] to-[#FF0055] shadow-[0_0_15px_#00F0FF] hidden sm:block pointer-events-none" />
-
-            {/* Neon Corner Brackets */}
-            <div className="absolute top-2 left-2 w-6 h-6 border-t-3 border-l-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
-            <div className="absolute top-2 right-2 w-6 h-6 border-t-3 border-r-3 border-[#FFE500] pointer-events-none shadow-[0_0_10px_#FFE500]" />
-            <div className="absolute bottom-2 left-2 w-6 h-6 border-b-3 border-l-3 border-[#FFE500] pointer-events-none shadow-[0_0_10px_#FFE500]" />
-            <div className="absolute bottom-2 right-2 w-6 h-6 border-b-3 border-r-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
+          {/* VINTAGE STUDIO TAPE DECK INDUSTRIAL RACK HOUSING */}
+          <div className="bg-[#12141A] border-4 border-black p-4 sm:p-7 relative max-w-6xl mx-auto rounded-none shadow-[8px_8px_0px_#000]">
+            {/* Clean Industrial Top Accent Line */}
+            <div className="absolute top-0 inset-x-0 h-1 bg-[#FFE500] pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
               {/* LEFT COLUMN (7 COLS): FULL CASSETTE TAPE DECK & CONTROLS */}
@@ -1680,9 +1671,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
                   <div className="my-4 bg-[#0B0C0E] border-3 border-black p-3 sm:p-5 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden">
-                    {/* Backlight Glow inside cassette well */}
+                    {/* Backlight warm glow inside cassette well */}
                     <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-                      isPlaying ? "bg-[#00F0FF]/10" : "bg-transparent"
+                      isPlaying ? "bg-[#FFE500]/5" : "bg-transparent"
                     }`} />
 
                     {/* Magnetic tape ribbon */}
@@ -1704,7 +1695,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                           <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
                           <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
                         </div>
-                        <span className="text-[9px] text-[#00F0FF] mt-1.5 font-mono font-bold uppercase">SUPPLY REEL</span>
+                        <span className="text-[9px] text-[#A4ACB9] mt-1.5 font-mono font-bold uppercase">SUPPLY REEL</span>
                       </div>
 
                       {/* Right Spool (Take-up) */}
@@ -1720,7 +1711,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                           <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
                           <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
                         </div>
-                        <span className="text-[9px] text-[#00F0FF] mt-1.5 font-mono font-bold uppercase">TAKE-UP REEL</span>
+                        <span className="text-[9px] text-[#A4ACB9] mt-1.5 font-mono font-bold uppercase">TAKE-UP REEL</span>
                       </div>
                     </div>
 
@@ -1776,52 +1767,65 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     preload="auto"
                   />
 
-                  {/* DANCING NEON SPECTRUM EQUALIZER BARS & SEEK BAR */}
-                  <div className="mt-3">
-                    <div className="flex items-end gap-1 h-5 mb-1 px-0.5">
+                  {/* MONOCHROME SPECTRUM EQUALIZER BARS & NORMAL SEEK BAR */}
+                  <div className="mt-4 space-y-1.5">
+                    {/* Uniform Spectrum Bars */}
+                    <div className="flex items-end gap-1 h-5 px-0.5" aria-hidden="true">
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(bar => {
                         const height = isPlaying
                           ? `${Math.max(20, ((bar * 23 + playbackSec * 29) % 80) + 20)}%`
-                          : "20%";
+                          : "15%";
                         return (
                           <div
                             key={bar}
                             className={`flex-1 transition-all duration-150 ${
-                              bar % 3 === 0
-                                ? "bg-[#FF0055]"
-                                : bar % 2 === 0
-                                ? "bg-[#FFE500]"
-                                : "bg-[#00F0FF]"
+                              isPlaying ? "bg-[#FFE500]" : "bg-[#2A2E39]"
                             }`}
                             style={{ height }}
                           />
                         );
                       })}
                     </div>
+
+                    {/* Normal Progress / Seek Bar with Scrubber */}
                     <div
-                      className="w-full bg-[#0A0C10] h-3 rounded-none overflow-hidden border border-black cursor-pointer shadow-inner"
+                      className="relative w-full bg-[#1A1D24] h-3.5 border-2 border-black cursor-pointer shadow-inner group select-none"
                       onClick={e => {
                         if (!audioRef.current) return;
                         const rect = e.currentTarget.getBoundingClientRect();
                         const clickX = e.clientX - rect.left;
-                        const newPct = clickX / rect.width;
+                        const newPct = Math.max(0, Math.min(1, clickX / rect.width));
                         const targetSec = newPct * activeTrack.durationSec;
                         audioRef.current.currentTime = targetSec;
                         setPlaybackSec(Math.floor(targetSec));
                       }}
-                      title="Klik untuk seek posisi audio"
+                      title="Klik untuk seek posisi lagu"
+                      role="progressbar"
+                      aria-valuenow={playbackSec}
+                      aria-valuemin={0}
+                      aria-valuemax={activeTrack.durationSec}
                     >
+                      {/* Fill Bar Solid Yellow */}
                       <div
-                        className="bg-gradient-to-r from-[#FFE500] via-[#00F0FF] to-[#FF0055] h-full transition-all duration-150"
+                        className="bg-[#FFE500] h-full transition-all duration-100 relative pointer-events-none"
                         style={{
                           width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
                         }}
-                      />
+                      >
+                        {/* Scrubber Thumb Indicator */}
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-5 bg-white border-2 border-black shadow-[1px_1px_0px_#000] group-hover:scale-110 transition-transform" />
+                      </div>
+                    </div>
+
+                    {/* Time Counter Below Seek Bar */}
+                    <div className="flex justify-between items-center text-[10px] font-mono text-[#8E95A5] px-0.5">
+                      <span>{formatTime(playbackSec)}</span>
+                      <span>{activeTrack.duration}</span>
                     </div>
                   </div>
 
-                  {/* HEAVY TACTILE TRANSPORT BUTTONS */}
-                  <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t-2 border-black/80">
+                  {/* HEAVY TACTILE TRANSPORT BUTTONS & NORMAL VOLUME SLIDER */}
+                  <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t-2 border-black/80">
                     {/* Buttons */}
                     <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
                       <button
@@ -1837,8 +1841,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onClick={togglePlayPause}
                         className={`flex-1 sm:flex-initial px-6 sm:px-9 py-3 min-h-[44px] font-mono font-black text-sm uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
                           isPlaying
-                            ? "bg-[#FF0055] text-white shadow-[4px_4px_0px_#FFE500]"
-                            : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#FF0055]"
+                            ? "bg-[#D90429] text-white shadow-[4px_4px_0px_#000]"
+                            : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#000]"
                         }`}
                       >
                         {isPlaying ? (
@@ -1862,12 +1866,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       </button>
                     </div>
 
-                    {/* Volume */}
-                    <div className="flex items-center gap-2 bg-[#0E1015] px-3 py-2 border border-black shadow-[2px_2px_0px_#000] text-xs font-mono w-full sm:w-auto justify-between sm:justify-start">
+                    {/* Volume Slider & Mute Toggle */}
+                    <div className="flex items-center gap-2.5 bg-[#14161C] px-3 py-2 border-2 border-black shadow-[2px_2px_0px_#000] text-xs font-mono w-full sm:w-auto justify-between sm:justify-start">
                       <button
                         onClick={() => setIsMuted(!isMuted)}
-                        className="text-[#8E95A5] hover:text-[#FFE500] cursor-pointer"
-                        aria-label="Toggle mute"
+                        className="text-[#A4ACB9] hover:text-[#FFE500] transition-colors cursor-pointer"
+                        aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                        title={isMuted ? "Unmute" : "Mute"}
                       >
                         {isMuted ? (
                           <VolumeX className="w-4 h-4 text-[#D90429]" />
@@ -1880,13 +1885,17 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         min="0"
                         max="1"
                         step="0.05"
-                        value={volume}
-                        onChange={e => setVolume(parseFloat(e.target.value))}
-                        className="w-20 accent-[#FFE500] cursor-pointer"
+                        value={isMuted ? 0 : volume}
+                        onChange={e => {
+                          const val = parseFloat(e.target.value);
+                          setVolume(val);
+                          if (isMuted && val > 0) setIsMuted(false);
+                        }}
+                        className="w-24 h-2 bg-[#22242B] accent-[#FFE500] rounded-none cursor-pointer"
                         aria-label="Volume slider"
                       />
-                      <span className="text-[10px] text-[#717A8A]">
-                        {isMuted ? "MUTE" : `${Math.round(volume * 100)}%`}
+                      <span className="text-[11px] font-bold text-[#A4ACB9] w-9 text-right tabular-nums">
+                        {isMuted ? "0%" : `${Math.round(volume * 100)}%`}
                       </span>
                     </div>
                   </div>
@@ -1918,13 +1927,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <div className="bg-[#101217] border-2 border-[#2A2E39] p-3 sm:p-4 shadow-inner relative overflow-hidden">
                   <div className="flex items-center justify-between pb-2 mb-3 border-b border-[#2A2E39]">
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FF0055]" />
-                      <span className="font-mono text-xs font-black text-[#FFE500] uppercase tracking-wider">
-                        ⚡ LIVE STAGE MASCOT ⚡
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#FFE500]" />
+                      <span className="font-mono text-xs font-black text-white uppercase tracking-wider">
+                        LIVE STAGE MONITOR
                       </span>
                     </div>
-                    <div className="text-[10px] font-mono text-[#00F0FF]">
-                      <span className="bg-black px-2 py-0.5 border border-[#00F0FF]">192KBPS MASTER</span>
+                    <div className="text-[10px] font-mono text-[#A4ACB9]">
+                      <span className="bg-black px-2 py-0.5 border border-[#333]">192KBPS MASTER</span>
                     </div>
                   </div>
 
