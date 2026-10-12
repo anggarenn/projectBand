@@ -159,7 +159,7 @@ function PunkSkullWithMic({
         }`}
       >
         <div className="bg-[#FFE500] text-black font-black text-[10px] sm:text-xs px-2.5 py-1 border-2 border-black shadow-[3px_3px_0px_#FF0055] uppercase font-mono tracking-tight flex items-center gap-1.5 rotate-[-2deg]">
-          <Flame className="w-3.5 h-3.5 text-[#D90429] fill-current animate-bounce" />
+          <Flame className="w-3.5 h-3.5 text-[#D90429] fill-current" />
           <span>{PUNK_SHOUTS[shoutIndex]}</span>
         </div>
         <div className="w-2.5 h-2.5 bg-[#FFE500] border-r-2 border-b-2 border-black rotate-45 mx-auto -mt-1.5 shadow-[1px_1px_0px_#FF0055]" />
@@ -1229,8 +1229,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         id="hero"
         className="relative pt-10 pb-20 md:pt-16 md:pb-28 border-b-4 border-black z-10 overflow-hidden"
       >
-        {/* Rotating Circular Punk Stamp Seal */}
-        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center animate-[spin_18s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+        {/* Punk Stamp Seal */}
+        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center rotate-12 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
           <div className="text-[10px] font-black uppercase text-center leading-tight tracking-wider text-black">
             ⚡ 100% DIY ⚡<br />TANGERANG<br />HARDCORE
           </div>
@@ -1242,13 +1242,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             <div className="lg:col-span-7 space-y-6">
               {/* Badges Bar with DIY Stickers */}
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="bg-[#0D0D0D] text-[#FFE500] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-black shadow-[2px_2px_0px_#D90429] animate-sticker-float">
+                <span className="bg-[#0D0D0D] text-[#FFE500] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-black shadow-[2px_2px_0px_#D90429]">
                   HIGHLY MOTIVATED PUNK
                 </span>
-                <span className="bg-white text-black text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#0D0D0D] animate-sticker-float [animation-delay:1.5s]">
+                <span className="bg-white text-black text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#0D0D0D]">
                   TANGERANG HARDCORE SCENE
                 </span>
-                <span className="bg-[#D90429] text-white text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#FFE500] animate-badge-pulse">
+                <span className="bg-[#D90429] text-white text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#FFE500]">
                   CASSETTE C-30 OUT NOW
                 </span>
               </div>
@@ -1259,15 +1259,15 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   SURAT KABAR BAWAH TANAH EDISI KHUSUS
                 </div>
 
-                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-black">
+                <h1 className="text-4xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-black">
                   SILLY N <br />
-                  <span className="inline-block bg-black text-white px-3 my-1 -rotate-1 border-2 border-black shadow-[6px_6px_0px_#D90429] hover:animate-glitch-jitter cursor-default">
+                  <span className="inline-block bg-black text-white px-3 my-1 -rotate-1 border-2 border-black shadow-[6px_6px_0px_#D90429] cursor-default">
                     VALLEY
                   </span>
                 </h1>
 
                 <div className="pt-2">
-                  <span className="inline-block bg-[#D90429] text-white text-lg sm:text-2xl font-black px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#000] animate-neon-sign-blink">
+                  <span className="inline-block bg-[#D90429] text-white text-lg sm:text-2xl font-black px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#000]">
                     &quot;BAND PUNK TAPI KOK NGONTEN!?&quot;
                   </span>
                 </div>
@@ -1291,13 +1291,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   href="#music"
                   className="bg-[#FFE500] hover:bg-[#ebd300] text-black px-6 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#D90429] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2 group"
                 >
-                  <Play className="w-4 h-4 fill-black group-hover:scale-125 transition-transform" />
+                  <Play className="w-4 h-4 fill-black group-hover:scale-110 transition-transform" />
                   <span>Putar Kaset C-30</span>
-                  <div className="flex items-end gap-0.5 h-3.5 ml-1">
-                    <span className="w-1 bg-black animate-led-bounce h-2.5 [animation-delay:0.1s]" />
-                    <span className="w-1 bg-black animate-led-bounce h-3.5 [animation-delay:0.3s]" />
-                    <span className="w-1 bg-black animate-led-bounce h-2 [animation-delay:0.2s]" />
-                  </div>
                 </a>
                 <a
                   href="#photos"
@@ -1314,22 +1309,22 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Quick DIY Stats Badges */}
-              <div className="pt-4 grid grid-cols-3 gap-3 border-t-2 border-dashed border-black max-w-lg">
-                <div className="bg-white border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-2xl font-black text-black">4 TRACKS</div>
-                  <div className="text-[10px] text-[#555] font-bold uppercase">
+              <div className="pt-4 grid grid-cols-3 gap-2 sm:gap-3 border-t-2 border-dashed border-black max-w-lg">
+                <div className="bg-white border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-black text-black">4 TRACKS</div>
+                  <div className="text-[9px] sm:text-[10px] text-[#555] font-bold uppercase">
                     Kaset Pita C-30
                   </div>
                 </div>
-                <div className="bg-[#FFE500] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-2xl font-black text-black">100% DIY</div>
-                  <div className="text-[10px] text-black font-bold uppercase">
+                <div className="bg-[#FFE500] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-black text-black">100% DIY</div>
+                  <div className="text-[9px] sm:text-[10px] text-black font-bold uppercase">
                     Swadaya Mandiri
                   </div>
                 </div>
-                <div className="bg-[#D90429] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
-                  <div className="text-2xl font-black text-white">ZERO</div>
-                  <div className="text-[10px] text-white font-bold uppercase">
+                <div className="bg-[#D90429] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-black text-white">ZERO</div>
+                  <div className="text-[9px] sm:text-[10px] text-white font-bold uppercase">
                     Kekerasan Moshpit
                   </div>
                 </div>
@@ -1337,8 +1332,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             </div>
 
             {/* Right Column: Authentic Polaroid & Gigs Flyer Collage */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md animate-sticker-float">
+            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
+              <div className="relative mx-auto max-w-md px-2 sm:px-0">
+
                 {/* Background Duct Tape Strips */}
                 <DuctTape className="-top-4 left-10 w-28 -rotate-6" />
                 <DuctTape className="-bottom-4 right-12 w-28 rotate-3" />
@@ -1640,7 +1636,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#FF0055] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500] animate-pulse">
+            <div className="inline-flex items-center gap-2 bg-[#FF0055] text-white px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#FFE500]">
               <Headphones className="w-3.5 h-3.5" /> 80s NEON JUKEBOX & TAPE DECK
             </div>
             <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white neon-text-glow">
@@ -2030,8 +2026,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
       {/* ─── SECTION 4: MANIFESTO & PHILOSOPHY (TYPEWRITER ESSAY) ──────────── */}
       <section id="manifesto" className="py-20 border-b-4 border-black bg-[#F5F2EB] relative overflow-hidden">
-        {/* Rotating Circular Seal in Manifesto */}
-        <div className="hidden lg:flex absolute -top-4 -right-4 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D90429] text-white items-center justify-center animate-[spin_22s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+        {/* Circular Seal in Manifesto */}
+        <div className="hidden lg:flex absolute -top-4 -right-4 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D90429] text-white items-center justify-center -rotate-6 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
           <div className="text-[9px] font-black uppercase text-center leading-tight tracking-widest px-1">
             ★ NO GATEKEEPING ★<br />100% DIY<br />PUNK ETHOS
           </div>
@@ -2041,13 +2037,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
+              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
                 <Flame className="w-3.5 h-3.5" /> SURAT TERBUKA & MANIFESTO
               </div>
 
               <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight leading-tight text-black">
                 Band Punk Tapi <br />
-                <span className="inline-block bg-[#FFE500] text-black px-2 border-2 border-black shadow-[3px_3px_0px_#000] hover:animate-glitch-jitter cursor-default">
+                <span className="inline-block bg-[#FFE500] text-black px-2 border-2 border-black shadow-[3px_3px_0px_#000] cursor-default">
                   Kok Ngonten!?
                 </span>
               </h2>
@@ -2066,7 +2062,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Quote Sticker */}
-              <div className="bg-[#0D0D0D] text-white border-2 border-black p-5 shadow-[5px_5px_0px_#FFE500] relative text-sm animate-sticker-float">
+              <div className="bg-[#0D0D0D] text-white border-2 border-black p-5 shadow-[5px_5px_0px_#FFE500] relative text-sm">
                 <div className="font-bold italic">
                   &quot;Kami bikin konten bukan demi jadi selebriti, tapi supaya anak muda Tangerang tahu kalau mereka punya rumah dan distorsi yang siap merangkul mereka kapan saja.&quot;
                 </div>
@@ -2159,17 +2155,17 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               rel="noopener noreferrer"
               className="bg-[#D90429] hover:bg-[#ba0323] text-white px-5 py-3 font-mono font-black text-xs uppercase tracking-wider border-3 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 self-start md:self-auto hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <Zap className="w-4 h-4 fill-white animate-bounce" /> Ajak Manggung di Kotamu
+              <Zap className="w-4 h-4 fill-white" /> Ajak Manggung di Kotamu
             </a>
           </div>
 
-          {/* Flyers Grid with Wind Sway Animation */}
+          {/* Flyers Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {GIGS_TIMELINE.map((gig, idx) => (
               <div
                 key={gig.id}
                 className={`bg-white border-3 border-black p-6 shadow-[7px_7px_0px_#0D0D0D] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D90429] transition-all duration-300 ${
-                  idx % 2 === 0 ? "animate-wind-sway" : "animate-wind-sway-reverse"
+                  idx % 2 === 0 ? "-rotate-1" : "rotate-1"
                 }`}
               >
                 {/* Duct Tape on top edges */}
@@ -2263,8 +2259,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
       {/* ─── SECTION 6: MERCHANDISE DISTRO STALLS ──────────────────────────── */}
       <section id="merch" className="py-20 border-b-4 border-black bg-[#EAE5DA] relative overflow-hidden">
-        {/* Rotating Circular Seal in Merch */}
-        <div className="hidden md:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center animate-[spin_24s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+        {/* Circular Seal in Merch */}
+        <div className="hidden md:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center rotate-6 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
           <div className="text-[9px] font-black uppercase text-center leading-tight tracking-wider text-black">
             ⚡ MERCH DROP ⚡<br />OFFICIAL DIY<br />DISTRO
           </div>
@@ -2273,7 +2269,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
+            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
               <ShoppingBag className="w-3.5 h-3.5" /> DISTRO PUNK UNDERGROUND
             </div>
             <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
@@ -2302,7 +2298,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   {/* Badge */}
                   {item.badge && (
-                    <div className="absolute -top-3 right-4 bg-[#FFE500] text-black font-black text-[10px] px-2 py-0.5 uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
+                    <div className="absolute -top-3 right-4 bg-[#FFE500] text-black font-black text-[10px] px-2 py-0.5 uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
                       {item.badge}
                     </div>
                   )}
@@ -2662,8 +2658,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left: Contact Info */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
-                <Zap className="w-3.5 h-3.5 fill-current animate-bounce" /> DIRECT MANAGEMENT HOTLINE
+              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
+                <Zap className="w-3.5 h-3.5 fill-current" /> DIRECT MANAGEMENT HOTLINE
               </div>
 
               <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
