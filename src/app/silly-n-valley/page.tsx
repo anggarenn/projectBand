@@ -116,7 +116,8 @@ interface Track {
   durationSec: number;
   bpm: number;
   energy: string;
-  chordProgression: string[];
+  audioSrc: string;
+  sourceType: "single" | "live";
   lyrics: string;
   story: string;
 }
@@ -124,44 +125,13 @@ interface Track {
 const TRACKS: Track[] = [
   {
     id: 1,
-    title: "Rantai Reaksi",
-    duration: "02:45",
-    durationSec: 165,
-    bpm: 196,
-    energy: "MAX INTENSITY",
-    chordProgression: ["E5", "G5", "A5", "C5"],
-    lyrics: `[Verse 1]
-Satu ketukan merambat ke saraf
-Bangun dari mati rasa yang parah
-Jalanan Tangerang berdebu dan marah
-Bukan alasan kita pasrah!
-
-[Chorus]
-Rantai reaksi! Hancurkan apatis!
-Bukan cuma mimpi yang habis di garis!
-Rantai reaksi! Nyalakan api!
-Sampai semua tembok ini roboh berdiri!
-
-[Verse 2]
-Kamera menyala di sudut panggung
-Bukan demi puji atau disanjung
-Kolektif mandiri terus bertarung
-Kaset berputar nada mendengung!
-
-[Outro]
-RANTAI REAKSI! HOI! HOI! HOI!
-RANTAI REAKSI! SAMPAI MATI!`,
-    story:
-      "Track utama EP. Terinspirasi dari efek domino solidaritas anak muda Tangerang yang bergerak swadaya tanpa nunggu sponsor korporat."
-  },
-  {
-    id: 2,
-    title: "Berhala Run",
-    duration: "02:18",
-    durationSec: 138,
+    title: "Berhala-Run!",
+    duration: "01:58",
+    durationSec: 118,
     bpm: 208,
     energy: "HIGH VELOCITY",
-    chordProgression: ["A5", "C5", "D5", "F5"],
+    audioSrc: "/assets/silly-n-valley/audio/berhala-run.mp3",
+    sourceType: "single",
     lyrics: `[Intro]
 Satu! Dua! Tiga! LARI!
 
@@ -177,73 +147,103 @@ BERHALA RUN! Ku injak ilusi pagi!
 Kita bukan pion algoritma!
 Kita distorsi yang bersuara!
 
-[Bridge]
-Nafas terengah di aspal retak
-Hati meronta pikiran tegak!
-
 [Outro]
 STOP THE RUN! HENTIKAN!`,
     story:
-      "Kritik satir terhadap jebakan validasi media sosial dan rutinitas budak korporat. Tempo tercepat di EP dengan ketukan d-beat intens."
+      "Single kolaborasi resmi Silly N Valley Feat. Luthfi Tank Grunge (Tabraklari). Fast-paced d-beat punk rock berkecepatan 208 BPM."
+  },
+  {
+    id: 2,
+    title: "Merdeka Tapi Mampus!",
+    duration: "02:19",
+    durationSec: 139,
+    bpm: 196,
+    energy: "MAX INTENSITY",
+    audioSrc: "/assets/silly-n-valley/audio/merdeka-tapi-mampus.mp3",
+    sourceType: "single",
+    lyrics: `Merdeka-merdeka tapi mampus!
+Tanah surga tak membuat semua mulus
+Lihat ibu pertiwi rusak tergerus
+Diabaikan dan sengaja tak terurus
+
+Merdeka-merdeka tapi mampus!
+Membawa perubahan dengan akal bulus
+Laksanakan langkah haram dengan mulus
+Istana tempat singgah orang tak becus!
+
+(Merdeka-merdeka tapi mampus!)
+(Membawa perubahan dengan akal bulus)
+(Laksanakan langkah haram dengan mulus)
+(Istana tempat singgah orang tak becus!)
+
+(Merdeka-merdeka tapi mampus!) 4x
+
+(Maju. bergerak.) Kumpulkan semua nyali
+(Maju. bergerak.) Lenyapkan tiang dinasti
+(Maju. bergerak.) Jatuhkan bibit tirani
+(Maju. bergerak.) Hancurkan dengan berani!
+
+(Lihat. Amati. Brimob datang mengawasi)
+(Lihat. Amati. Stafsus baper mensomasi)`,
+    story:
+      "6th Single resmi Silly N Valley. Kritik sosial tajam berbalut agresi punk rock cepat mengenai dinamika politik dan realitas jalanan."
   },
   {
     id: 3,
-    title: "Latihan di Lihatin",
-    duration: "03:02",
-    durationSec: 182,
-    bpm: 184,
-    energy: "PARTY MOSHPIT",
-    chordProgression: ["G5", "B5", "C5", "D5"],
-    lyrics: `[Verse 1]
-Minggu sore di Hala Koffie
-Ruang sempit aroma kopi
-Keringat bercampur melodi
-Semua bernyanyi tanpa kompromi!
-
-[Chorus]
-LATIHAN DI LIHATIN!
-Bukan konser megah tapi kita yakin!
-LATIHAN DI LIHATIN!
-Lingkaran karaoke yang membakar batin!
-
-[Verse 2]
-Gitar fals senar putus satu
-Mic distorsi kuping berdengung ngilu
-Tak ada sekat antara kita
-Panggung dan penonton sama rata!
-
-[Sing Along Outro]
-WO-O-O-OH! HALA KOFFIE BERGOYANG!
-WO-O-O-OH! KITA SEMUA SAUDARA!`,
+    title: "Sabda Fufufafa (Live)",
+    duration: "01:29",
+    durationSec: 89,
+    bpm: 210,
+    energy: "CROWD EXPLOSION",
+    audioSrc: "/assets/silly-n-valley/audio/sabda-fufufafa-live.mp3",
+    sourceType: "live",
+    lyrics: `[Live at HALA Koffie - Latihan Di Lihatin]
+Rekaman live murni dari showcase mandiri di HALA Koffie Tangerang.
+Raw energy, sound ampli tabung direct, dan crowd scream tanpa filter.`,
     story:
-      "Lagu wajib showcase rutin Silly N Valley di HALA Koffie. Ditulis untuk merayakan gigs tanpa panggung tinggi, di mana penonton dan band bernyanyi sejajar."
+      "Track 1 dari album 'HALA Latihan Dilihatin Live Session'. Menangkap kegilaan crowd sing-along dan circle karaoke di venue Hala Koffie Tangerang."
   },
   {
     id: 4,
-    title: "Motivasi Distorsi",
-    duration: "02:35",
-    durationSec: 155,
-    bpm: 190,
+    title: "Anak Anak Politikus (Live)",
+    duration: "01:47",
+    durationSec: 107,
+    bpm: 195,
     energy: "OVERDRIVE ANTHEM",
-    chordProgression: ["D5", "F5", "G5", "Bb5"],
-    lyrics: `[Verse 1]
-Siapa bilang punk cuma hancur-hancuran?
-Kita bangun pagi jemput masa depan!
-Gitar distorsi penyemangat harian
-Lawan frustrasi dengan perlawanan!
-
-[Chorus]
-MOTIVASI DISTORSI!
-Terus berisik jangan berhenti!
-MOTIVASI DISTORSI!
-Obat mujarab penyakit depresi!
-
-[Outro]
-KUATKAN KAKI!
-SILLY N VALLEY!
-TANGERANG PUNK ROCK!`,
+    audioSrc: "/assets/silly-n-valley/audio/anak-anak-politikus-live.mp3",
+    sourceType: "live",
+    lyrics: `[Live at HALA Koffie Stage]
+Lagu pembakar circle pit di setiap penampilan live. Menyerang privilege dinasti kekuasaan lewat riff power-chord tanpa kompromi.`,
     story:
-      "Manifestasi subgenre 'Highly Motivated Punk'. Menghancurkan stereotip punk yang melankolis dan menggantinya dengan bahan bakar semangat pantang mundur."
+      "Track 2 dari album live session HALA Koffie. Ditulis spontan untuk menyuarakan keresahan kelas pekerja muda Tangerang."
+  },
+  {
+    id: 5,
+    title: "Ledakkan Dinding Merkava (Live)",
+    duration: "02:10",
+    durationSec: 130,
+    bpm: 190,
+    energy: "SOLIDARITY RIOT",
+    audioSrc: "/assets/silly-n-valley/audio/ledakkan-dinding-merkava-live.mp3",
+    sourceType: "live",
+    lyrics: `[Live Solidarity Track]
+Suara solidaritas kemanusiaan melawan penindasan dan imperialisme militer. Runtuhkan dinding tirani dari panggung mandiri Tangerang!`,
+    story:
+      "Track 3 dari HALA Live Session. Lagu tema perlawanan dan solidaritas global yang selalu dimainkan dengan tensi maksimal."
+  },
+  {
+    id: 6,
+    title: "Kita Yang Tidak Dilibatkan (Live)",
+    duration: "02:43",
+    durationSec: 163,
+    bpm: 180,
+    energy: "SING-ALONG HYMN",
+    audioSrc: "/assets/silly-n-valley/audio/kita-yang-tidak-dilibatkan-live.mp3",
+    sourceType: "live",
+    lyrics: `[Hymne Generasi Pinggiran]
+Untuk semua kawan yang suaranya selalu dipinggirkan dari meja perundingan elit. Di sini kita berdiri, bernyanyi bersama sampai habis nafas!`,
+    story:
+      "Penutup epik HALA Live Session. Nomor sing-along bertempo sedang yang menyatukan seluruh penonton di lantai Hala Koffie."
   }
 ];
 
@@ -551,119 +551,6 @@ const GIGS_TIMELINE: GigEvent[] = [
   }
 ];
 
-// ─── AUDIO ENGINE HELPER (WEB AUDIO API RETRO DISTORTION) ───────────────────
-
-class WebAudioSynth {
-  private ctx: AudioContext | null = null;
-  private intervalId: number | null = null;
-  private isMuted: boolean = false;
-  private volume: number = 0.5;
-
-  private init() {
-    if (!this.ctx) {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext;
-      this.ctx = new AudioCtx();
-    }
-    if (this.ctx.state === "suspended") {
-      this.ctx.resume();
-    }
-  }
-
-  public setVolume(vol: number) {
-    this.volume = vol;
-  }
-
-  public setMute(muted: boolean) {
-    this.isMuted = muted;
-  }
-
-  public playTrackProgression(trackId: number) {
-    this.init();
-    this.stop();
-    if (!this.ctx) return;
-
-    const chordFrequencies: Record<string, number[]> = {
-      E5: [164.81, 246.94, 329.63],
-      G5: [196.0, 293.66, 392.0],
-      A5: [220.0, 329.63, 440.0],
-      C5: [130.81, 196.0, 261.63],
-      D5: [146.83, 220.0, 293.66],
-      F5: [174.61, 261.63, 349.23],
-      B5: [123.47, 185.0, 246.94],
-      Bb5: [116.54, 174.61, 233.08]
-    };
-
-    const targetTrack = TRACKS.find(t => t.id === trackId) || TRACKS[0];
-    const chords = targetTrack.chordProgression;
-    let chordIdx = 0;
-    const tempoMs = Math.round((60000 / targetTrack.bpm) * 2);
-
-    const triggerChord = () => {
-      if (!this.ctx || this.isMuted) return;
-      const currentChord = chords[chordIdx % chords.length];
-      const freqs = chordFrequencies[currentChord] || chordFrequencies.E5;
-
-      const now = this.ctx.currentTime;
-      const duration = (tempoMs / 1000) * 0.9;
-
-      const chordGain = this.ctx.createGain();
-      chordGain.gain.setValueAtTime(this.volume * 0.35, now);
-      chordGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-      chordGain.connect(this.ctx.destination);
-
-      const distortion = this.ctx.createWaveShaper();
-      const n_samples = 44100;
-      const curve = new Float32Array(n_samples);
-      const deg = Math.PI / 180;
-      const k = 42;
-      for (let i = 0; i < n_samples; ++i) {
-        const x = (i * 2) / n_samples - 1;
-        curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
-      }
-      distortion.curve = curve;
-      distortion.oversample = "4x";
-      distortion.connect(chordGain);
-
-      freqs.forEach(freq => {
-        if (!this.ctx) return;
-        const osc = this.ctx.createOscillator();
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(freq, now);
-        osc.detune.setValueAtTime((Math.random() - 0.5) * 16, now);
-        osc.connect(distortion);
-        osc.start(now);
-        osc.stop(now + duration);
-      });
-
-      const kickOsc = this.ctx.createOscillator();
-      const kickGain = this.ctx.createGain();
-      kickOsc.frequency.setValueAtTime(120, now);
-      kickOsc.frequency.exponentialRampToValueAtTime(35, now + 0.12);
-      kickGain.gain.setValueAtTime(this.volume * 0.65, now);
-      kickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-      kickOsc.connect(kickGain);
-      kickGain.connect(this.ctx.destination);
-      kickOsc.start(now);
-      kickOsc.stop(now + 0.16);
-
-      chordIdx++;
-    };
-
-    triggerChord();
-    this.intervalId = window.setInterval(triggerChord, tempoMs);
-  }
-
-  public stop() {
-    if (this.intervalId !== null) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-  }
-}
-
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 
 export default function SillyNValleyPage() {
@@ -676,7 +563,7 @@ export default function SillyNValleyPage() {
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.7);
   const [lyricsOpen, setLyricsOpen] = useState(false);
-  const synthRef = useRef<WebAudioSynth | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Gallery & Lightbox states
   const [galleryCategory, setGalleryCategory] = useState<string>("all");
@@ -725,42 +612,20 @@ export default function SillyNValleyPage() {
     };
   }, [isPlaying]);
 
-  // Initialize Web Audio Synth
-  useEffect(() => {
-    synthRef.current = new WebAudioSynth();
-    return () => {
-      synthRef.current?.stop();
-    };
-  }, []);
-
-  // Timer loop for playback progress
-  useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-    if (isPlaying) {
-      synthRef.current?.playTrackProgression(TRACKS[currentTrackIndex].id);
-      timer = setInterval(() => {
-        setPlaybackSec(prev => {
-          const currentDuration = TRACKS[currentTrackIndex].durationSec;
-          if (prev >= currentDuration) {
-            setCurrentTrackIndex(curr => (curr + 1) % TRACKS.length);
-            return 0;
-          }
-          return prev + 1;
-        });
-      }, 1000);
-    } else {
-      synthRef.current?.stop();
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isPlaying, currentTrackIndex]);
-
   // Sync mute & volume
   useEffect(() => {
-    synthRef.current?.setVolume(volume);
-    synthRef.current?.setMute(isMuted);
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
   }, [volume, isMuted]);
+
+  // Track change auto-play when active
+  useEffect(() => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  }, [currentTrackIndex]);
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
@@ -783,7 +648,20 @@ export default function SillyNValleyPage() {
   }, [activePhotoIndex]);
 
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(err => {
+          console.error("Audio playback error:", err);
+        });
+    }
   };
 
   const handleNextTrack = () => {
@@ -1451,8 +1329,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               Kaset Pita &apos;Rantai Reaksi&apos;
             </h2>
             <p className="text-[#A4ACB9] text-xs sm:text-sm font-mono">
-              Pemutar kaset model tape deck retro 80s dengan bodi plastik tebal dan tombol fisik tactile.
-              Synthesizer Web Audio API distorsi punk aktif dan bisa dimainkan langsung!
+              Pemutar kaset model tape deck retro 80s dengan rekaman audio asli Silly N Valley langsung dari rilis resmi Bandcamp. Dengarkan distorsi power chord dan vokal raw tanpa kompromi!
             </p>
           </div>
 
@@ -1626,13 +1503,38 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
               </div>
 
+              {/* NATIVE HTML5 AUDIO ELEMENT */}
+              <audio
+                ref={audioRef}
+                src={activeTrack.audioSrc}
+                onTimeUpdate={() => {
+                  if (audioRef.current) {
+                    setPlaybackSec(Math.floor(audioRef.current.currentTime));
+                  }
+                }}
+                onEnded={handleNextTrack}
+                preload="auto"
+              />
+
               {/* PROGRESS BAR */}
               <div className="mt-3">
-                <div className="w-full bg-[#0E1014] h-2.5 rounded-none overflow-hidden border border-black cursor-pointer">
+                <div
+                  className="w-full bg-[#0E1014] h-2.5 rounded-none overflow-hidden border border-black cursor-pointer"
+                  onClick={e => {
+                    if (!audioRef.current) return;
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const newPct = clickX / rect.width;
+                    const targetSec = newPct * activeTrack.durationSec;
+                    audioRef.current.currentTime = targetSec;
+                    setPlaybackSec(Math.floor(targetSec));
+                  }}
+                  title="Klik untuk seek posisi audio"
+                >
                   <div
-                    className="bg-gradient-to-r from-[#FFE500] via-[#00FF66] to-[#D90429] h-full transition-all duration-300"
+                    className="bg-gradient-to-r from-[#FFE500] via-[#00FF66] to-[#D90429] h-full transition-all duration-150"
                     style={{
-                      width: `${(playbackSec / activeTrack.durationSec) * 100}%`
+                      width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
                     }}
                   />
                 </div>
@@ -1644,7 +1546,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handlePrevTrack}
-                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase"
+                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Sebelumnya"
                     aria-label="Previous track"
                   >
@@ -1672,7 +1574,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <button
                     onClick={handleNextTrack}
-                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase"
+                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Selanjutnya"
                     aria-label="Next track"
                   >
@@ -1680,12 +1582,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </button>
                 </div>
 
-                {/* Right Controls: Volume Slider */}
+                {/* Right Controls: Volume Slider & Status */}
                 <div className="flex items-center gap-4 text-xs">
                   <div className="flex items-center gap-2 bg-[#121417] px-3 py-2 border border-black">
                     <button
                       onClick={() => setIsMuted(!isMuted)}
-                      className="text-[#8E95A5] hover:text-[#FFE500]"
+                      className="text-[#8E95A5] hover:text-[#FFE500] cursor-pointer"
                       aria-label="Toggle mute"
                     >
                       {isMuted ? (
@@ -1710,8 +1612,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </div>
 
                   <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-[#888]">
-                    <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
-                    <span>SYNTH OVERDRIVE READY</span>
+                    <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#00FF66] animate-ping" : "bg-[#666]"}`} />
+                    <span className="text-white font-mono font-bold">BANDCAMP MASTER AUDIO</span>
                   </div>
                 </div>
               </div>
@@ -1722,10 +1624,10 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   <div className="bg-[#0C0D11] border-2 border-black p-5 font-mono text-xs sm:text-sm">
                     <div className="flex justify-between items-center mb-3 pb-2 border-b border-[#222]">
                       <span className="text-[#FFE500] font-black uppercase flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-[#D90429]" /> Lirik Resmi: {activeTrack.title}
+                        <Flame className="w-4 h-4 text-[#D90429]" /> Lirik & Info: {activeTrack.title}
                       </span>
-                      <span className="text-[11px] text-[#888]">
-                        Kunci: {activeTrack.chordProgression.join(" - ")}
+                      <span className="text-[11px] text-[#00FF66] font-bold">
+                        {activeTrack.sourceType === "live" ? "🔴 LIVE SESSION HALA" : "⚡ OFFICIAL STUDIO SINGLE"}
                       </span>
                     </div>
                     <pre className="font-mono text-[#D4D8E2] whitespace-pre-wrap leading-relaxed">
@@ -1736,37 +1638,51 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               )}
             </div>
 
-            {/* TRACKLIST SELECTION J-CARD BUTTONS */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {TRACKS.map((t, idx) => {
-                const isSelected = idx === currentTrackIndex;
-                return (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setCurrentTrackIndex(idx);
-                      setPlaybackSec(0);
-                      if (!isPlaying) setIsPlaying(true);
-                    }}
-                    className={`p-3 text-left font-mono border-2 transition-all flex flex-col justify-between cursor-pointer ${
-                      isSelected
-                        ? "bg-[#FFE500] text-black border-black shadow-[4px_4px_0px_#D90429]"
-                        : "bg-[#1E2026] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center text-xs font-bold mb-1">
-                      <span>0{t.id}.</span>
-                      <span>{t.duration}</span>
-                    </div>
-                    <div className="font-black text-sm uppercase tracking-tight truncate">
-                      {t.title}
-                    </div>
-                    <div className="text-[10px] mt-1 font-bold opacity-80 uppercase">
-                      {isSelected && isPlaying ? "▶ NOW PLAYING" : `${t.bpm} BPM`}
-                    </div>
-                  </button>
-                );
-              })}
+            {/* TRACKLIST SELECTION J-CARD BUTTONS (6 TRACKS DARI BANDCAMP) */}
+            <div className="mt-6">
+              <div className="flex justify-between items-center mb-3 text-xs font-mono font-bold text-[#A4ACB9]">
+                <span>PILIH TRACK DARI CASSETTE PITA / BANDCAMP:</span>
+                <a
+                  href="https://sillynvalley.bandcamp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFE500] hover:underline flex items-center gap-1"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Buka Bandcamp Resmi
+                </a>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {TRACKS.map((t, idx) => {
+                  const isSelected = idx === currentTrackIndex;
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        setCurrentTrackIndex(idx);
+                        setPlaybackSec(0);
+                        setIsPlaying(true);
+                      }}
+                      className={`p-3 text-left font-mono border-2 transition-all flex flex-col justify-between cursor-pointer ${
+                        isSelected
+                          ? "bg-[#FFE500] text-black border-black shadow-[4px_4px_0px_#D90429]"
+                          : "bg-[#1E2026] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
+                      }`}
+                    >
+                      <div className="flex justify-between items-center text-xs font-bold mb-1">
+                        <span>0{t.id}.</span>
+                        <span className="text-[10px] bg-black/30 px-1 text-white">{t.duration}</span>
+                      </div>
+                      <div className="font-black text-sm uppercase tracking-tight truncate">
+                        {t.title}
+                      </div>
+                      <div className="text-[10px] mt-1 font-bold opacity-80 uppercase flex justify-between items-center">
+                        <span>{t.sourceType === "live" ? "HALA LIVE" : "STUDIO SINGLE"}</span>
+                        <span>{isSelected && isPlaying ? "▶ PLAYING" : `${t.bpm} BPM`}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
