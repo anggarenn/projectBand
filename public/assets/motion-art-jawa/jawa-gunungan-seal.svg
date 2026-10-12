@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <!-- Gradien Emas Kuno Hairline -->
+    <linearGradient id="gununganGoldHairline" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF7" />
+      <stop offset="35%" stop-color="#F4DA90" />
+      <stop offset="70%" stop-color="#E5C16C" />
+      <stop offset="100%" stop-color="#9E7D32" />
+    </linearGradient>
+
+    <radialGradient id="sealBackdropDarkJawa" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1A1510" stop-opacity="0.95" />
+      <stop offset="75%" stop-color="#120E0A" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#080705" stop-opacity="1" />
+    </radialGradient>
+  </defs>
+
+  <!-- Latar Belakang Medallion Arang Obsidian Gelap -->
+  <circle cx="300" cy="300" r="285" fill="url(#sealBackdropDarkJawa)" stroke="url(#gununganGoldHairline)" stroke-width="1.8" />
+
+  <!-- Lingkaran Luar Berbutir Emas (Beaded Outer Ring) -->
+  <circle cx="300" cy="300" r="265" fill="none" stroke="#C59B3C" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.65" />
+  <circle cx="565.00" cy="300.00" r="2.8" fill="#E5C16C" /> <circle cx="562.42" cy="336.88" r="2.8" fill="#E5C16C" /> <circle cx="554.73" cy="373.04" r="2.8" fill="#E5C16C" /> <circle cx="542.09" cy="407.79" r="2.8" fill="#E5C16C" /> <circle cx="524.73" cy="440.43" r="2.8" fill="#E5C16C" /> <circle cx="503.00" cy="470.34" r="2.8" fill="#E5C16C" /> <circle cx="477.32" cy="496.93" r="2.8" fill="#E5C16C" /> <circle cx="448.19" cy="519.69" r="2.8" fill="#E5C16C" /> <circle cx="416.17" cy="538.18" r="2.8" fill="#E5C16C" /> <circle cx="381.89" cy="552.03" r="2.8" fill="#E5C16C" /> <circle cx="346.02" cy="560.97" r="2.8" fill="#E5C16C" /> <circle cx="309.25" cy="564.84" r="2.8" fill="#E5C16C" /> <circle cx="272.30" cy="563.55" r="2.8" fill="#E5C16C" /> <circle cx="235.89" cy="557.13" r="2.8" fill="#E5C16C" /> <circle cx="200.73" cy="545.70" r="2.8" fill="#E5C16C" /> <circle cx="167.50" cy="529.50" r="2.8" fill="#E5C16C" /> <circle cx="136.85" cy="508.82" r="2.8" fill="#E5C16C" /> <circle cx="109.37" cy="484.08" r="2.8" fill="#E5C16C" /> <circle cx="85.61" cy="455.76" r="2.8" fill="#E5C16C" /> <circle cx="66.02" cy="424.41" r="2.8" fill="#E5C16C" /> <circle cx="50.98" cy="390.64" r="2.8" fill="#E5C16C" /> <circle cx="40.79" cy="355.10" r="2.8" fill="#E5C16C" /> <circle cx="35.65" cy="318.49" r="2.8" fill="#E5C16C" /> <circle cx="35.65" cy="281.51" r="2.8" fill="#E5C16C" /> <circle cx="40.79" cy="244.90" r="2.8" fill="#E5C16C" /> <circle cx="50.98" cy="209.36" r="2.8" fill="#E5C16C" /> <circle cx="66.02" cy="175.59" r="2.8" fill="#E5C16C" /> <circle cx="85.61" cy="144.24" r="2.8" fill="#E5C16C" /> <circle cx="109.37" cy="115.92" r="2.8" fill="#E5C16C" /> <circle cx="136.85" cy="91.18" r="2.8" fill="#E5C16C" /> <circle cx="167.50" cy="70.50" r="2.8" fill="#E5C16C" /> <circle cx="200.73" cy="54.30" r="2.8" fill="#E5C16C" /> <circle cx="235.89" cy="42.87" r="2.8" fill="#E5C16C" /> <circle cx="272.30" cy="36.45" r="2.8" fill="#E5C16C" /> <circle cx="309.25" cy="35.16" r="2.8" fill="#E5C16C" /> <circle cx="346.02" cy="39.03" r="2.8" fill="#E5C16C" /> <circle cx="381.89" cy="47.97" r="2.8" fill="#E5C16C" /> <circle cx="416.17" cy="61.82" r="2.8" fill="#E5C16C" /> <circle cx="448.19" cy="80.31" r="2.8" fill="#E5C16C" /> <circle cx="477.32" cy="103.07" r="2.8" fill="#E5C16C" /> <circle cx="503.00" cy="129.66" r="2.8" fill="#E5C16C" /> <circle cx="524.73" cy="159.57" r="2.8" fill="#E5C16C" /> <circle cx="542.09" cy="192.21" r="2.8" fill="#E5C16C" /> <circle cx="554.73" cy="226.96" r="2.8" fill="#E5C16C" /> <circle cx="562.42" cy="263.12" r="2.8" fill="#E5C16C" />
+
+  <!-- Cincin Konsentris Ganda 1px Hairline -->
+  <circle cx="300" cy="300" r="252" fill="none" stroke="#FFFDF7" stroke-width="1" />
+  <circle cx="300" cy="300" r="232" fill="none" stroke="#E5C16C" stroke-width="1" />
+  <circle cx="542.00" cy="300.00" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="542.00" cy="300.00" r="1.8" fill="#FFFDF7" /> <circle cx="521.08" cy="398.43" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="521.08" cy="398.43" r="1.8" fill="#FFFDF7" /> <circle cx="461.93" cy="479.84" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="461.93" cy="479.84" r="1.8" fill="#FFFDF7" /> <circle cx="374.78" cy="530.16" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="374.78" cy="530.16" r="1.8" fill="#FFFDF7" /> <circle cx="274.70" cy="540.67" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="274.70" cy="540.67" r="1.8" fill="#FFFDF7" /> <circle cx="179.00" cy="509.58" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="179.00" cy="509.58" r="1.8" fill="#FFFDF7" /> <circle cx="104.22" cy="442.24" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="104.22" cy="442.24" r="1.8" fill="#FFFDF7" /> <circle cx="63.29" cy="350.31" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="63.29" cy="350.31" r="1.8" fill="#FFFDF7" /> <circle cx="63.29" cy="249.69" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="63.29" cy="249.69" r="1.8" fill="#FFFDF7" /> <circle cx="104.22" cy="157.76" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="104.22" cy="157.76" r="1.8" fill="#FFFDF7" /> <circle cx="179.00" cy="90.42" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="179.00" cy="90.42" r="1.8" fill="#FFFDF7" /> <circle cx="274.70" cy="59.33" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="274.70" cy="59.33" r="1.8" fill="#FFFDF7" /> <circle cx="374.78" cy="69.84" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="374.78" cy="69.84" r="1.8" fill="#FFFDF7" /> <circle cx="461.93" cy="120.16" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="461.93" cy="120.16" r="1.8" fill="#FFFDF7" /> <circle cx="521.08" cy="201.57" r="4.2" fill="#18130E" stroke="#E5C16C" stroke-width="1" /> <circle cx="521.08" cy="201.57" r="1.8" fill="#FFFDF7" />
+  <circle cx="300" cy="300" r="218" fill="none" stroke="#E5C16C" stroke-width="1" stroke-dasharray="6 3" />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- INTI LAMBANG GUNUNGAN KAYON KERATON (WAYANG KULIT BLENCONG) -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <g id="lambang-gunungan-kayon" transform="translate(0, 0)">
+    <!-- 1. Siluet Daun Utama Gunungan Kayon (Lancip Menjulang Simetris) -->
+    <!-- Kontur Utama Daun Gunungan -->
+    <path d="M 300 75 C 335 140 375 220 375 320 C 375 390 350 425 300 435 C 250 425 225 390 225 320 C 225 220 265 140 300 75 Z" fill="#18130E" stroke="url(#gununganGoldHairline)" stroke-width="2.2" />
+    <path d="M 300 88 C 330 148 365 222 365 318 C 365 382 342 415 300 424 C 258 415 235 382 235 318 C 235 222 270 148 300 88 Z" fill="none" stroke="#FFFDF7" stroke-width="1" stroke-dasharray="5 3" />
+
+    <!-- 2. Puncak Mustaka / Meru Tajuk Gunungan -->
+    <path d="M 300 50 L 295 75 L 305 75 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="1" />
+    <circle cx="300" cy="46" r="4.5" fill="#FFFDF7" stroke="#E5C16C" stroke-width="1.2" />
+    <circle cx="300" cy="72" r="3.2" fill="#E5C16C" />
+
+    <!-- 3. Lidah Api Blencong Emas di Sayap Kiri & Kanan -->
+    <path d="M 245 160 Q 223 148 231 174 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 231 192 Q 209 180 217 206 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 221 224 Q 199 212 207 238 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 217 256 Q 195 244 203 270 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 219 288 Q 197 276 205 302 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 228 320 Q 206 308 214 334 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 241 352 Q 219 340 227 366 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 355 160 Q 377 148 369 174 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 368 192 Q 390 180 382 206 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 378 224 Q 400 212 392 238 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 382 256 Q 404 244 396 270 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 380 288 Q 402 276 394 302 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 371 320 Q 393 308 385 334 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" /> <path d="M 358 352 Q 380 340 372 366 Z" fill="#E5C16C" stroke="#FFFDF7" stroke-width="0.8" opacity="0.85" />
+
+    <!-- 4. Pohon Hayat (Kalpataru): Batang Utama di Tengah -->
+    <line x1="300" y1="110" x2="300" y2="290" stroke="#E5C16C" stroke-width="2.5" />
+    <line x1="300" y1="120" x2="300" y2="280" stroke="#FFFDF7" stroke-width="1" stroke-dasharray="6 3" />
+    
+          <!-- Dahan Kiri & Kanan di Y: 160 -->
+          <path d="M 300 160 Q 281.0 142 262.0 152" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="262.0" cy="152" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+          <path d="M 300 160 Q 319.0 142 338.0 152" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="338.0" cy="152" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+         
+          <!-- Dahan Kiri & Kanan di Y: 195 -->
+          <path d="M 300 195 Q 265.0 177 228.75 187" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="228.75" cy="187" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+          <path d="M 300 195 Q 335.0 177 371.25 187" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="371.25" cy="187" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+         
+          <!-- Dahan Kiri & Kanan di Y: 230 -->
+          <path d="M 300 230 Q 248.0 212 195.5 222" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="195.5" cy="222" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+          <path d="M 300 230 Q 352.0 212 404.5 222" fill="none" stroke="#E5C16C" stroke-width="1.4" />
+          <circle cx="404.5" cy="222" r="3.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="0.8" />
+        
+    
+      <!-- Burung Merak Kiri -->
+      <g id="merak-kiri">
+        <path d="M 235 220 Q 220 205 210 215 Q 225 225 240 225" fill="#241B12" stroke="#E5C16C" stroke-width="1.1" />
+        <circle cx="212" cy="214" r="2.5" fill="#FFFDF7" />
+        <!-- Ekor Merak Megah Melengkung -->
+        <path d="M 240 225 Q 260 210 255 190" fill="none" stroke="#E5C16C" stroke-width="1.2" stroke-dasharray="3 2" />
+      </g>
+      <!-- Burung Merak Kanan -->
+      <g id="merak-kanan">
+        <path d="M 365 220 Q 380 205 390 215 Q 375 225 360 225" fill="#241B12" stroke="#E5C16C" stroke-width="1.1" />
+        <circle cx="388" cy="214" r="2.5" fill="#FFFDF7" />
+        <!-- Ekor Merak Megah Melengkung -->
+        <path d="M 360 225 Q 340 210 345 190" fill="none" stroke="#E5C16C" stroke-width="1.2" stroke-dasharray="3 2" />
+      </g>
+    
+
+    <!-- 5. Relief Banaspati / Kala (Penjaga Gapura Ageng) -->
+    <!-- Wajah Kala di Atas Pintu Gerbang (Y: 280 - 315) -->
+    <g id="banaspati-kala">
+      <path d="M 275 310 Q 300 282 325 310 Z" fill="#241B12" stroke="#E5C16C" stroke-width="1.6" />
+      <!-- Mata Melotot Bulat Banaspati -->
+      <circle cx="288" cy="300" r="4.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="1" />
+      <circle cx="312" cy="300" r="4.2" fill="#FFFDF7" stroke="#E5C16C" stroke-width="1" />
+      <circle cx="288" cy="300" r="1.8" fill="#140F0A" />
+      <circle cx="312" cy="300" r="1.8" fill="#140F0A" />
+      <!-- Hidung & Taring Emas Kala -->
+      <polygon points="300,302 296,310 304,310" fill="#E5C16C" />
+      <path d="M 285 310 L 283 318 L 290 312" fill="#FFFDF7" />
+      <path d="M 315 310 L 317 318 L 310 312" fill="#FFFDF7" />
+    </g>
+
+    <!-- 6. Gapura Rumah Gerbang (Candi Bentar / Regol Keraton) -->
+    <!-- Kusen Luar Gapura (Y: 315 - 425, X: 260 - 340) -->
+    <polygon points="260,425 260,325 340,325 340,425" fill="#140F0A" stroke="url(#gununganGoldHairline)" stroke-width="2" />
+    <!-- Kusen Dalam & Pintu Kayu Berukir -->
+    <rect x="272" y="335" width="56" height="90" fill="#0C0906" stroke="#FFFDF7" stroke-width="1.2" />
+    <line x1="300" y1="335" x2="300" y2="425" stroke="#E5C16C" stroke-width="1.5" />
+    <!-- Terali Filigri Pintu Emas Intaglio Silang -->
+    <line x1="272" y1="355" x2="328" y2="405" stroke="#E5C16C" stroke-width="0.9" stroke-dasharray="4 2" />
+    <line x1="328" y1="355" x2="272" y2="405" stroke="#E5C16C" stroke-width="0.9" stroke-dasharray="4 2" />
+    <circle cx="300" cy="380" r="8" fill="#201810" stroke="#E5C16C" stroke-width="1.2" />
+    <circle cx="300" cy="380" r="2.8" fill="#FFFDF7" />
+
+    <!-- 7. Balok Dudukan Bawah & Tangkai Gapit Cempurit Emas -->
+    <rect x="250" y="423" width="100" height="12" fill="#261C13" stroke="#E5C16C" stroke-width="1.6" rx="2" />
+    <line x1="255" y1="429" x2="345" y2="429" stroke="#FFFDF7" stroke-width="1" stroke-dasharray="6 3" />
+    <!-- Tangkai Gapit Tanduk Kerbau / Emas Menjulur ke Bawah -->
+    <polygon points="296,435 304,435 302,485 298,485" fill="#201710" stroke="#E5C16C" stroke-width="1.4" />
+    <circle cx="300" cy="488" r="3.5" fill="#FFFDF7" stroke="#E5C16C" stroke-width="1" />
+  </g>
+
+  <!-- Tulisan Mikro Monogram Archival Hairline di Busur Bawah -->
+  <path id="archivalArcTextJawa" d="M 100 440 A 240 240 0 0 0 500 440" fill="none" />
+  <text font-family="'Times New Roman', Georgia, serif" font-size="11" fill="#E5C16C" letter-spacing="4" opacity="0.8">
+    <textPath href="#archivalArcTextJawa" startOffset="50%" text-anchor="middle">
+      K E R A T O N   N G A Y O G Y A K A R T A   H A D I N I N G R A T
+    </textPath>
+  </text>
+</svg>

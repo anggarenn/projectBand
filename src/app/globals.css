@@ -1,26 +1,869 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", serif;
+  --font-script: var(--font-script), "Alex Brush", cursive;
+  --font-inria: var(--font-inria), "Inria Serif", Georgia, serif;
+  --font-cormorant: var(--font-cormorant), "Cormorant Infant", Georgia, serif;
+  
+  --color-canvas: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-ink: #1F1D1B;
+  --color-ink-muted: #6B655E;
+  --color-border-warm: #EAE5DD;
+  --color-terracotta: #A04F34;
+  --color-terracotta-dark: #873E27;
+  --color-terracotta-soft: #F7EFEA;
+  --color-champagne: #C59B3C;
+  --color-champagne-soft: #FBF6EB;
+  --color-forest: #3A5743;
+  --color-forest-soft: #EDF3EE;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: #FAF8F5;
+  color: #1F1D1B;
 }
+
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-inria {
+  font-family: var(--font-inria);
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant);
+}
+
+/* Entrance animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(160, 79, 52, 0.15); }
+  50%      { box-shadow: 0 0 0 12px rgba(160, 79, 52, 0); }
+}
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes windSway {
+  0%, 100% { transform: rotate(0deg); }
+  35%      { transform: rotate(-2.5deg); }
+  75%      { transform: rotate(2deg); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.7s ease-out both;
+}
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out both;
+}
+.animate-slideInRight {
+  animation: slideInRight 0.7s ease-out both;
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+.animate-wind-sway {
+  animation: windSway 6s ease-in-out infinite;
+  transform-origin: top left;
+}
+.animate-wind-sway-reverse {
+  animation: windSway 7s ease-in-out infinite reverse;
+  transform-origin: top right;
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(197,155,60,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+.animate-pulseGlow {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+.animate-toastSlideIn {
+  animation: toastSlideIn 0.4s ease-out both;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+.animate-spin-slow-reverse {
+  animation: spinSlow 40s linear infinite reverse;
+}
+
+@keyframes goldenSheen {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  40%, 100% {
+    transform: translateX(300%) skewX(-25deg);
+  }
+}
+
+.animate-golden-sheen {
+  animation: goldenSheen 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes kenburnsSubtle {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.05) translateY(-6px);
+  }
+}
+
+.animate-kenburns-subtle {
+  animation: kenburnsSubtle 16s ease-in-out infinite alternate;
+}
+
+@keyframes blencong {
+  0%, 100% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px rgba(229, 193, 108, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 20px rgba(229, 193, 108, 0.7));
+  }
+}
+
+.animate-blencong {
+  animation: blencong 3.5s ease-in-out infinite alternate;
+}
+
+/* Name border: zooms in into place (scale 1.22 → 1) with smooth spring & gold glow - GPU accelerated */
+@keyframes nameBorderZoom {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale3d(1.22, 1.22, 1);
+    filter: blur(2px);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(0.985, 0.985, 1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    filter: blur(0px);
+  }
+}
+.animate-name-border-zoom {
+  animation: nameBorderZoom 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+.animate-name-border-reveal {
+  animation: nameBorderZoom 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+
+@keyframes goldGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(197, 155, 60, 0.2); }
+  50%      { box-shadow: 0 0 30px rgba(229, 193, 108, 0.45); }
+}
+.animate-gold-glow {
+  animation: goldGlow 3s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-6px); }
+}
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes cloudDriftLeft {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12px, -8px) scale(1.02);
+  }
+}
+.animate-cloud-drift-left {
+  animation: cloudDriftLeft 14s ease-in-out infinite;
+}
+
+@keyframes cloudDriftRight {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(12px, -6px) scale(1.02);
+  }
+}
+.animate-cloud-drift-right {
+  animation: cloudDriftRight 16s ease-in-out infinite;
+}
+
+@keyframes cloudDriftCenter {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.03);
+  }
+}
+.animate-cloud-drift-center {
+  animation: cloudDriftCenter 11s ease-in-out infinite;
+}
+
+@keyframes jogloReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+    filter: brightness(0.4) blur(4px);
+  }
+  60% {
+    filter: brightness(1.2) blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1) blur(0px);
+  }
+}
+.animate-joglo-reveal {
+  animation: jogloReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── THEATRICAL CLOUD PARTING REVEAL (SUNDA MEGAMENDUNG) ──
+   GPU-accelerated theater curtain opening:
+   Awan membelah ke arah luar & atas (translate-x, translate-y, slight rotate, scale-up)
+   menyingkap Rumah Julang Ngapak & sawah terasering ke penonton.
+*/
+@keyframes cloudCurtainLeftUpper {
+  0% {
+    opacity: 0;
+    transform: translate3d(24px, 20px, 0) scale3d(0.92, 0.92, 1) rotate(2.5deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  48% {
+    /* Puncak bukaan tirai ke arah kiri atas */
+    transform: translate3d(-32px, -24px, 0) scale3d(1.12, 1.12, 1) rotate(-5deg);
+  }
+  76% {
+    transform: translate3d(-6px, -4px, 0) scale3d(1.02, 1.02, 1) rotate(-1deg);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes cloudCurtainLeftLower {
+  0% {
+    opacity: 0;
+    transform: translate3d(20px, 16px, 0) scale3d(0.94, 0.94, 1) rotate(2deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  50% {
+    /* Bukaan tirai sayap kiri bawah */
+    transform: translate3d(-26px, -18px, 0) scale3d(1.09, 1.09, 1) rotate(-3.5deg);
+  }
+  78% {
+    transform: translate3d(-5px, -3px, 0) scale3d(1.02, 1.02, 1) rotate(-0.8deg);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes cloudCurtainRightUpper {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24px, 20px, 0) scale3d(0.92, 0.92, 1) rotate(-2.5deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  48% {
+    /* Puncak bukaan tirai ke arah kanan atas */
+    transform: translate3d(32px, -24px, 0) scale3d(1.12, 1.12, 1) rotate(5deg);
+  }
+  76% {
+    transform: translate3d(6px, -4px, 0) scale3d(1.02, 1.02, 1) rotate(1deg);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes cloudCurtainRightLower {
+  0% {
+    opacity: 0;
+    transform: translate3d(-20px, 16px, 0) scale3d(0.94, 0.94, 1) rotate(-2deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  50% {
+    /* Bukaan tirai sayap kanan bawah */
+    transform: translate3d(26px, -18px, 0) scale3d(1.09, 1.09, 1) rotate(3.5deg);
+  }
+  78% {
+    transform: translate3d(5px, -3px, 0) scale3d(1.02, 1.02, 1) rotate(0.8deg);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes cloudDescendTop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -36px, 0) scale3d(0.96, 0.96, 1);
+  }
+  60% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes canopyDescendY {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -36px, 0) scale3d(0.96, 0.96, 1);
+  }
+  60% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+/* Backward-compatible keyframes */
+@keyframes cloudPartLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(24px, 20px, 0) scale3d(0.92, 0.92, 1) rotate(2.5deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  48% {
+    transform: translate3d(-32px, -24px, 0) scale3d(1.12, 1.12, 1) rotate(-5deg);
+  }
+  76% {
+    transform: translate3d(-6px, -4px, 0) scale3d(1.02, 1.02, 1) rotate(-1deg);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes cloudPartRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24px, 20px, 0) scale3d(0.92, 0.92, 1) rotate(-2.5deg);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  48% {
+    transform: translate3d(32px, -24px, 0) scale3d(1.12, 1.12, 1) rotate(5deg);
+  }
+  76% {
+    transform: translate3d(6px, -4px, 0) scale3d(1.02, 1.02, 1) rotate(1deg);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+/* 60 FPS GPU-Accelerated Curtain Classes */
+.animate-cloud-part-left,
+.animate-cloud-curtain-left-upper {
+  animation: cloudCurtainLeftUpper 1.9s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.animate-cloud-curtain-left-lower {
+  animation: cloudCurtainLeftLower 1.9s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.animate-cloud-part-right,
+.animate-cloud-curtain-right-upper {
+  animation: cloudCurtainRightUpper 1.9s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.animate-cloud-curtain-right-lower {
+  animation: cloudCurtainRightLower 1.9s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.animate-cloud-descend-top,
+.animate-canopy-descend-y {
+  animation: canopyDescendY 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* ── FULL THEATRICAL CURTAIN WINGS (SUNDA MEGAMENDUNG HIGH-RES) ── */
+@keyframes curtainWingLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(36px, 16px, 0) scale3d(0.95, 0.95, 1);
+  }
+  20% {
+    opacity: 0.98;
+  }
+  50% {
+    transform: translate3d(-38px, -18px, 0) scale3d(1.10, 1.10, 1);
+  }
+  78% {
+    transform: translate3d(-8px, -4px, 0) scale3d(1.02, 1.02, 1);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes curtainWingRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(-36px, 16px, 0) scale3d(0.95, 0.95, 1);
+  }
+  20% {
+    opacity: 0.98;
+  }
+  50% {
+    transform: translate3d(38px, -18px, 0) scale3d(1.10, 1.10, 1);
+  }
+  78% {
+    transform: translate3d(8px, -4px, 0) scale3d(1.02, 1.02, 1);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+.animate-curtain-wing-left {
+  animation: curtainWingLeft 2.1s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.animate-curtain-wing-right {
+  animation: curtainWingRight 2.1s cubic-bezier(0.18, 0.9, 0.28, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* ── PARAHYANGAN GOLDEN MIST INFINITE DRIFT ── */
+@keyframes parahyanganMistDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-parahyangan-mist {
+  animation: parahyanganMistDrift 45s linear infinite;
+  will-change: transform;
+}
+
+/* ── SUNDA PARAHYANGAN FLORAL CORNER BLOOM (Stage 2 Reveal) ── */
+@keyframes floralBloomLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-35px, 45px, 0) scale3d(0.82, 0.82, 1) rotate(-8deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(4px, -5px, 0) scale3d(1.04, 1.04, 1) rotate(1deg);
+  }
+  85% {
+    transform: translate3d(-2px, 2px, 0) scale3d(0.99, 0.99, 1) rotate(-0.5deg);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+@keyframes floralBloomRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(35px, 45px, 0) scale3d(0.82, 0.82, 1) rotate(8deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(-4px, -5px, 0) scale3d(1.04, 1.04, 1) rotate(-1deg);
+  }
+  85% {
+    transform: translate3d(2px, 2px, 0) scale3d(0.99, 0.99, 1) rotate(0.5deg);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+.animate-floral-bloom-left {
+  animation: floralBloomLeft 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.animate-floral-bloom-right {
+  animation: floralBloomRight 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* CINEMATIC MOTION ART OPENING (Zoom-In & Portal Through) */
+@keyframes cinematicZoomThrough {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px) brightness(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15) translateY(-2%);
+    filter: blur(0.5px) brightness(1.08);
+  }
+  80% {
+    opacity: 0.85;
+    transform: scale(1.55) translateY(-8%);
+    filter: blur(3px) brightness(1.25);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1) translateY(-14%);
+    filter: blur(8px) brightness(1.4);
+    pointer-events: none;
+  }
+}
+.animate-cinematic-zoom-through {
+  animation: cinematicZoomThrough 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cinematicStageZoomIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale3d(1.32, 1.32, 1);
+    filter: blur(6px) brightness(0.6);
+  }
+  40% {
+    opacity: 0.7;
+    filter: blur(2px) brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    filter: blur(0px) brightness(1);
+  }
+}
+.animate-stage-zoom-in {
+  animation: cinematicStageZoomIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+@keyframes cloudPortalBurstLeft {
+  0% {
+    opacity: 0.9;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-120px, -30px) scale(1.4);
+  }
+}
+.animate-cloud-portal-left {
+  animation: cloudPortalBurstLeft 1.2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes cloudPortalBurstRight {
+  0% {
+    opacity: 0.9;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(120px, -30px) scale(1.4);
+  }
+}
+.animate-cloud-portal-right {
+  animation: cloudPortalBurstRight 1.2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+/* Stagger children */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.35s; }
+.stagger-4 { animation-delay: 0.5s; }
+.stagger-5 { animation-delay: 0.65s; }
+
+/* Elegant divider */
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.divider-ornament::before,
+.divider-ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D8D2C7, transparent);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D2C7;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8B0A2;
+}
+
+/* Glass surface utility */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+}
+
+/* Terracotta Earthy Meadow Envelope Gate Animations */
+@keyframes envelopeFlapOpen {
+  0% {
+    transform: rotateX(0deg);
+    z-index: 25;
+  }
+  50% {
+    transform: rotateX(90deg);
+    z-index: 25;
+  }
+  100% {
+    transform: rotateX(180deg);
+    z-index: 5;
+  }
+}
+.animate-envelope-flap {
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  animation: envelopeFlapOpen 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes envelopeSlideDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+}
+.animate-envelope-exit {
+  animation: envelopeSlideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+}
+
+/* Tactile Clay Button shadow & active state */
+.btn-tactile-clay {
+  box-shadow: 0 4px 14px rgba(191, 87, 63, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-tactile-clay:hover {
+  box-shadow: 0 6px 20px rgba(191, 87, 63, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+.btn-tactile-clay:active {
+  box-shadow: 0 2px 6px rgba(191, 87, 63, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: scale(0.96) translateY(1px);
+}
+
+/* Celestial Twilight Cosmic Stargate & Orbit Portal Animations */
+@keyframes cosmicOrbitSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-cosmic-orbit-spin {
+  animation: cosmicOrbitSpin 45s linear infinite;
+}
+
+@keyframes cosmicOrbitSpinReverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+.animate-cosmic-orbit-reverse {
+  animation: cosmicOrbitSpinReverse 30s linear infinite;
+}
+
+@keyframes cosmicPortalWarp {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+  30% {
+    transform: scale(1.08);
+    opacity: 1;
+    filter: blur(1px) brightness(1.5);
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+    filter: blur(12px) brightness(2.5);
+  }
+}
+.animate-cosmic-portal-warp {
+  animation: cosmicPortalWarp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes cosmicShimmerSweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.btn-cosmic-shimmer {
+  background: linear-gradient(135deg, #C8B6FF 0%, #E2D7FE 30%, #F3D082 70%, #FFE9AD 100%);
+  background-size: 200% auto;
+  box-shadow: 0 4px 20px rgba(200, 182, 255, 0.35), 0 0 12px rgba(243, 208, 130, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-cosmic-shimmer:hover {
+  background-position: right center;
+  box-shadow: 0 6px 28px rgba(200, 182, 255, 0.55), 0 0 20px rgba(243, 208, 130, 0.45);
+  transform: translateY(-1.5px) scale(1.02);
+}
+.btn-cosmic-shimmer:active {
+  box-shadow: 0 2px 10px rgba(200, 182, 255, 0.3);
+  transform: scale(0.96) translateY(1px);
+}
+
+.glass-celestial-bento {
+  background: rgba(15, 21, 39, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(200, 182, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(8, 11, 20, 0.7);
+}
+
+/* Royal Chinoiserie Silk Glass Bento & Button */
+.glass-chinoiserie-bento {
+  background: rgba(92, 19, 26, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 8px 32px rgba(59, 8, 12, 0.7);
+}
+
+.btn-imperial-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFF3B3 40%, #E6C65C 70%, #B48A20 100%);
+  background-size: 200% auto;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4), 0 0 12px rgba(230, 198, 92, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-imperial-gold:hover {
+  background-position: right center;
+  box-shadow: 0 6px 28px rgba(212, 175, 55, 0.6), 0 0 20px rgba(230, 198, 92, 0.5);
+  transform: translateY(-1.5px) scale(1.02);
+}
+.btn-imperial-gold:active {
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  transform: scale(0.96) translateY(1px);
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110%) rotate(360deg);
+    opacity: 0;
+  }
+}
+.animate-petal-fall {
+  animation: petalFall 8s ease-in-out infinite;
+}
+
+

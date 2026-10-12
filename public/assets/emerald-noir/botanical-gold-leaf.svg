@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" width="800" height="1200">
+  <defs>
+    <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5D6" />
+      <stop offset="25%" stop-color="#E7C875" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="75%" stop-color="#AA7A1E" />
+      <stop offset="100%" stop-color="#FDF1CE" />
+    </linearGradient>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0.83
+        0 1 0 0 0.68
+        0 0 1 0 0.21
+        0 0 0 0.6 0" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#goldGlow)" fill="none" stroke="url(#goldMetallic)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Main Arching Stem -->
+    <path d="M 400,1150 C 400,850 430,600 370,120" stroke-width="5.5" />
+    
+    <!-- Central Monstera / Palm Leaf (Top) -->
+    <g transform="translate(370,120) scale(0.9)">
+      <path d="M 0,0 C -40,-80 -120,-120 -80,-200 C -40,-180 -10,-140 0,-100 C 10,-140 40,-180 80,-200 C 120,-120 40,-80 0,0 Z" 
+            stroke-width="3.5" fill="rgba(212,175,55,0.08)" />
+      <path d="M 0,0 L 0,-190" stroke-width="2.5" />
+      <path d="M 0,-50 C -30,-60 -50,-80 -60,-110" stroke-width="2" />
+      <path d="M 0,-50 C 30,-60 50,-80 60,-110" stroke-width="2" />
+      <path d="M 0,-100 C -25,-110 -40,-130 -50,-150" stroke-width="2" />
+      <path d="M 0,-100 C 25,-110 40,-130 50,-150" stroke-width="2" />
+    </g>
+
+    <!-- Leaf Pair 1 (Upper Branch) -->
+    <!-- Left Leaf -->
+    <path d="M 385,320 C 310,290 220,310 160,250 C 210,230 290,240 385,320 Z" stroke-width="3" fill="rgba(212,175,55,0.06)" />
+    <path d="M 385,320 C 300,285 220,270 160,250" stroke-width="2" />
+    <path d="M 320,295 C 290,265 270,245 250,235" stroke-width="1.5" />
+    <path d="M 270,280 C 240,260 215,245 200,240" stroke-width="1.5" />
+    
+    <!-- Right Leaf -->
+    <path d="M 395,280 C 470,240 560,250 630,200 C 580,180 500,200 395,280 Z" stroke-width="3" fill="rgba(212,175,55,0.06)" />
+    <path d="M 395,280 C 480,245 560,225 630,200" stroke-width="2" />
+    <path d="M 460,255 C 500,225 530,210 550,200" stroke-width="1.5" />
+    <path d="M 520,235 C 555,215 580,205 600,200" stroke-width="1.5" />
+
+    <!-- Leaf Pair 2 (Mid-High Branch - Cascading Eucalyptus) -->
+    <!-- Left Eucalyptus -->
+    <path d="M 405,480 C 280,450 180,500 120,440 C 180,410 290,420 405,480 Z" stroke-width="3.2" fill="rgba(212,175,55,0.07)" />
+    <path d="M 405,480 C 300,450 200,440 120,440" stroke-width="2" />
+    <path d="M 330,455 C 290,425 250,415 220,410" stroke-width="1.6" />
+    <path d="M 260,445 C 220,425 180,420 150,420" stroke-width="1.6" />
+
+    <!-- Right Eucalyptus -->
+    <path d="M 410,440 C 530,400 640,430 710,370 C 650,340 540,360 410,440 Z" stroke-width="3.2" fill="rgba(212,175,55,0.07)" />
+    <path d="M 410,440 C 520,405 620,385 710,370" stroke-width="2" />
+    <path d="M 490,415 C 540,385 590,375 620,370" stroke-width="1.6" />
+    <path d="M 570,395 C 615,375 650,370 680,370" stroke-width="1.6" />
+
+    <!-- Leaf Pair 3 (Grand Monstera/Fan Leaves Mid-Low) -->
+    <!-- Left Grand Leaf -->
+    <path d="M 410,680 C 250,660 130,750 60,680 C 140,630 270,630 410,680 Z" stroke-width="3.5" fill="rgba(212,175,55,0.08)" />
+    <path d="M 410,680 C 280,665 170,670 60,680" stroke-width="2.2" />
+    <path d="M 310,670 C 250,635 190,620 140,615" stroke-width="1.8" />
+    <path d="M 230,670 C 180,640 130,635 90,635" stroke-width="1.8" />
+
+    <!-- Right Grand Leaf -->
+    <path d="M 415,640 C 570,610 690,680 750,620 C 680,575 550,580 415,640 Z" stroke-width="3.5" fill="rgba(212,175,55,0.08)" />
+    <path d="M 415,640 C 550,625 660,615 750,620" stroke-width="2.2" />
+    <path d="M 520,625 C 585,595 640,585 680,580" stroke-width="1.8" />
+    <path d="M 610,620 C 660,595 700,590 730,590" stroke-width="1.8" />
+
+    <!-- Leaf Pair 4 (Lower Foundation Leaves) -->
+    <path d="M 405,880 C 290,880 180,970 120,930 C 180,875 280,860 405,880 Z" stroke-width="3" fill="rgba(212,175,55,0.06)" />
+    <path d="M 405,880 C 300,890 200,915 120,930" stroke-width="2" />
+
+    <path d="M 405,850 C 520,845 620,920 670,880 C 620,830 520,825 405,850 Z" stroke-width="3" fill="rgba(212,175,55,0.06)" />
+    <path d="M 405,850 C 500,855 590,870 670,880" stroke-width="2" />
+  </g>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 60" width="800" height="60">
+  <defs>
+    <linearGradient id="divGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF2" />
+      <stop offset="25%" stop-color="#FCEAB3" />
+      <stop offset="55%" stop-color="#D4AF37" />
+      <stop offset="85%" stop-color="#A88124" />
+      <stop offset="100%" stop-color="#6E500F" />
+    </linearGradient>
+    <radialGradient id="rubyCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9E1824" />
+      <stop offset="60%" stop-color="#680C14" />
+      <stop offset="100%" stop-color="#300306" />
+    </radialGradient>
+    <filter id="divGlow" x="-10%" y="-30%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#D4AF37" flood-opacity="0.4" />
+    </filter>
+  </defs>
+  <g id="lattice-divider-main" filter="url(#divGlow)">
+    <rect x="386" y="16" width="28" height="28" rx="3" transform="rotate(45, 400, 30)" fill="none" stroke="url(#divGold)" stroke-width="2.5" />
+    <rect x="391" y="21" width="18" height="18" rx="2" transform="rotate(45, 400, 30)" fill="none" stroke="url(#divGold)" stroke-width="1.2" />
+    <circle cx="400" cy="30" r="5.5" fill="url(#rubyCore)" stroke="url(#divGold)" stroke-width="1.2" />
+    <circle cx="398" cy="28" r="1.5" fill="#FFFFFF" opacity="0.8" />
+    <path d="M 380,30 C 375,22 365,22 360,27 C 355,32 362,38 370,35" fill="none" stroke="url(#divGold)" stroke-width="1.5" />
+    <path d="M 420,30 C 425,22 435,22 440,27 C 445,32 438,38 430,35" fill="none" stroke="url(#divGold)" stroke-width="1.5" />
+    <g stroke="url(#divGold)" stroke-width="1.6" fill="none">
+      <polyline points="350,30 335,30 335,22 320,22 320,38 305,38 305,22 290,22 290,38 275,38 275,22 260,22 260,38 245,38 245,22 230,22 230,38 215,38 215,30 200,30" />
+      <line x1="320" y1="30" x2="305" y2="30" />
+      <line x1="290" y1="30" x2="275" y2="30" />
+      <line x1="260" y1="30" x2="245" y2="30" />
+      <line x1="230" y1="30" x2="215" y2="30" />
+    </g>
+    <g stroke="url(#divGold)" stroke-width="1.6" fill="none">
+      <polyline points="450,30 465,30 465,22 480,22 480,38 495,38 495,22 510,22 510,38 525,38 525,22 540,22 540,38 555,38 555,22 570,22 570,38 585,38 585,30 600,30" />
+      <line x1="480" y1="30" x2="495" y2="30" />
+      <line x1="510" y1="30" x2="525" y2="30" />
+      <line x1="540" y1="30" x2="555" y2="30" />
+      <line x1="570" y1="30" x2="585" y2="30" />
+    </g>
+    <line x1="200" y1="27" x2="65" y2="27" stroke="url(#divGold)" stroke-width="1.2" />
+    <line x1="200" y1="33" x2="65" y2="33" stroke="url(#divGold)" stroke-width="1.2" />
+    <circle cx="100" cy="30" r="2.5" fill="url(#divGold)" />
+    <circle cx="140" cy="30" r="2" fill="url(#divGold)" />
+    <line x1="600" y1="27" x2="735" y2="27" stroke="url(#divGold)" stroke-width="1.2" />
+    <line x1="600" y1="33" x2="735" y2="33" stroke="url(#divGold)" stroke-width="1.2" />
+    <circle cx="700" cy="30" r="2.5" fill="url(#divGold)" />
+    <circle cx="660" cy="30" r="2" fill="url(#divGold)" />
+    <rect x="55" y="25" width="10" height="10" rx="1.5" transform="rotate(45, 60, 30)" fill="url(#divGold)" />
+    <circle cx="45" cy="30" r="3" fill="url(#divGold)" />
+    <circle cx="36" cy="30" r="2" fill="url(#divGold)" />
+    <circle cx="29" cy="30" r="1.2" fill="url(#divGold)" />
+    <rect x="735" y="25" width="10" height="10" rx="1.5" transform="rotate(45, 740, 30)" fill="url(#divGold)" />
+    <circle cx="755" cy="30" r="3" fill="url(#divGold)" />
+    <circle cx="764" cy="30" r="2" fill="url(#divGold)" />
+    <circle cx="771" cy="30" r="1.2" fill="url(#divGold)" />
+  </g>
+</svg>

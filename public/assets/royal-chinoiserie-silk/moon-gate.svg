@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="gateGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF2" />
+      <stop offset="25%" stop-color="#FCEAB3" />
+      <stop offset="55%" stop-color="#D4AF37" />
+      <stop offset="85%" stop-color="#A88124" />
+      <stop offset="100%" stop-color="#6E500F" />
+    </linearGradient>
+    <linearGradient id="gateJade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1D5440" />
+      <stop offset="50%" stop-color="#0F2E22" />
+      <stop offset="100%" stop-color="#071912" />
+    </linearGradient>
+    <linearGradient id="gateCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9E1824" />
+      <stop offset="50%" stop-color="#680C14" />
+      <stop offset="100%" stop-color="#380408" />
+    </linearGradient>
+    <filter id="gateGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#D4AF37" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#FCEAB3" flood-opacity="0.2" />
+    </filter>
+  </defs>
+  <g id="moon-gate-main" filter="url(#gateGlow)">
+    <path d="M 50,110 Q 220,135 400,135 Q 580,135 750,110 Q 770,95 780,75 Q 755,100 730,118 Q 570,145 400,145 Q 230,145 70,118 Q 45,100 20,75 Q 30,95 50,110 Z" fill="url(#gateGold)" stroke="#6E500F" stroke-width="1.5" />
+    <path d="M 80,128 Q 235,152 400,152 Q 565,152 720,128 L 710,148 Q 560,170 400,170 Q 240,170 90,148 Z" fill="url(#gateJade)" stroke="url(#gateGold)" stroke-width="1.2" />
+    <rect x="110" y="170" width="580" height="28" rx="4" fill="url(#gateCrimson)" stroke="url(#gateGold)" stroke-width="2" />
+    <rect x="330" y="174" width="140" height="20" rx="3" fill="url(#gateGold)" stroke="#6E500F" stroke-width="1" />
+    <circle cx="342" cy="184" r="3.5" fill="#680C14" />
+    <circle cx="458" cy="184" r="3.5" fill="#680C14" />
+    <circle cx="400" cy="184" r="4.5" fill="#680C14" />
+    <circle cx="400" cy="460" r="292" fill="none" stroke="url(#gateGold)" stroke-width="14" />
+    <circle cx="400" cy="460" r="280" fill="none" stroke="url(#gateGold)" stroke-width="2" stroke-dasharray="3, 8" />
+    <circle cx="400" cy="460" r="270" fill="none" stroke="url(#gateJade)" stroke-width="6" />
+    <circle cx="400" cy="460" r="260" fill="none" stroke="url(#gateGold)" stroke-width="3.5" />
+    <g stroke="url(#gateGold)" stroke-width="1.5" fill="none" opacity="0.85">
+      <line x1="60" y1="198" x2="60" y2="720" />
+      <line x1="60" y1="720" x2="160" y2="720" />
+      <polyline points="60,240 100,240 100,280 60,280" />
+      <polyline points="100,280 140,280 140,320 100,320" />
+      <polyline points="60,320 100,320 100,360 60,360" />
+      <polyline points="60,400 100,400 100,440 60,440" />
+      <polyline points="60,480 100,480 100,520 60,520" />
+      <polyline points="60,560 100,560 100,600 60,600" />
+      <polyline points="60,640 100,640 100,680 60,680" />
+      <line x1="60" y1="210" x2="110" y2="260" />
+      <line x1="60" y1="290" x2="110" y2="340" />
+      <line x1="60" y1="370" x2="110" y2="420" />
+      <line x1="60" y1="450" x2="110" y2="500" />
+      <line x1="60" y1="530" x2="110" y2="580" />
+      <line x1="60" y1="610" x2="110" y2="660" />
+    </g>
+    <g stroke="url(#gateGold)" stroke-width="1.5" fill="none" opacity="0.85">
+      <line x1="740" y1="198" x2="740" y2="720" />
+      <line x1="640" y1="720" x2="740" y2="720" />
+      <polyline points="740,240 700,240 700,280 740,280" />
+      <polyline points="700,280 660,280 660,320 700,320" />
+      <polyline points="740,320 700,320 700,360 740,360" />
+      <polyline points="740,400 700,400 700,440 740,440" />
+      <polyline points="740,480 700,480 700,520 740,520" />
+      <polyline points="740,560 700,560 700,600 740,600" />
+      <polyline points="740,640 700,640 700,680 740,680" />
+      <line x1="740" y1="210" x2="690" y2="260" />
+      <line x1="740" y1="290" x2="690" y2="340" />
+      <line x1="740" y1="370" x2="690" y2="420" />
+      <line x1="740" y1="450" x2="690" y2="500" />
+      <line x1="740" y1="530" x2="690" y2="580" />
+      <line x1="740" y1="610" x2="690" y2="660" />
+    </g>
+    <path d="M 230,225 C 210,210 180,215 175,235 C 170,255 195,265 210,255 C 220,270 245,270 255,255 C 265,240 250,225 230,225 Z" fill="url(#gateGold)" stroke="#6E500F" stroke-width="1.2" />
+    <path d="M 230,225 C 220,235 200,240 185,238" fill="none" stroke="#6E500F" stroke-width="1" />
+    <path d="M 570,225 C 590,210 620,215 625,235 C 630,255 605,265 590,255 C 580,270 555,270 545,255 C 535,240 550,225 570,225 Z" fill="url(#gateGold)" stroke="#6E500F" stroke-width="1.2" />
+    <path d="M 570,225 C 580,235 600,240 615,238" fill="none" stroke="#6E500F" stroke-width="1" />
+    <g stroke="url(#gateGold)" stroke-width="1.6" fill="none">
+      <path d="M 280,198 Q 320,218 350,238 Q 370,252 385,278" />
+      <path d="M 330,224 Q 352,212 376,218" />
+    </g>
+    <g fill="#FAF7F0" stroke="url(#gateGold)" stroke-width="0.8">
+      <circle cx="343" cy="232" r="4" />
+      <circle cx="355" cy="232" r="4" />
+      <circle cx="341" cy="242" r="4" />
+      <circle cx="357" cy="242" r="4" />
+      <circle cx="349" cy="246" r="4" />
+      <circle cx="349" cy="238" r="3" fill="url(#gateCrimson)" />
+      <circle cx="374" cy="214" r="4" fill="#FAF7F0" />
+      <circle cx="384" cy="276" r="3.5" fill="#FAF7F0" />
+    </g>
+    <rect x="90" y="720" width="620" height="30" rx="4" fill="url(#gateJade)" stroke="url(#gateGold)" stroke-width="2" />
+    <rect x="60" y="750" width="680" height="18" rx="2" fill="url(#gateGold)" />
+  </g>
+</svg>

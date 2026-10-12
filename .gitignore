@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# root test / scratch artifacts
+/*.png
+/*.webp
+/*.mp4
+/*.log
+/*_frames/
+/__pycache__/
+/scratch/
+/qa-artifacts/
+/graphify-out/
+/tasks/
+

@@ -1,0 +1,26 @@
+[config]
+version = 1
+
+[[check]]
+id = "COPY-EMDASH"
+target = "src/**/*.{tsx,ts,jsx,js}"
+message = "Pastikan tidak ada karakter em dash (—) pada copy UI sesuai aturan antislop R-02."
+severity = "block"
+
+[[check]]
+id = "COPY-BUZZWORDS"
+target = "src/**/*.{tsx,ts,jsx,js}"
+message = "Hindari kata klise AI marketing: revolutionary, seamless, next-generation, cutting-edge, AI-powered."
+severity = "block"
+
+[[check]]
+id = "UI-MOBILE-TARGET"
+target = "src/components/**/*.tsx"
+message = "Seluruh tombol interaktif harus memiliki area sentuh minimum 44px dan lolos uji mobile responsive (R-03)."
+severity = "block"
+
+[[check]]
+id = "SEC-SECRETS"
+target = "**/*.env*"
+message = "Tidak ada kredensial production atau secret hardcoded di file environment."
+severity = "block"

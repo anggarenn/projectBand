@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <!-- Radiant Lunar Aura Bloom -->
+    <filter id="lunarAura" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Metallic Celestial Gold Shimmer Gradient -->
+    <linearGradient id="moonGold" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF0" />
+      <stop offset="25%" stop-color="#FCEAB3" />
+      <stop offset="55%" stop-color="#F3D082" />
+      <stop offset="85%" stop-color="#CFA34A" />
+      <stop offset="100%" stop-color="#8C6618" />
+    </linearGradient>
+
+    <!-- Silver Starlight Rim Gradient -->
+    <linearGradient id="silverRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="50%" stop-color="#E2DCFF" />
+      <stop offset="100%" stop-color="#A595E2" />
+    </linearGradient>
+
+    <!-- Starlight Glow Drop Shadow -->
+    <filter id="starGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#F3D082" flood-opacity="0.7" />
+      <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="#C8B6FF" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <g filter="url(#lunarAura)">
+    <!-- Outer Orbital Halo Ring -->
+    <circle cx="300" cy="300" r="235" fill="none" stroke="url(#silverRim)" stroke-width="1.2" stroke-dasharray="4, 10" opacity="0.45" />
+    <circle cx="300" cy="300" r="222" fill="none" stroke="url(#moonGold)" stroke-width="0.8" opacity="0.3" />
+
+    <!-- Radiant Starlight Rays emanating from Moon -->
+    <g stroke="url(#moonGold)" stroke-width="1.5" opacity="0.6">
+      <line x1="300" y1="30" x2="300" y2="70" />
+      <line x1="300" y1="530" x2="300" y2="570" />
+      <line x1="30" y1="300" x2="70" y2="300" />
+      <line x1="530" y1="300" x2="570" y2="300" />
+      <line x1="110" y1="110" x2="140" y2="140" />
+      <line x1="460" y1="460" x2="490" y2="490" />
+      <line x1="110" y1="490" x2="140" y2="460" />
+      <line x1="460" y1="140" x2="490" y2="110" />
+    </g>
+
+    <!-- Glowing Crescent Moon (Pure Mathematical Bézier Silhouette) -->
+    <!-- Outer arc from top to bottom, Inner arc sweeping back to create graceful crescent -->
+    <path d="M 300,75 
+             C 424,75 525,176 525,300 
+             C 525,424 424,525 300,525 
+             C 385,455 435,380 435,300 
+             C 435,220 385,145 300,75 Z" 
+          fill="url(#moonGold)" filter="url(#starGlow)" />
+
+    <!-- Silver Inner Edge Highlight Arc -->
+    <path d="M 300,75 C 385,145 435,220 435,300 C 435,380 385,455 300,525" 
+          fill="none" stroke="url(#silverRim)" stroke-width="3" opacity="0.75" />
+
+    <!-- Delicate Lunar Craters / Maria Texturing on Crescent Body -->
+    <g fill="#A87A1E" opacity="0.22">
+      <circle cx="445" cy="240" r="14" />
+      <circle cx="468" cy="285" r="18" />
+      <circle cx="452" cy="340" r="15" />
+      <circle cx="420" cy="390" r="12" />
+      <circle cx="425" cy="190" r="10" />
+    </g>
+
+    <!-- Starbursts & Constellation Orbs Orbiting the Moon -->
+    <!-- Primary North Star Burst (Top Left) -->
+    <g transform="translate(190, 190)" filter="url(#starGlow)">
+      <path d="M 0,-32 L 3,-6 L 30,0 L 3,6 L 0,32 L -3,6 L -30,0 L -3,-6 Z" fill="url(#silverRim)" />
+      <circle cx="0" cy="0" r="4" fill="#FFFFFF" />
+    </g>
+
+    <!-- Secondary Star Burst (Bottom Left) -->
+    <g transform="translate(230, 420)" filter="url(#starGlow)">
+      <path d="M 0,-22 L 2,-4 L 20,0 L 2,4 L 0,22 L -2,4 L -20,0 L -2,-4 Z" fill="url(#moonGold)" />
+      <circle cx="0" cy="0" r="3" fill="#FFFFFF" />
+    </g>
+
+    <!-- Floating Starlight Orbs -->
+    <circle cx="160" cy="300" r="3.5" fill="#FFF2C2" opacity="0.85" />
+    <circle cx="210" cy="260" r="2.5" fill="#E2DCFF" opacity="0.75" />
+    <circle cx="200" cy="350" r="2.8" fill="#FFF2C2" opacity="0.8" />
+    <circle cx="270" cy="300" r="2.2" fill="#E2DCFF" opacity="0.7" />
+  </g>
+</svg>
