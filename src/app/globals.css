@@ -978,5 +978,126 @@ body {
   text-shadow: 0 0 8px #00F0FF, 0 0 20px #00F0FF;
 }
 
+@keyframes vuNeedle {
+  0% { transform: rotate(-32deg); }
+  20% { transform: rotate(12deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(28deg); }
+  80% { transform: rotate(5deg); }
+  100% { transform: rotate(-32deg); }
+}
 
+@keyframes stickerFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
 
+@keyframes scanlineSweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes glitchJitter {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -2px); }
+  80% { transform: translate(1px, 2px); }
+}
+
+@keyframes badgePulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(217, 4, 41, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(217, 4, 41, 0);
+  }
+}
+
+@keyframes neonJukeboxBorder {
+  0%, 100% {
+    border-color: #FF0055;
+    box-shadow: 
+      0 0 20px #FF0055,
+      0 0 50px rgba(255, 0, 85, 0.4),
+      inset 0 0 30px rgba(255, 0, 85, 0.25);
+  }
+  50% {
+    border-color: #FFE500;
+    box-shadow: 
+      0 0 25px #FFE500,
+      0 0 60px rgba(255, 229, 0, 0.5),
+      0 0 90px rgba(0, 240, 255, 0.35),
+      inset 0 0 35px rgba(255, 229, 0, 0.3);
+  }
+}
+
+.animate-vu-needle {
+  animation: vuNeedle 0.45s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  transform-origin: 50% 100%;
+}
+
+.animate-sticker-float {
+  animation: stickerFloat 4s ease-in-out infinite;
+}
+
+.animate-glitch-jitter:hover {
+  animation: glitchJitter 0.2s steps(2) infinite;
+}
+
+.animate-badge-pulse {
+  animation: badgePulseGlow 1.8s infinite;
+}
+
+.animate-neon-jukebox-glow {
+  animation: neonJukeboxBorder 2.5s ease-in-out infinite;
+}
+
+@keyframes windSway {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50% { transform: rotate(1deg) translateY(-3px); }
+}
+
+@keyframes windSwayReverse {
+  0%, 100% { transform: rotate(2deg) translateY(0); }
+  50% { transform: rotate(-1.5deg) translateY(-3px); }
+}
+
+@keyframes neonSignBlink {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #FF0055); }
+  45% { opacity: 0.95; filter: drop-shadow(0 0 12px #FF0055); }
+  46% { opacity: 0.2; filter: none; }
+  48% { opacity: 1; filter: drop-shadow(0 0 10px #FF0055); }
+  70% { opacity: 0.3; filter: none; }
+  72% { opacity: 1; filter: drop-shadow(0 0 14px #FF0055); }
+}
+
+@keyframes ledBounce {
+  0%, 100% { transform: scaleY(0.2); }
+  50% { transform: scaleY(1); }
+}
+
+.animate-wind-sway {
+  animation: windSway 5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-wind-sway-reverse {
+  animation: windSwayReverse 6s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-neon-sign-blink {
+  animation: neonSignBlink 3.5s infinite;
+}
+
+.animate-led-bounce {
+  animation: ledBounce 0.4s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}

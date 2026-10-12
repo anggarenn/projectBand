@@ -347,6 +347,57 @@ function PunkSkullWithMic({
   );
 }
 
+// ─── ANALOG VU METER GAUGE COMPONENT ──────────────────────────────────────
+function AnalogVUMeter({
+  channel = "L",
+  isPlaying,
+  level = 5
+}: {
+  channel: string;
+  isPlaying: boolean;
+  level: number;
+}) {
+  const needleAngle = isPlaying ? -28 + level * 7 : -34;
+  return (
+    <div className="bg-[#101216] border-2 border-black p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[160px]">
+      <div className="flex justify-between items-center w-full text-[9px] font-mono text-[#888] font-bold px-1 mb-1">
+        <span className="text-[#FFE500]">CH {channel}</span>
+        <span className={isPlaying ? "text-[#00FF66] animate-pulse" : "text-[#555]"}>
+          {isPlaying ? "LIVE" : "IDLE"}
+        </span>
+      </div>
+      {/* Dial Face */}
+      <div className="relative w-full h-16 bg-[#F5EEDC] border border-black rounded-t overflow-hidden shadow-inner flex flex-col justify-end items-center">
+        <div className={`absolute inset-0 transition-opacity duration-300 ${isPlaying ? "bg-[#FFE500]/25" : "bg-[#FFE500]/5"}`} />
+        <svg viewBox="0 0 100 50" className="w-full h-full absolute inset-0">
+          <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="1.5" />
+          <path d="M 68 20 A 35 35 0 0 1 85 45" fill="none" stroke="#D90429" strokeWidth="2.5" />
+          <text x="18" y="42" fontSize="5" fill="#555" fontWeight="bold">-20</text>
+          <text x="32" y="27" fontSize="5" fill="#555" fontWeight="bold">-10</text>
+          <text x="50" y="19" fontSize="5" fill="#555" fontWeight="bold">-3</text>
+          <text x="68" y="20" fontSize="5" fill="#D90429" fontWeight="bold">0</text>
+          <text x="80" y="32" fontSize="5" fill="#D90429" fontWeight="bold">+3</text>
+          <text x="50" y="34" fontSize="6" fill="#111" fontWeight="900" textAnchor="middle">VU</text>
+        </svg>
+        {/* Needle */}
+        <div
+          className={`absolute bottom-0 w-0.5 h-14 bg-[#111] origin-bottom transition-transform duration-100 ease-out z-10 ${
+            isPlaying ? "animate-vu-needle" : ""
+          }`}
+          style={{ transform: `rotate(${needleAngle}deg)` }}
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-[#D90429] -ml-0.5 -mt-0.5" />
+        </div>
+        <div className="w-3.5 h-2 rounded-t-full bg-[#111] z-20" />
+      </div>
+      <div className="mt-1 flex items-center justify-between w-full text-[7.5px] font-mono text-[#777]">
+        <span>-20dB</span>
+        <span className="text-[#D90429] font-bold">PEAK +3dB</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── TYPES & DATA ──────────────────────────────────────────────────────────
 
 interface Track {
@@ -1178,19 +1229,26 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         id="hero"
         className="relative pt-10 pb-20 md:pt-16 md:pb-28 border-b-4 border-black z-10 overflow-hidden"
       >
+        {/* Rotating Circular Punk Stamp Seal */}
+        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center animate-[spin_18s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+          <div className="text-[10px] font-black uppercase text-center leading-tight tracking-wider text-black">
+            ⚡ 100% DIY ⚡<br />TANGERANG<br />HARDCORE
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column: Zine Typography & Statement */}
             <div className="lg:col-span-7 space-y-6">
               {/* Badges Bar with DIY Stickers */}
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="bg-[#0D0D0D] text-[#FFE500] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-black shadow-[2px_2px_0px_#D90429]">
+                <span className="bg-[#0D0D0D] text-[#FFE500] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-black shadow-[2px_2px_0px_#D90429] animate-sticker-float">
                   HIGHLY MOTIVATED PUNK
                 </span>
-                <span className="bg-white text-black text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#0D0D0D]">
+                <span className="bg-white text-black text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#0D0D0D] animate-sticker-float [animation-delay:1.5s]">
                   TANGERANG HARDCORE SCENE
                 </span>
-                <span className="bg-[#D90429] text-white text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#FFE500]">
+                <span className="bg-[#D90429] text-white text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#FFE500] animate-badge-pulse">
                   CASSETTE C-30 OUT NOW
                 </span>
               </div>
@@ -1203,20 +1261,20 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-black">
                   SILLY N <br />
-                  <span className="inline-block bg-black text-white px-3 my-1 -rotate-1 border-2 border-black shadow-[6px_6px_0px_#D90429]">
+                  <span className="inline-block bg-black text-white px-3 my-1 -rotate-1 border-2 border-black shadow-[6px_6px_0px_#D90429] hover:animate-glitch-jitter cursor-default">
                     VALLEY
                   </span>
                 </h1>
 
                 <div className="pt-2">
-                  <span className="inline-block bg-[#D90429] text-white text-lg sm:text-2xl font-black px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#000]">
+                  <span className="inline-block bg-[#D90429] text-white text-lg sm:text-2xl font-black px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#000] animate-neon-sign-blink">
                     &quot;BAND PUNK TAPI KOK NGONTEN!?&quot;
                   </span>
                 </div>
               </div>
 
               {/* Manifest Paper Paragraph */}
-              <div className="relative bg-[#FAF8F5] border-3 border-black p-5 shadow-[6px_6px_0px_#0D0D0D]">
+              <div className="relative bg-[#FAF8F5] border-3 border-black p-5 shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#FFE500] transition-shadow">
                 <DuctTape className="-top-3 left-8 w-20 -rotate-2" />
                 <DuctTape className="-bottom-3 right-8 w-20 rotate-1" />
                 <p className="text-black text-sm sm:text-base leading-relaxed font-mono">
@@ -1231,9 +1289,15 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               <div className="pt-2 flex flex-wrap gap-4 items-center">
                 <a
                   href="#music"
-                  className="bg-[#FFE500] hover:bg-[#ebd300] text-black px-6 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#D90429] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2"
+                  className="bg-[#FFE500] hover:bg-[#ebd300] text-black px-6 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#D90429] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2 group"
                 >
-                  <Play className="w-4 h-4 fill-black" /> Putar Kaset C-30
+                  <Play className="w-4 h-4 fill-black group-hover:scale-125 transition-transform" />
+                  <span>Putar Kaset C-30</span>
+                  <div className="flex items-end gap-0.5 h-3.5 ml-1">
+                    <span className="w-1 bg-black animate-led-bounce h-2.5 [animation-delay:0.1s]" />
+                    <span className="w-1 bg-black animate-led-bounce h-3.5 [animation-delay:0.3s]" />
+                    <span className="w-1 bg-black animate-led-bounce h-2 [animation-delay:0.2s]" />
+                  </div>
                 </a>
                 <a
                   href="#photos"
@@ -1251,19 +1315,19 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
               {/* Quick DIY Stats Badges */}
               <div className="pt-4 grid grid-cols-3 gap-3 border-t-2 border-dashed border-black max-w-lg">
-                <div className="bg-white border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-1">
+                <div className="bg-white border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
                   <div className="text-2xl font-black text-black">4 TRACKS</div>
                   <div className="text-[10px] text-[#555] font-bold uppercase">
                     Kaset Pita C-30
                   </div>
                 </div>
-                <div className="bg-[#FFE500] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] rotate-1">
+                <div className="bg-[#FFE500] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
                   <div className="text-2xl font-black text-black">100% DIY</div>
                   <div className="text-[10px] text-black font-bold uppercase">
                     Swadaya Mandiri
                   </div>
                 </div>
-                <div className="bg-[#D90429] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-2">
+                <div className="bg-[#D90429] border-2 border-black p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
                   <div className="text-2xl font-black text-white">ZERO</div>
                   <div className="text-[10px] text-white font-bold uppercase">
                     Kekerasan Moshpit
@@ -1274,19 +1338,20 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
             {/* Right Column: Authentic Polaroid & Gigs Flyer Collage */}
             <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md">
+              <div className="relative mx-auto max-w-md animate-sticker-float">
                 {/* Background Duct Tape Strips */}
                 <DuctTape className="-top-4 left-10 w-28 -rotate-6" />
                 <DuctTape className="-bottom-4 right-12 w-28 rotate-3" />
 
                 {/* Pinboard Layer: Photo 1 (Stage dive) */}
-                <div className="bg-white border-3 border-black p-3.5 shadow-[8px_8px_0px_#0D0D0D] rotate-2 relative z-20">
+                <div className="bg-white border-3 border-black p-3.5 shadow-[8px_8px_0px_#0D0D0D] rotate-2 relative z-20 group hover:rotate-0 transition-transform duration-300">
                   <div className="aspect-4/3 bg-black overflow-hidden border-2 border-black relative">
                     <img
                       src="/assets/silly-n-valley/photo_1.jpg"
                       alt="Silly N Valley Stage Dive at HALA Koffie"
-                      className="w-full h-full object-cover contrast-110"
+                      className="w-full h-full object-cover contrast-110 group-hover:scale-105 transition-transform duration-300"
                     />
+
                     <div className="absolute bottom-2 left-2 bg-[#D90429] text-white text-[10px] font-black px-2 py-0.5 border border-black uppercase">
                       HALA KOFFIE MOSHPIT
                     </div>
@@ -1587,164 +1652,153 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
           </div>
 
           {/* CHUNKY NEON PUNK JUKEBOX HOUSING */}
-          <div className="bg-[#181A22] border-4 border-[#FF0055] p-5 sm:p-8 animate-neon-box relative max-w-5xl mx-auto rounded-none shadow-[0_0_35px_rgba(255,0,85,0.4)]">
-            {/* Neon Corner Brackets */}
-            <div className="absolute top-2 left-2 w-6 h-6 border-t-3 border-l-3 border-[#00F0FF] pointer-events-none" />
-            <div className="absolute top-2 right-2 w-6 h-6 border-t-3 border-r-3 border-[#FFE500] pointer-events-none" />
-            <div className="absolute bottom-2 left-2 w-6 h-6 border-b-3 border-l-3 border-[#FFE500] pointer-events-none" />
-            <div className="absolute bottom-2 right-2 w-6 h-6 border-b-3 border-r-3 border-[#00F0FF] pointer-events-none" />
+          <div className="bg-[#181A22] border-4 border-[#FF0055] p-5 sm:p-8 animate-neon-jukebox-glow relative max-w-5xl mx-auto rounded-none shadow-[0_0_45px_rgba(255,0,85,0.5)]">
+            {/* Glowing Neon Side Pillars */}
+            <div className="absolute top-0 bottom-0 -left-2 w-2.5 bg-gradient-to-b from-[#FF0055] via-[#FFE500] to-[#00F0FF] shadow-[0_0_15px_#FF0055] hidden sm:block pointer-events-none animate-pulse" />
+            <div className="absolute top-0 bottom-0 -right-2 w-2.5 bg-gradient-to-b from-[#00F0FF] via-[#FFE500] to-[#FF0055] shadow-[0_0_15px_#00F0FF] hidden sm:block pointer-events-none animate-pulse [animation-delay:1s]" />
 
-            {/* TOP NEON ARCADE BANNER & REALTIME VU METERS */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 border-b-2 border-[#FF0055]/40 font-mono">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-black px-3 py-1.5 border-2 border-[#FFE500] shadow-[0_0_12px_rgba(255,229,0,0.6)]">
-                  <Zap className="w-4 h-4 text-[#FFE500] fill-current animate-bounce" />
-                  <span className="text-xs font-black uppercase text-[#FFE500] tracking-wider animate-neon-flicker neon-text-glow">
-                    ⚡ NEON PUNK JUKEBOX ⚡
+            {/* Neon Corner Brackets */}
+            <div className="absolute top-2 left-2 w-6 h-6 border-t-3 border-l-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
+            <div className="absolute top-2 right-2 w-6 h-6 border-t-3 border-r-3 border-[#FFE500] pointer-events-none shadow-[0_0_10px_#FFE500]" />
+            <div className="absolute bottom-2 left-2 w-6 h-6 border-b-3 border-l-3 border-[#FFE500] pointer-events-none shadow-[0_0_10px_#FFE500]" />
+            <div className="absolute bottom-2 right-2 w-6 h-6 border-b-3 border-r-3 border-[#00F0FF] pointer-events-none shadow-[0_0_10px_#00F0FF]" />
+
+            {/* TOP ARCADE STAGE: DUAL ANALOG VU METERS + CENTER ANIMATED PUNK SKULL MASCOT */}
+            <div className="mb-6 pb-6 border-b-2 border-[#FF0055]/50 bg-[#101217] p-4 sm:p-6 border-2 border-[#2A2E39] shadow-inner relative overflow-hidden">
+              {/* Stage Lighting Flare */}
+              <div className="absolute inset-0 bg-radial from-[#FFE500]/10 via-transparent to-transparent pointer-events-none" />
+              
+              {/* Arcade Marquee Header Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-[#2A2E39]">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#FF0055] animate-ping" />
+                  <span className="font-mono text-xs sm:text-sm font-black text-[#FFE500] uppercase tracking-wider animate-neon-flicker neon-text-glow">
+                    ⚡ SILLY N VALLEY • LIVE PUNK JUKEBOX ⚡
                   </span>
                 </div>
-                <span className="hidden md:inline-block text-[11px] text-[#00F0FF] font-bold uppercase tracking-wider neon-cyan-glow">
-                  SOLID STATE TNG-C30 • 192KBPS BANDCAMP MASTER
-                </span>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-[#00F0FF] neon-cyan-glow">
+                  <span className="hidden sm:inline">FORMAT:</span>
+                  <span className="bg-black px-2 py-0.5 border border-[#00F0FF]">192KBPS BANDCAMP MASTER</span>
+                </div>
               </div>
 
-              {/* LIVE NEON SPECTRUM EQUALIZER BARS */}
-              <div className="flex items-center gap-3 bg-black/90 px-3.5 py-1.5 border border-[#00F0FF] shadow-[0_0_10px_rgba(0,240,255,0.3)]">
-                <span className="text-[10px] text-[#888] font-bold">SPECTRUM:</span>
-                <div className="flex items-end gap-1 h-5">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(bar => {
-                    const height = isPlaying
-                      ? `${Math.max(25, ((bar * 19 + playbackSec * 23) % 75) + 25)}%`
-                      : "25%";
-                    return (
-                      <div
-                        key={bar}
-                        className={`w-1.5 transition-all duration-150 ${
-                          bar % 3 === 0
-                            ? "bg-[#FF0055] shadow-[0_0_5px_#FF0055]"
-                            : bar % 2 === 0
-                            ? "bg-[#FFE500] shadow-[0_0_5px_#FFE500]"
-                            : "bg-[#00F0FF] shadow-[0_0_5px_#00F0FF]"
-                        }`}
-                        style={{ height }}
-                      />
-                    );
-                  })}
+              {/* 3-Column Arcade Stage: Left VU Meter + Center Skull with Mic + Right VU Meter */}
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                {/* Left Analog VU Meter */}
+                <div className="hidden md:flex flex-col items-center">
+                  <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
+                  <span className="text-[9px] font-mono text-[#888] mt-1 font-bold">LEFT MASTER</span>
                 </div>
+
+                {/* Center Mascot Performer: Tengkorak Punk Bawa Mic */}
+                <div className="flex-1 flex flex-col items-center justify-center relative">
+                  <PunkSkullWithMic
+                    isPlaying={isPlaying}
+                    bpm={activeTrack.bpm}
+                    currentTrackTitle={activeTrack.title}
+                  />
+                </div>
+
+                {/* Right Analog VU Meter */}
+                <div className="hidden md:flex flex-col items-center">
+                  <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
+                  <span className="text-[9px] font-mono text-[#888] mt-1 font-bold">RIGHT MASTER</span>
+                </div>
+              </div>
+
+              {/* Mobile VU Meters row */}
+              <div className="flex md:hidden justify-center gap-3 mt-4">
+                <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
+                <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
               </div>
             </div>
 
-            {/* JUKEBOX 2-COLUMN GRID: TENGKORAK PUNK BAWA MIC + CASSETTE WELL */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              {/* LEFT COLUMN (lg:col-span-4): TENGKORAK PUNK BAWA MIC MASCOT */}
-              <div className="lg:col-span-4 flex flex-col items-center justify-center bg-[#111218] border-2 border-[#00F0FF] p-4 shadow-[0_0_20px_rgba(0,240,255,0.25)] relative group">
-                <div className="absolute top-2 left-2 text-[9px] font-mono text-[#00F0FF] uppercase font-bold tracking-widest neon-cyan-glow">
-                  [PUNK VOCAL MASCOT]
-                </div>
-                <div className="absolute top-2 right-2 text-[9px] font-mono text-[#FFE500] uppercase font-bold">
-                  {activeTrack.bpm} BPM
-                </div>
-
-                {/* Animated Punk Skull Component */}
-                <PunkSkullWithMic
-                  isPlaying={isPlaying}
-                  bpm={activeTrack.bpm}
-                  currentTrackTitle={activeTrack.title}
-                />
-
-                <div className="mt-3 text-center text-[10px] font-mono text-[#8E95A5]">
-                  <span className="text-[#00F0FF] font-bold">SHURE 55SH MIC</span> • VOCAL HEADBANG
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN (lg:col-span-8): CASSETTE WELL & CONTROLS */}
-              <div className="lg:col-span-8">
-                {/* CASSETTE WELL / COMPARTMENT */}
-                <div className="bg-[#14161C] border-3 border-black p-4 sm:p-6 rounded-sm shadow-inner relative">
+            {/* FULL-WIDTH TAPE DECK WELL & CONTROLS */}
+            <div className="bg-[#14161C] border-3 border-black p-5 sm:p-7 shadow-inner relative">
               {/* Cassette Label Header */}
-              <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono">
+              <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000]">
                 <div>
                   <div className="text-[10px] uppercase font-bold tracking-widest text-[#333]">
-                    SIDE A • HIGH BIAS TYPE II • C-30
+                    SIDE A • HIGH BIAS TYPE II • C-30 ANALOG CASSETTE
                   </div>
                   <div className="text-xl sm:text-2xl font-black uppercase tracking-tight">
                     RANTAI REAKSI [EP]
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs font-black bg-black text-[#FFE500] px-2 py-0.5 border border-black">
+                  <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#D90429]">
                     SILLY N VALLEY
                   </div>
                   <div className="text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
                 </div>
               </div>
 
-              {/* TAPE CASSETTE WINDOW & ROTATING SPOOLS */}
-              <div className="my-5 bg-[#0B0C0E] border-3 border-black p-4 sm:p-6 relative rounded-sm">
-                {/* Magnetic tape band in center */}
-                <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-8 bg-[#33180D] opacity-75 pointer-events-none border-y border-[#552714]" />
+              {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
+              <div className="my-5 bg-[#0B0C0E] border-3 border-black p-5 sm:p-8 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)]">
+                {/* Backlight Glow inside cassette well */}
+                <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                  isPlaying ? "bg-[#00F0FF]/10" : "bg-transparent"
+                }`} />
 
-                {/* Cassette Tape Spools */}
-                <div className="grid grid-cols-2 gap-8 items-center max-w-md mx-auto relative z-10">
-                  {/* Left Spool */}
+                {/* Magnetic tape ribbon */}
+                <div className="absolute inset-x-12 top-1/2 -translate-y-1/2 h-9 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
+
+                {/* Rotating Spools */}
+                <div className="grid grid-cols-2 gap-10 items-center max-w-lg mx-auto relative z-10">
+                  {/* Left Spool (Supply) */}
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#20242E] border-4 border-[#3A404F] flex items-center justify-center relative shadow-lg ${
-                        isPlaying ? "animate-[spin_3.5s_linear_infinite]" : ""
+                      className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                        isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#111317] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-3 h-3 rounded-full bg-white/40" />
+                      <div className="w-12 h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                        <div className="w-4 h-4 rounded-full bg-[#FFE500]/60" />
                       </div>
-                      <div className="absolute w-full h-1 bg-[#4A5264] pointer-events-none" />
-                      <div className="absolute h-full w-1 bg-[#4A5264] pointer-events-none" />
+                      {/* Spokes */}
+                      <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
+                      <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
                     </div>
-                    <span className="text-[10px] text-[#717A8A] mt-2 font-bold uppercase">SUPPLY REEL</span>
+                    <span className="text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">SUPPLY REEL</span>
                   </div>
 
-                  {/* Right Spool */}
+                  {/* Right Spool (Take-up) */}
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#20242E] border-4 border-[#3A404F] flex items-center justify-center relative shadow-lg ${
-                        isPlaying ? "animate-[spin_3.5s_linear_infinite]" : ""
+                      className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
+                        isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#111317] border-2 border-white/20 flex items-center justify-center">
-                        <div className="w-3 h-3 rounded-full bg-white/40" />
+                      <div className="w-12 h-12 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
+                        <div className="w-4 h-4 rounded-full bg-[#FFE500]/60" />
                       </div>
-                      <div className="absolute w-full h-1 bg-[#4A5264] pointer-events-none" />
-                      <div className="absolute h-full w-1 bg-[#4A5264] pointer-events-none" />
+                      <div className="absolute w-full h-1.5 bg-[#3A4252] pointer-events-none" />
+                      <div className="absolute h-full w-1.5 bg-[#3A4252] pointer-events-none" />
                     </div>
-                    <span className="text-[10px] text-[#717A8A] mt-2 font-bold uppercase">TAKE-UP REEL</span>
+                    <span className="text-[10px] text-[#00F0FF] mt-2 font-mono font-bold uppercase">TAKE-UP REEL</span>
                   </div>
                 </div>
 
-                {/* Real Cassette Photo Thumb in Corner */}
-                <div className="absolute bottom-2 right-2 hidden sm:block w-16 h-12 border border-black overflow-hidden bg-black/60 opacity-80">
-                  <img
-                    src="/assets/silly-n-valley/photo_5.jpg"
-                    alt="Rantai Reaksi Cassette"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Digital Tape Counter */}
-                <div className="mt-4 text-center">
-                  <div className="inline-flex items-center gap-3 bg-[#151820] border-2 border-black px-3 py-1 font-mono text-xs">
-                    <span className="text-[#8E95A5]">COUNTER:</span>
-                    <span className="text-[#00FF66] font-bold tracking-widest">
+                {/* Digital VFD Tape Counter HUD */}
+                <div className="mt-5 text-center relative z-10">
+                  <div className="inline-flex items-center gap-3 bg-[#0A0C10] border-2 border-black px-4 py-1.5 font-mono text-xs shadow-[2px_2px_0px_#000]">
+                    <span className="text-[#888]">TAPE COUNTER:</span>
+                    <span className="text-[#00FF66] font-black tracking-widest text-sm">
                       {formatTime(playbackSec)} / {activeTrack.duration}
                     </span>
-                    <span className="text-[#FFE500] font-bold">[{activeTrack.bpm} BPM]</span>
+                    <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
+                    <span className="text-[#FF0055] font-black uppercase text-[10px] hidden sm:inline">
+                      {activeTrack.energy}
+                    </span>
                   </div>
                 </div>
               </div>
 
               {/* NOW PLAYING TRACK STRIP */}
-              <div className="bg-[#111318] border-2 border-black p-4 flex flex-wrap items-center justify-between gap-4 font-mono">
+              <div className="bg-[#0F1116] border-2 border-black p-4 flex flex-wrap items-center justify-between gap-4 font-mono shadow-[2px_2px_0px_#000]">
                 <div>
                   <div className="text-[11px] text-[#FFE500] font-bold uppercase">
-                    NOW PLAYING • TRACK #{activeTrack.id} OF 4
+                    NOW PLAYING • TRACK #{activeTrack.id} OF 6
                   </div>
                   <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
                     {activeTrack.title}
@@ -1754,14 +1808,14 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="bg-[#D90429] text-white border border-black px-2.5 py-1 text-xs font-bold uppercase">
+                  <span className="bg-[#D90429] text-white border border-black px-2.5 py-1 text-xs font-bold uppercase shadow-[2px_2px_0px_#000]">
                     {activeTrack.energy}
                   </span>
                   <button
                     onClick={() => setLyricsOpen(!lyricsOpen)}
-                    className="bg-[#282B33] hover:bg-[#343842] text-white px-3 py-1 text-xs font-bold border border-black flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="bg-[#22252D] hover:bg-[#2C303A] text-white px-3 py-1.5 text-xs font-bold border border-black flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_#000]"
                   >
-                    <FileText className="w-3 h-3 text-[#FFE500]" />
+                    <FileText className="w-3.5 h-3.5 text-[#FFE500]" />
                     {lyricsOpen ? "Tutup Lirik" : "Baca Lirik"}
                   </button>
                 </div>
@@ -1780,10 +1834,30 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 preload="auto"
               />
 
-              {/* PROGRESS BAR */}
-              <div className="mt-3">
+              {/* DANCING NEON SPECTRUM EQUALIZER BARS & SEEK BAR */}
+              <div className="mt-4">
+                <div className="flex items-end gap-1 h-6 mb-1.5 px-1">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(bar => {
+                    const height = isPlaying
+                      ? `${Math.max(20, ((bar * 23 + playbackSec * 29) % 80) + 20)}%`
+                      : "20%";
+                    return (
+                      <div
+                        key={bar}
+                        className={`flex-1 transition-all duration-150 ${
+                          bar % 3 === 0
+                            ? "bg-[#FF0055]"
+                            : bar % 2 === 0
+                            ? "bg-[#FFE500]"
+                            : "bg-[#00F0FF]"
+                        }`}
+                        style={{ height }}
+                      />
+                    );
+                  })}
+                </div>
                 <div
-                  className="w-full bg-[#0E1014] h-2.5 rounded-none overflow-hidden border border-black cursor-pointer"
+                  className="w-full bg-[#0A0C10] h-3 rounded-none overflow-hidden border border-black cursor-pointer shadow-inner"
                   onClick={e => {
                     if (!audioRef.current) return;
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -1796,7 +1870,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   title="Klik untuk seek posisi audio"
                 >
                   <div
-                    className="bg-gradient-to-r from-[#FFE500] via-[#00FF66] to-[#D90429] h-full transition-all duration-150"
+                    className="bg-gradient-to-r from-[#FFE500] via-[#00F0FF] to-[#FF0055] h-full transition-all duration-150"
                     style={{
                       width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
                     }}
@@ -1804,13 +1878,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
               </div>
 
-              {/* HEAVY TACTILE PHYSICAL TRANSPORT BUTTONS */}
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black">
-                {/* Left Controls: Physical Buttons */}
-                <div className="flex items-center gap-2">
+              {/* HEAVY TACTILE TRANSPORT BUTTONS */}
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-black/80">
+                {/* Left Controls: Buttons */}
+                <div className="flex items-center gap-3">
                   <button
                     onClick={handlePrevTrack}
-                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
+                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Sebelumnya"
                     aria-label="Previous track"
                   >
@@ -1819,10 +1893,10 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <button
                     onClick={togglePlayPause}
-                    className={`px-7 py-3 font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
+                    className={`px-8 py-3 font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
                       isPlaying
-                        ? "bg-[#D90429] text-white shadow-[4px_4px_0px_#FFE500]"
-                        : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#D90429]"
+                        ? "bg-[#FF0055] text-white shadow-[4px_4px_0px_#FFE500] animate-pulse"
+                        : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#FF0055]"
                     }`}
                   >
                     {isPlaying ? (
@@ -1838,7 +1912,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <button
                     onClick={handleNextTrack}
-                    className="bg-[#3A3E46] hover:bg-[#464B55] active:bg-[#25282E] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
+                    className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform font-black text-xs uppercase cursor-pointer"
                     title="Track Selanjutnya"
                     aria-label="Next track"
                   >
@@ -1846,9 +1920,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </button>
                 </div>
 
-                {/* Right Controls: Volume Slider & Status */}
-                <div className="flex items-center gap-4 text-xs">
-                  <div className="flex items-center gap-2 bg-[#121417] px-3 py-2 border border-black">
+                {/* Right Controls: Volume */}
+                <div className="flex items-center gap-4 text-xs font-mono">
+                  <div className="flex items-center gap-2 bg-[#0E1015] px-3 py-2 border border-black shadow-[2px_2px_0px_#000]">
                     <button
                       onClick={() => setIsMuted(!isMuted)}
                       className="text-[#8E95A5] hover:text-[#FFE500] cursor-pointer"
@@ -1885,7 +1959,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               {/* LYRICS DRAWER ACCORDION */}
               {lyricsOpen && (
                 <div className="mt-6 pt-6 border-t-2 border-dashed border-[#444] animate-fadeIn">
-                  <div className="bg-[#0C0D11] border-2 border-black p-5 font-mono text-xs sm:text-sm">
+                  <div className="bg-[#0C0D11] border-2 border-black p-5 font-mono text-xs sm:text-sm shadow-[3px_3px_0px_#000]">
                     <div className="flex justify-between items-center mb-3 pb-2 border-b border-[#222]">
                       <span className="text-[#FFE500] font-black uppercase flex items-center gap-2">
                         <Flame className="w-4 h-4 text-[#D90429]" /> Lirik & Info: {activeTrack.title}
@@ -1901,8 +1975,6 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 </div>
               )}
             </div>
-          </div>
-        </div>
 
             {/* TRACKLIST SELECTION J-CARD BUTTONS (6 TRACKS DARI BANDCAMP) */}
             <div className="mt-6">
@@ -1955,23 +2027,30 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
       </section>
 
       {/* ─── SECTION 4: MANIFESTO & PHILOSOPHY (TYPEWRITER ESSAY) ──────────── */}
-      <section id="manifesto" className="py-20 border-b-4 border-black bg-[#F5F2EB] relative">
+      <section id="manifesto" className="py-20 border-b-4 border-black bg-[#F5F2EB] relative overflow-hidden">
+        {/* Rotating Circular Seal in Manifesto */}
+        <div className="hidden lg:flex absolute -top-4 -right-4 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D90429] text-white items-center justify-center animate-[spin_22s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+          <div className="text-[9px] font-black uppercase text-center leading-tight tracking-widest px-1">
+            ★ NO GATEKEEPING ★<br />100% DIY<br />PUNK ETHOS
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Narrative Column */}
             <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
+              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
                 <Flame className="w-3.5 h-3.5" /> SURAT TERBUKA & MANIFESTO
               </div>
 
               <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight leading-tight text-black">
                 Band Punk Tapi <br />
-                <span className="bg-[#FFE500] text-black px-2 border-2 border-black shadow-[3px_3px_0px_#000]">
+                <span className="inline-block bg-[#FFE500] text-black px-2 border-2 border-black shadow-[3px_3px_0px_#000] hover:animate-glitch-jitter cursor-default">
                   Kok Ngonten!?
                 </span>
               </h2>
 
-              <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed bg-white border-3 border-black p-6 shadow-[6px_6px_0px_#0D0D0D] relative">
+              <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed bg-white border-3 border-black p-6 shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#FFE500] transition-shadow relative">
                 <DuctTape className="-top-3 left-10 w-20 -rotate-2" />
                 <p>
                   Pertanyaan ini paling sering dilempar: <em className="font-bold">&quot;Katanya band punk rock, tapi kok rajin bikin reels, ngonten TikTok, dan aktif di algoritma? Kenapa nggak sembunyi di gorong-gorong aja?&quot;</em>
@@ -1985,12 +2064,13 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Quote Sticker */}
-              <div className="bg-[#0D0D0D] text-white border-2 border-black p-5 shadow-[5px_5px_0px_#FFE500] relative text-sm">
+              <div className="bg-[#0D0D0D] text-white border-2 border-black p-5 shadow-[5px_5px_0px_#FFE500] relative text-sm animate-sticker-float">
                 <div className="font-bold italic">
                   &quot;Kami bikin konten bukan demi jadi selebriti, tapi supaya anak muda Tangerang tahu kalau mereka punya rumah dan distorsi yang siap merangkul mereka kapan saja.&quot;
                 </div>
-                <div className="mt-2 text-[#FFE500] text-xs font-black uppercase">
-                  (Silly N Valley Official Statement)
+                <div className="mt-2 text-[#FFE500] text-xs font-black uppercase flex items-center justify-between">
+                  <span>(Silly N Valley Official Statement)</span>
+                  <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
                 </div>
               </div>
             </div>
@@ -1998,7 +2078,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             {/* Right Bento Grid of Core Values */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Card 1: Safe Space */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative">
+              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D90429] transition-all">
                 <DuctTape className="-top-3 right-6 w-14 rotate-6" />
                 <div className="w-10 h-10 bg-[#D90429] text-white border-2 border-black flex items-center justify-center font-black">
                   <ShieldCheck className="w-5 h-5" />
@@ -2012,7 +2092,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Card 2: DIY Culture */}
-              <div className="bg-[#FFE500] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative">
+              <div className="bg-[#FFE500] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#000] transition-all">
                 <DuctTape className="-top-3 left-6 w-14 -rotate-3" color="grey" />
                 <div className="w-10 h-10 bg-black text-[#FFE500] border-2 border-black flex items-center justify-center font-black">
                   <Zap className="w-5 h-5" />
@@ -2026,7 +2106,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Card 3: High Energy Motivation */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative">
+              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFE500] transition-all">
                 <div className="w-10 h-10 bg-[#FFE500] text-black border-2 border-black flex items-center justify-center font-black">
                   <Flame className="w-5 h-5 text-[#D90429]" />
                 </div>
@@ -2039,7 +2119,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               </div>
 
               {/* Card 4: Tangerang Pride */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative">
+              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D90429] transition-all">
                 <div className="w-10 h-10 bg-black text-white border-2 border-black flex items-center justify-center font-black">
                   <MapPin className="w-5 h-5 text-[#FFE500]" />
                 </div>
@@ -2075,19 +2155,19 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               href="https://wa.me/6282216387253?text=Halo%20Silly%20N%20Valley!%20Mau%20ajak%20manggung%20di%20kota%20kami."
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#D90429] hover:bg-[#ba0323] text-white px-5 py-3 font-mono font-black text-xs uppercase tracking-wider border-3 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 self-start md:self-auto"
+              className="bg-[#D90429] hover:bg-[#ba0323] text-white px-5 py-3 font-mono font-black text-xs uppercase tracking-wider border-3 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 self-start md:self-auto hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <Zap className="w-4 h-4 fill-white" /> Ajak Manggung di Kotamu
+              <Zap className="w-4 h-4 fill-white animate-bounce" /> Ajak Manggung di Kotamu
             </a>
           </div>
 
-          {/* Flyers Grid */}
+          {/* Flyers Grid with Wind Sway Animation */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {GIGS_TIMELINE.map((gig, idx) => (
               <div
                 key={gig.id}
-                className={`bg-white border-3 border-black p-6 shadow-[7px_7px_0px_#0D0D0D] relative flex flex-col justify-between group ${
-                  idx % 2 === 0 ? "-rotate-1" : "rotate-1"
+                className={`bg-white border-3 border-black p-6 shadow-[7px_7px_0px_#0D0D0D] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D90429] transition-all duration-300 ${
+                  idx % 2 === 0 ? "animate-wind-sway" : "animate-wind-sway-reverse"
                 }`}
               >
                 {/* Duct Tape on top edges */}
@@ -2099,11 +2179,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <div>
                   {/* Top Badges */}
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs">
-                    <span className="bg-[#D90429] text-white px-2 py-0.5 font-black uppercase border border-black">
+                    <span className="bg-[#D90429] text-white px-2 py-0.5 font-black uppercase border border-black flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                       {gig.category}
                     </span>
                     <span className="text-black font-black flex items-center gap-1 bg-[#FFE500] px-2 py-0.5 border border-black">
-                      <Clock className="w-3 h-3" /> {gig.dateStr}
+                      <Clock className="w-3.5 h-3.5" /> {gig.dateStr}
                     </span>
                   </div>
 
@@ -2151,6 +2232,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             ))}
           </div>
 
+
           {/* Interactive Showcase Box for HALA Koffie */}
           <div className="mt-10 bg-[#FFE500] border-3 border-black p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_#0D0D0D] relative">
             <DuctTape className="-top-3 right-16 w-24 rotate-2" />
@@ -2178,11 +2260,18 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
       </section>
 
       {/* ─── SECTION 6: MERCHANDISE DISTRO STALLS ──────────────────────────── */}
-      <section id="merch" className="py-20 border-b-4 border-black bg-[#EAE5DA] relative">
+      <section id="merch" className="py-20 border-b-4 border-black bg-[#EAE5DA] relative overflow-hidden">
+        {/* Rotating Circular Seal in Merch */}
+        <div className="hidden md:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center animate-[spin_24s_linear_infinite] shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
+          <div className="text-[9px] font-black uppercase text-center leading-tight tracking-wider text-black">
+            ⚡ MERCH DROP ⚡<br />OFFICIAL DIY<br />DISTRO
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
+            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
               <ShoppingBag className="w-3.5 h-3.5" /> DISTRO PUNK UNDERGROUND
             </div>
             <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
@@ -2200,7 +2289,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               return (
                 <div
                   key={item.id}
-                  className={`bg-white border-3 border-black shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#D90429] transition-all flex flex-col justify-between p-5 relative group ${
+                  className={`bg-white border-3 border-black shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#00F0FF,-8px_-8px_0px_#FF0055] hover:-translate-y-2 hover:rotate-0 transition-all duration-300 flex flex-col justify-between p-5 relative group ${
                     mIdx % 2 === 0 ? "-rotate-1" : "rotate-1"
                   }`}
                 >
@@ -2211,7 +2300,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   {/* Badge */}
                   {item.badge && (
-                    <div className="absolute -top-3 right-4 bg-[#FFE500] text-black font-black text-[10px] px-2 py-0.5 uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
+                    <div className="absolute -top-3 right-4 bg-[#FFE500] text-black font-black text-[10px] px-2 py-0.5 uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
                       {item.badge}
                     </div>
                   )}
@@ -2219,8 +2308,11 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   <div>
                     {/* Category & Status */}
                     <div className="flex justify-between items-center text-[10px] text-[#777] mb-3 font-bold">
-                      <span>{item.category}</span>
-                      <span className="text-[#D90429] font-black">{item.stockStatus}</span>
+                      <span className="font-mono">{item.category}</span>
+                      <span className="text-[#D90429] font-black flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#D90429] animate-ping" />
+                        {item.stockStatus}
+                      </span>
                     </div>
 
                     {/* Merch Real Photo Frame */}
@@ -2236,7 +2328,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     </div>
 
                     {/* Item Name & Price */}
-                    <h3 className="text-base sm:text-lg font-black uppercase text-black tracking-tight leading-snug">
+                    <h3 className="text-base sm:text-lg font-black uppercase text-black tracking-tight leading-snug group-hover:text-[#D90429] transition-colors">
                       {item.name}
                     </h3>
                     <div className="text-xl font-black text-[#D90429] font-mono mt-1">
@@ -2290,6 +2382,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     )}
 
                     {/* Direct WA Order Button */}
+
                     <button
                       onClick={() => handleOrderMerch(item)}
                       className="w-full bg-[#D90429] hover:bg-[#ba0323] text-white py-2.5 px-3 font-black text-xs uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
@@ -2368,8 +2461,9 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               <div className="space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-black">
                   <div>
-                    <h3 className="text-xl font-black uppercase text-black">
+                    <h3 className="text-xl font-black uppercase text-black flex items-center">
                       8-Channel Stage Patch List
+                      <span className="inline-block w-2.5 h-4 bg-black ml-1.5 animate-pulse align-middle" />
                     </h3>
                     <p className="text-xs text-[#555] font-bold">
                       Setup simpel, bertenaga, cocok untuk panggung cafe, hall, maupun festival outdoor.
@@ -2413,56 +2507,80 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     </thead>
                     <tbody className="divide-y divide-black/20 text-black">
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 01</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0" />
+                          CH 01
+                        </td>
                         <td className="p-3 font-bold">Kick Drum</td>
                         <td className="p-3">Shure Beta 52A / AKG D112</td>
                         <td className="p-3">Short Boom</td>
                         <td className="p-3 text-[#666]">Punchy low end</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 02</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.2s]" />
+                          CH 02
+                        </td>
                         <td className="p-3 font-bold">Snare Drum</td>
                         <td className="p-3">Shure SM57</td>
                         <td className="p-3">Short Boom / Clip</td>
                         <td className="p-3 text-[#666]">Top snare crack</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 03</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.4s]" />
+                          CH 03
+                        </td>
                         <td className="p-3 font-bold">Hi-Hat / OH</td>
                         <td className="p-3">Shure SM81 / Condenser</td>
                         <td className="p-3">Tall Boom</td>
                         <td className="p-3 text-[#666]">Crisp attack</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 04</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.1s]" />
+                          CH 04
+                        </td>
                         <td className="p-3 font-bold">Bass Guitar</td>
                         <td className="p-3">DI Box Active / XLR Out Head</td>
                         <td className="p-3">-</td>
                         <td className="p-3 text-[#666]">Direct low-mid grit</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 05</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.3s]" />
+                          CH 05
+                        </td>
                         <td className="p-3 font-bold">Guitar 1 (Lead/Cab)</td>
                         <td className="p-3">Shure SM57 / Sennheiser e609</td>
                         <td className="p-3">Short Boom</td>
                         <td className="p-3 text-[#666]">Marshall / Peavey Cab</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 06</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.5s]" />
+                          CH 06
+                        </td>
                         <td className="p-3 font-bold">Guitar 2 (Rhythm)</td>
                         <td className="p-3">Shure SM57</td>
                         <td className="p-3">Short Boom</td>
                         <td className="p-3 text-[#666]">Full distortion wall</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 07</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.25s]" />
+                          CH 07
+                        </td>
                         <td className="p-3 font-bold">Lead Vocal</td>
                         <td className="p-3">Shure SM58 / Beta 58A</td>
                         <td className="p-3">Straight / Boom</td>
                         <td className="p-3 text-[#666]">High gain, feedback-free</td>
                       </tr>
                       <tr>
-                        <td className="p-3 font-black text-[#D90429]">CH 08</td>
+                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.35s]" />
+                          CH 08
+                        </td>
                         <td className="p-3 font-bold">Backing Vocal</td>
                         <td className="p-3">Shure SM58</td>
                         <td className="p-3">Boom Stand</td>
@@ -2539,8 +2657,8 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left: Contact Info */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
-                <Zap className="w-3.5 h-3.5 fill-current" /> DIRECT MANAGEMENT HOTLINE
+              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] animate-badge-pulse">
+                <Zap className="w-3.5 h-3.5 fill-current animate-bounce" /> DIRECT MANAGEMENT HOTLINE
               </div>
 
               <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
@@ -2559,8 +2677,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                     href="https://wa.me/6282216387253"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xl font-black text-[#D90429] hover:underline flex items-center gap-1.5 mt-0.5"
+                    className="text-xl font-black text-[#D90429] hover:underline flex items-center gap-2 mt-0.5"
                   >
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D90429] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-[#D90429]"></span>
+                    </span>
                     +62 822-1638-7253 <ArrowUpRight className="w-4 h-4" />
                   </a>
                   <div className="text-[#555] text-[11px] mt-0.5">Respon cepat via pesan WhatsApp</div>
