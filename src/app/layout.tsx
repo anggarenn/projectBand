@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Playfair_Display, Alex_Brush, Inria_Serif, Cormorant_Infant } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display, Bangers, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -14,31 +14,24 @@ const playfairDisplay = Playfair_Display({
   display: "swap",
 });
 
-const alexBrush = Alex_Brush({
+const bangers = Bangers({
   weight: "400",
-  variable: "--font-script",
+  variable: "--font-punk",
   subsets: ["latin"],
   display: "swap",
 });
 
-const inriaSerif = Inria_Serif({
-  weight: ["300", "400", "700"],
-  variable: "--font-inria",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const cormorantInfant = Cormorant_Infant({
-  weight: ["400", "600", "700"],
-  variable: "--font-cormorant",
+const permanentMarker = Permanent_Marker({
+  weight: "400",
+  variable: "--font-marker",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Mengundang - Platform Undangan Pernikahan Digital Elegan",
+  title: "Silly N Valley | Highly Motivated Punk Rock Tangerang",
   description:
-    "Buat undangan pernikahan online modern dengan link personal WhatsApp, RSVP otomatis, amplop digital QRIS langsung masuk rekening, dan layar resepsi Hari-H.",
+    "Official EPK & web profile Silly N Valley. Band punk Tangerang: rilis kaset pita 'Rantai Reaksi: Abu Tanpa Api', showcase HALA Koffie, distro merch, dan booking gigs.",
 };
 
 export default function RootLayout({
@@ -49,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${plusJakartaSans.variable} ${playfairDisplay.variable} ${alexBrush.variable} ${inriaSerif.variable} ${cormorantInfant.variable} scroll-smooth antialiased`}
+      className={`${plusJakartaSans.variable} ${playfairDisplay.variable} ${bangers.variable} ${permanentMarker.variable} scroll-smooth antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#1F1D1B] selection:bg-[#F7EFEA] selection:text-[#A04F34]">
+      <body className="min-h-screen flex flex-col bg-[#170526] text-[#F3EFE0] selection:bg-[#D4E627] selection:text-[#12041D]">
         {children}
       </body>
     </html>

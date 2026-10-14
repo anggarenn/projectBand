@@ -1,45 +1,26 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
-  Play,
-  Pause,
-  SkipForward,
-  SkipBack,
-  Volume2,
-  VolumeX,
-  Disc,
-  Radio,
   Calendar,
   MapPin,
-  Clock,
   ShoppingBag,
-  Check,
-  Copy,
-  Download,
-  ExternalLink,
   MessageCircle,
   Flame,
   ShieldCheck,
   Zap,
-  Sliders,
-  Headphones,
+  Disc,
   Menu,
   X,
   ArrowUpRight,
-  Heart,
-  FileText,
-  Shirt,
   Maximize2,
   ChevronLeft,
   ChevronRight,
-  Camera,
-  Layers,
-  Sparkles
+  Camera
 } from "lucide-react";
 
-// ─── INSTAGRAM ICON ─────────────────────────────────────────────────────────
+// === ICONS ===
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -59,17 +40,31 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-// ─── PUNK UI ACCENTS: TAPE & STAMPS ─────────────────────────────────────────
+function SpotifyIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+    </svg>
+  );
+}
+
+// === PUNK UI ACCENTS: TAPE & STAMPS ===
 
 function DuctTape({
   className = "",
-  color = "tan"
+  color = "yellow"
 }: {
   className?: string;
-  color?: "tan" | "grey";
+  color?: "yellow" | "purple" | "cyan" | "tan" | "grey";
 }) {
   const bgClass =
-    color === "tan"
+    color === "yellow"
+      ? "bg-[#D4E627]/85 border-[#AFC213]"
+      : color === "purple"
+      ? "bg-[#B879AD]/85 border-[#96558C]"
+      : color === "cyan"
+      ? "bg-[#00BFA5]/85 border-[#009682]"
+      : color === "tan"
       ? "bg-[#D8C7A5]/85 border-[#B7A581]"
       : "bg-[#7A8089]/75 border-[#5A6069]";
 
@@ -78,335 +73,20 @@ function DuctTape({
       className={`absolute h-5 border-x border-dashed shadow-xs backdrop-blur-xs pointer-events-none z-30 select-none ${bgClass} ${className}`}
       style={{
         backgroundImage:
-          "repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.04) 4px, rgba(0,0,0,0.04) 8px)"
+          "repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.06) 4px, rgba(0,0,0,0.06) 8px)"
       }}
     />
   );
 }
 
-function GrungeStamp({
-  text,
-  color = "red",
-  className = ""
-}: {
-  text: string;
-  color?: "red" | "black";
-  className?: string;
-}) {
-  const isRed = color === "red";
-  return (
-    <div
-      className={`inline-block font-mono font-black text-[11px] sm:text-xs uppercase px-2.5 py-1 border-2 border-dashed tracking-wider select-none ${
-        isRed
-          ? "border-[#D90429] text-[#D90429] bg-[#D90429]/5"
-          : "border-black text-black bg-black/5"
-      } ${className}`}
-    >
-      {text}
-    </div>
-  );
-}
-
-// ─── PUNK SKULL WITH MIC ANIMATED MASCOT COMPONENT ────────────────────────
-function PunkSkullWithMic({
-  isPlaying,
-  bpm = 200,
-  currentTrackTitle = "Berhala-Run!"
-}: {
-  isPlaying: boolean;
-  bpm?: number;
-  currentTrackTitle?: string;
-}) {
-  const [shoutIndex, setShoutIndex] = useState(0);
-  const [isRoaring, setIsRoaring] = useState(false);
-
-  const PUNK_SHOUTS = [
-    "OI! OI! OI!",
-    "HIGHLY MOTIVATED!",
-    "DISTORSI MAKSIMAL!",
-    "RANTAI REAKSI!",
-    "LEDAKKAN SPEAKER!",
-    "SWADAYA MANDIRI!",
-    "TANGERANG HARDCORE!"
-  ];
-
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setShoutIndex(prev => (prev + 1) % PUNK_SHOUTS.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  const handleSkullPoke = () => {
-    setIsRoaring(true);
-    setShoutIndex(prev => (prev + 1) % PUNK_SHOUTS.length);
-    setTimeout(() => setIsRoaring(false), 900);
-  };
-
-  return (
-    <div
-      onClick={handleSkullPoke}
-      className="relative flex flex-col items-center select-none cursor-pointer group"
-      title="Klik tengkorak untuk memicu shout punk!"
-    >
-      {/* Punk Shout Comic Speech Bubble */}
-      <div
-        className={`transition-all duration-300 transform mb-1 z-20 ${
-          isPlaying || isRoaring
-            ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-40 scale-95"
-        }`}
-      >
-        <div className="bg-[#FFE500] text-black font-black text-[10px] sm:text-xs px-2.5 py-1 border-2 border-black shadow-[3px_3px_0px_#000] uppercase font-mono tracking-tight flex items-center gap-1.5 rotate-[-2deg]">
-          <Flame className="w-3.5 h-3.5 text-black fill-current" />
-          <span>{PUNK_SHOUTS[shoutIndex]}</span>
-        </div>
-        <div className="w-2.5 h-2.5 bg-[#FFE500] border-r-2 border-b-2 border-black rotate-45 mx-auto -mt-1.5 shadow-[1px_1px_0px_#000]" />
-      </div>
-
-      {/* SVG SKULL & VINTAGE MIC CANVAS */}
-      <div className="relative w-28 h-36 sm:w-36 sm:h-44">
-        {/* Soundwaves radiating from mic (left side) */}
-        {isPlaying && (
-          <div className="absolute left-2 top-24 pointer-events-none z-0">
-            <div className="w-16 h-16 rounded-full border-2 border-[#FFE500]/40 animate-soundwave absolute -top-8 -left-8" />
-            <div className="w-24 h-24 rounded-full border-2 border-[#FFE500]/25 animate-soundwave absolute -top-12 -left-12 [animation-delay:0.3s]" />
-            <div className="w-32 h-32 rounded-full border-2 border-[#FFE500]/15 animate-soundwave absolute -top-16 -left-16 [animation-delay:0.6s]" />
-          </div>
-        )}
-
-        <svg
-          viewBox="0 0 240 250"
-          className="w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
-        >
-          <defs>
-            {/* Punk Mohawk Duotone Gradient */}
-            <linearGradient id="mohawkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFE500" />
-              <stop offset="100%" stopColor="#1A1D24" />
-            </linearGradient>
-            {/* Vintage Chrome Mic Gradient */}
-            <linearGradient id="chromeMic" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#8A92A0" />
-              <stop offset="35%" stopColor="#FFFFFF" />
-              <stop offset="70%" stopColor="#4A5260" />
-              <stop offset="100%" stopColor="#1E2229" />
-            </linearGradient>
-          </defs>
-
-          {/* ── MOHAWK SPIKES ── */}
-          <g className={isPlaying ? "animate-pulse" : ""}>
-            <polygon points="120,8 108,60 128,55" fill="url(#mohawkGrad)" stroke="#000" strokeWidth="3" />
-            <polygon points="102,18 95,68 112,62" fill="#FFE500" stroke="#000" strokeWidth="3" />
-            <polygon points="138,18 128,62 145,68" fill="#1A1D24" stroke="#000" strokeWidth="3" />
-            <polygon points="86,34 82,75 100,70" fill="#2E333E" stroke="#000" strokeWidth="3" />
-            <polygon points="154,34 140,70 158,75" fill="#FFE500" stroke="#000" strokeWidth="3" />
-            <polygon points="72,55 75,85 90,80" fill="#1A1D24" stroke="#000" strokeWidth="3" />
-            <polygon points="168,55 150,80 165,85" fill="#2E333E" stroke="#000" strokeWidth="3" />
-          </g>
-
-          {/* ── STUDDED LEATHER COLLAR ── */}
-          <path d="M78,205 Q120,225 162,205 L165,225 Q120,245 75,225 Z" fill="#15171C" stroke="#000" strokeWidth="3" />
-          <polygon points="88,212 92,205 96,212 92,216" fill="#FFF" stroke="#000" strokeWidth="1.5" />
-          <polygon points="108,217 112,210 116,217 112,221" fill="#FFF" stroke="#000" strokeWidth="1.5" />
-          <polygon points="128,217 132,210 136,217 132,221" fill="#FFF" stroke="#000" strokeWidth="1.5" />
-          <polygon points="148,212 152,205 156,212 152,216" fill="#FFF" stroke="#000" strokeWidth="1.5" />
-
-          {/* ── HEADBANGING CRANIUM & FACE ── */}
-          <g className={isPlaying || isRoaring ? "animate-headbang-fast" : ""}>
-            {/* Skull Head Base */}
-            <path
-              d="M80,82 C65,95 62,130 68,150 C72,165 82,170 88,172 L88,180 C95,182 145,182 152,180 L152,172 C158,170 168,165 172,150 C178,130 175,95 160,82 C148,70 92,70 80,82 Z"
-              fill="#EAE5DA"
-              stroke="#000"
-              strokeWidth="4"
-            />
-
-            {/* Forehead punk fracture / crack */}
-            <path d="M115,75 L120,90 L112,100 L118,110" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-
-            {/* Safety Pin Piercing on Brow */}
-            <path d="M74,96 Q70,90 76,86 L90,92 Q94,96 88,100 Z" fill="none" stroke="#FFE500" strokeWidth="2.5" />
-            <circle cx="74" cy="92" r="2.5" fill="#000" />
-
-            {/* Eye Sockets */}
-            <path d="M85,115 C82,102 102,100 106,112 C108,126 88,128 85,115 Z" fill="#111317" stroke="#000" strokeWidth="3" />
-            <path d="M134,112 C138,100 158,102 155,115 C152,128 132,126 134,112 Z" fill="#111317" stroke="#000" strokeWidth="3" />
-
-            {/* Analog Amber Eye Pupils */}
-            <g className={isPlaying ? "animate-pulse" : ""}>
-              <polygon
-                points="95,108 97,113 102,113 98,116 100,121 95,118 90,121 92,116 88,113 93,113"
-                fill={isPlaying ? "#FFE500" : "#555"}
-                className={isPlaying ? "filter drop-shadow-[0_0_4px_#FFE500]" : ""}
-              />
-              <polygon
-                points="145,108 147,113 152,113 148,116 150,121 145,118 140,121 142,116 138,113 143,113"
-                fill={isPlaying ? "#FFE500" : "#555"}
-                className={isPlaying ? "filter drop-shadow-[0_0_4px_#FFE500]" : ""}
-              />
-            </g>
-
-            {/* Triangular Inverted Nose Cavity */}
-            <polygon points="120,126 114,142 126,142" fill="#111317" stroke="#000" strokeWidth="2" />
-
-            {/* Cheekbone shadow accents */}
-            <path d="M74,136 Q80,148 88,152" fill="none" stroke="#C4BEB1" strokeWidth="3" strokeLinecap="round" />
-            <path d="M166,136 Q160,148 152,152" fill="none" stroke="#C4BEB1" strokeWidth="3" strokeLinecap="round" />
-
-            {/* Upper Teeth */}
-            <rect x="94" y="170" width="8" height="11" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
-            <rect x="103" y="170" width="9" height="12" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
-            <rect x="113" y="170" width="9" height="12" rx="1" fill="#FFE500" stroke="#000" strokeWidth="2" />
-            <rect x="123" y="170" width="9" height="12" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
-            <rect x="133" y="170" width="8" height="11" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
-
-            {/* ── LOWER JAW (CHATTERS/ROARS WHEN PLAYING) ── */}
-            <g className={isPlaying || isRoaring ? "animate-skull-jaw" : ""}>
-              <path
-                d="M90,183 L150,183 L144,204 Q120,214 96,204 Z"
-                fill="#EAE5DA"
-                stroke="#000"
-                strokeWidth="3.5"
-              />
-              <rect x="98" y="181" width="8" height="8" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
-              <rect x="107" y="181" width="8" height="9" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
-              <rect x="116" y="181" width="8" height="9" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
-              <rect x="125" y="181" width="8" height="8" rx="1" fill="#FFFFFF" stroke="#000" strokeWidth="1.5" />
-
-              {/* Chin Studded Spike Piercing */}
-              <circle cx="120" cy="207" r="3" fill="#FFE500" stroke="#000" strokeWidth="1.5" />
-              <polygon points="118,210 120,217 122,210" fill="#FFF" stroke="#000" strokeWidth="1" />
-            </g>
-          </g>
-
-          {/* ── VINTAGE CHROME DYNAMIC MICROPHONE & SKELETAL HAND ── */}
-          <g transform="translate(20, 115) rotate(-15)">
-            {/* Curled Mic Cord */}
-            <path
-              d="M32,80 Q20,110 38,125 T25,145"
-              fill="none"
-              stroke="#181A20"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
-            {isPlaying && (
-              <path
-                d="M32,80 Q20,110 38,125 T25,145"
-                fill="none"
-                stroke="#FFE500"
-                strokeWidth="2"
-                strokeDasharray="8 12"
-                className="animate-pulse"
-              />
-            )}
-
-            {/* Vintage Mic Grille Head */}
-            <rect x="15" y="10" width="34" height="42" rx="10" fill={isPlaying ? "#FFE500" : "#22252C"} />
-            <rect x="14" y="8" width="36" height="46" rx="12" fill="url(#chromeMic)" stroke="#000" strokeWidth="3" opacity="0.9" />
-            <line x1="16" y1="16" x2="48" y2="16" stroke="#111" strokeWidth="2.5" />
-            <line x1="15" y1="23" x2="49" y2="23" stroke="#111" strokeWidth="2.5" />
-            <line x1="15" y1="30" x2="49" y2="30" stroke="#111" strokeWidth="2.5" />
-            <line x1="16" y1="37" x2="48" y2="37" stroke="#111" strokeWidth="2.5" />
-            <line x1="18" y1="44" x2="46" y2="44" stroke="#111" strokeWidth="2.5" />
-            <line x1="32" y1="8" x2="32" y2="54" stroke="#FFF" strokeWidth="3" />
-            <line x1="32" y1="8" x2="32" y2="54" stroke="#000" strokeWidth="1" />
-
-            {/* Mic Base Collar & Shaft */}
-            <rect x="24" y="54" width="16" height="30" rx="3" fill="#22252C" stroke="#000" strokeWidth="2.5" />
-            <circle cx="32" cy="62" r="3" fill="#FFE500" />
-
-            {/* Skeletal Bony Hand Clutched Around Mic Handle */}
-            <g>
-              <path d="M12,58 Q26,52 38,58" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
-              <path d="M12,58 Q26,52 38,58" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M10,66 Q26,60 39,66" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
-              <path d="M10,66 Q26,60 39,66" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M12,74 Q26,68 38,74" fill="none" stroke="#EAE5DA" strokeWidth="5.5" strokeLinecap="round" />
-              <path d="M12,74 Q26,68 38,74" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M14,81 Q26,76 36,81" fill="none" stroke="#EAE5DA" strokeWidth="4.5" strokeLinecap="round" />
-              <path d="M40,56 Q44,66 36,72" fill="none" stroke="#EAE5DA" strokeWidth="5" strokeLinecap="round" />
-              <path d="M40,56 Q44,66 36,72" fill="none" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
-            </g>
-          </g>
-        </svg>
-      </div>
-
-      {/* Status Tag beneath Skull */}
-      <div className="mt-2 text-center">
-        <div className="inline-flex items-center gap-1.5 bg-black/80 px-2.5 py-0.5 border border-black text-[9px] font-mono font-bold">
-          <span className={`w-2 h-2 rounded-full ${isPlaying ? "bg-[#FFE500] animate-ping" : "bg-[#888]"}`} />
-          <span className={isPlaying ? "text-[#FFE500]" : "text-[#888]"}>
-            {isPlaying ? "VOCAL TRACK LIVE" : "IDLE • CLICK TO ROAR"}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── ANALOG VU METER GAUGE COMPONENT ──────────────────────────────────────
-function AnalogVUMeter({
-  channel = "L",
-  isPlaying,
-  level = 5
-}: {
-  channel: string;
-  isPlaying: boolean;
-  level: number;
-}) {
-  const needleAngle = isPlaying ? -28 + level * 7 : -34;
-  return (
-    <div className="bg-[#101216] border-2 border-black p-1.5 sm:p-2 rounded-sm shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center w-full max-w-[105px] sm:max-w-[130px]">
-      <div className="flex justify-between items-center w-full text-[8.5px] font-mono text-[#888] font-bold px-0.5 mb-1">
-        <span className="text-[#FFE500]">CH {channel}</span>
-        <span className={isPlaying ? "text-[#FFE500] animate-pulse" : "text-[#555]"}>
-          {isPlaying ? "LIVE" : "IDLE"}
-        </span>
-      </div>
-      {/* Dial Face */}
-      <div className="relative w-full h-13 sm:h-15 bg-[#F5EEDC] border border-black rounded-t overflow-hidden shadow-inner flex flex-col justify-end items-center">
-        <div className={`absolute inset-0 transition-opacity duration-300 ${isPlaying ? "bg-[#FFE500]/25" : "bg-[#FFE500]/5"}`} />
-        <svg viewBox="0 0 100 50" className="w-full h-full absolute inset-0">
-          <path d="M 15 45 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="1.5" />
-          <path d="M 68 20 A 35 35 0 0 1 85 45" fill="none" stroke="#222" strokeWidth="2.5" />
-          <text x="18" y="42" fontSize="5" fill="#555" fontWeight="bold">-20</text>
-          <text x="32" y="27" fontSize="5" fill="#555" fontWeight="bold">-10</text>
-          <text x="50" y="19" fontSize="5" fill="#555" fontWeight="bold">-3</text>
-          <text x="68" y="20" fontSize="5" fill="#111" fontWeight="bold">0</text>
-          <text x="80" y="32" fontSize="5" fill="#111" fontWeight="bold">+3</text>
-          <text x="50" y="34" fontSize="6" fill="#111" fontWeight="900" textAnchor="middle">VU</text>
-        </svg>
-        {/* Needle */}
-        <div
-          className={`absolute bottom-0 w-0.5 h-14 bg-[#111] origin-bottom transition-transform duration-100 ease-out z-10 ${
-            isPlaying ? "animate-vu-needle" : ""
-          }`}
-          style={{ transform: `rotate(${needleAngle}deg)` }}
-        >
-          <div className="w-1.5 h-1.5 rounded-full bg-[#111] -ml-0.5 -mt-0.5" />
-        </div>
-        <div className="w-3.5 h-2 rounded-t-full bg-[#111] z-20" />
-      </div>
-      <div className="mt-1 flex items-center justify-between w-full text-[7.5px] font-mono text-[#777]">
-        <span>-20dB</span>
-        <span className="text-[#FFE500] font-bold">PEAK +3dB</span>
-      </div>
-    </div>
-  );
-}
-
-// ─── TYPES & DATA ──────────────────────────────────────────────────────────
+// === TYPES & DATA ===
 
 interface Track {
   id: number;
   title: string;
   duration: string;
-  durationSec: number;
   bpm: number;
   energy: string;
-  audioSrc: string;
   sourceType: "single" | "live";
   lyrics: string;
   story: string;
@@ -417,10 +97,8 @@ const TRACKS: Track[] = [
     id: 1,
     title: "Berhala-Run!",
     duration: "01:58",
-    durationSec: 118,
     bpm: 208,
     energy: "HIGH VELOCITY",
-    audioSrc: "/assets/silly-n-valley/audio/berhala-run.mp3",
     sourceType: "single",
     lyrics: `[Intro]
 Satu! Dua! Tiga! LARI!
@@ -446,10 +124,8 @@ STOP THE RUN! HENTIKAN!`,
     id: 2,
     title: "Merdeka Tapi Mampus!",
     duration: "02:19",
-    durationSec: 139,
     bpm: 196,
     energy: "MAX INTENSITY",
-    audioSrc: "/assets/silly-n-valley/audio/merdeka-tapi-mampus.mp3",
     sourceType: "single",
     lyrics: `Merdeka-merdeka tapi mampus!
 Tanah surga tak membuat semua mulus
@@ -461,20 +137,10 @@ Membawa perubahan dengan akal bulus
 Laksanakan langkah haram dengan mulus
 Istana tempat singgah orang tak becus!
 
-(Merdeka-merdeka tapi mampus!)
-(Membawa perubahan dengan akal bulus)
-(Laksanakan langkah haram dengan mulus)
-(Istana tempat singgah orang tak becus!)
-
-(Merdeka-merdeka tapi mampus!) 4x
-
 (Maju. bergerak.) Kumpulkan semua nyali
 (Maju. bergerak.) Lenyapkan tiang dinasti
 (Maju. bergerak.) Jatuhkan bibit tirani
-(Maju. bergerak.) Hancurkan dengan berani!
-
-(Lihat. Amati. Brimob datang mengawasi)
-(Lihat. Amati. Stafsus baper mensomasi)`,
+(Maju. bergerak.) Hancurkan dengan berani!`,
     story:
       "6th Single resmi Silly N Valley. Kritik sosial tajam berbalut agresi punk rock cepat mengenai dinamika politik dan realitas jalanan."
   },
@@ -482,10 +148,8 @@ Istana tempat singgah orang tak becus!
     id: 3,
     title: "Sabda Fufufafa (Live)",
     duration: "01:29",
-    durationSec: 89,
     bpm: 210,
     energy: "CROWD EXPLOSION",
-    audioSrc: "/assets/silly-n-valley/audio/sabda-fufufafa-live.mp3",
     sourceType: "live",
     lyrics: `[Live at HALA Koffie - Latihan Di Lihatin]
 Rekaman live murni dari showcase mandiri di HALA Koffie Tangerang.
@@ -497,10 +161,8 @@ Raw energy, sound ampli tabung direct, dan crowd scream tanpa filter.`,
     id: 4,
     title: "Anak Anak Politikus (Live)",
     duration: "01:47",
-    durationSec: 107,
     bpm: 195,
     energy: "OVERDRIVE ANTHEM",
-    audioSrc: "/assets/silly-n-valley/audio/anak-anak-politikus-live.mp3",
     sourceType: "live",
     lyrics: `[Live at HALA Koffie Stage]
 Lagu pembakar circle pit di setiap penampilan live. Menyerang privilege dinasti kekuasaan lewat riff power-chord tanpa kompromi.`,
@@ -511,10 +173,8 @@ Lagu pembakar circle pit di setiap penampilan live. Menyerang privilege dinasti 
     id: 5,
     title: "Ledakkan Dinding Merkava (Live)",
     duration: "02:10",
-    durationSec: 130,
     bpm: 190,
     energy: "SOLIDARITY RIOT",
-    audioSrc: "/assets/silly-n-valley/audio/ledakkan-dinding-merkava-live.mp3",
     sourceType: "live",
     lyrics: `[Live Solidarity Track]
 Suara solidaritas kemanusiaan melawan penindasan dan imperialisme militer. Runtuhkan dinding tirani dari panggung mandiri Tangerang!`,
@@ -525,10 +185,8 @@ Suara solidaritas kemanusiaan melawan penindasan dan imperialisme militer. Runtu
     id: 6,
     title: "Kita Yang Tidak Dilibatkan (Live)",
     duration: "02:43",
-    durationSec: 163,
     bpm: 180,
     energy: "SING-ALONG HYMN",
-    audioSrc: "/assets/silly-n-valley/audio/kita-yang-tidak-dilibatkan-live.mp3",
     sourceType: "live",
     lyrics: `[Hymne Generasi Pinggiran]
 Untuk semua kawan yang suaranya selalu dipinggirkan dari meja perundingan elit. Di sini kita berdiri, bernyanyi bersama sampai habis nafas!`,
@@ -537,250 +195,171 @@ Untuk semua kawan yang suaranya selalu dipinggirkan dari meja perundingan elit. 
   }
 ];
 
-interface ZinePhoto {
-  id: number;
-  src: string;
-  title: string;
-  caption: string;
-  venue: string;
-  credit: string;
-  category: "stage" | "crowd" | "gear" | "backstage";
-  tilt: string;
-}
-
-const INSTAGRAM_PHOTOS: ZinePhoto[] = [
-  {
-    id: 1,
-    src: "/assets/silly-n-valley/photo_1.jpg",
-    title: "STAGE DIVE & AIRBORNE JUMP",
-    caption:
-      "Vokalis melayang di atas penonton HALA Koffie. Energi murni tanpa pagar barikade pembatas.",
-    venue: "HALA Koffie, Tangerang",
-    credit: "@mqrifisnqini",
-    category: "stage",
-    tilt: "-rotate-2"
-  },
-  {
-    id: 2,
-    src: "/assets/silly-n-valley/photo_2.jpg",
-    title: "CROWD SING-ALONG CIRCLE",
-    caption:
-      "Penonton saling rangkul membentuk lingkaran karaoke punk di tengah ruang sempit kedai kopi.",
-    venue: "Latihan Di Lihatin #3",
-    credit: "@mqrifisnqini",
-    category: "crowd",
-    tilt: "rotate-3"
-  },
-  {
-    id: 3,
-    src: "/assets/silly-n-valley/photo_3.jpg",
-    title: "GUITAR FEEDBACK OVERDRIVE",
-    caption:
-      "Riff gitar power chord mentok ampli tabung. Distorsi kotor bertenaga pendorong moshpit.",
-    venue: "HALA Koffie Stage",
-    credit: "@mqrifisnqini",
-    category: "stage",
-    tilt: "-rotate-1"
-  },
-  {
-    id: 4,
-    src: "/assets/silly-n-valley/photo_4.jpg",
-    title: "D-BEAT BLAST BEAT",
-    caption:
-      "Ketukan drum berkecepatan 200 BPM memompa detak jantung seluruh penonton malam itu.",
-    venue: "Latihan Di Lihatin Stage",
-    credit: "@mqrifisnqini",
-    category: "stage",
-    tilt: "rotate-2"
-  },
-  {
-    id: 5,
-    src: "/assets/silly-n-valley/photo_5.jpg",
-    title: "GUITAR LEAD & RIFF RUN",
-    caption:
-      "Gitaris memuntahkan riff cepat chord minor di atas panggung HALA Koffie. Karakter distorsi analog mentah.",
-    venue: "HALA Koffie Stage",
-    credit: "@mqrifisnqini",
-    category: "stage",
-    tilt: "-rotate-3"
-  },
-  {
-    id: 6,
-    src: "/assets/silly-n-valley/photo_6.jpg",
-    title: "BASS LINE POGO ATTACK",
-    caption:
-      "Dentuman bassline rendah dari arah belakang panggung, memicu lompatan massa penonton festival.",
-    venue: "Gigsgoks Fest Stage",
-    credit: "@gigsgoks",
-    category: "stage",
-    tilt: "rotate-1"
-  },
-  {
-    id: 7,
-    src: "/assets/silly-n-valley/photo_7.jpg",
-    title: "OFFICIAL MERCH T-SHIRT",
-    caption:
-      "Model showcase kaos resmi Silly N Valley 'Rantai Reaksi'. Heavyweight cotton 24s dengan sablon plastisol artwork band.",
-    venue: "Merch Distro Stall",
-    credit: "@silly.n.valley",
-    category: "gear",
-    tilt: "-rotate-2"
-  },
-  {
-    id: 8,
-    src: "/assets/silly-n-valley/photo_8.jpg",
-    title: "DOUBLE PEDAL PUNCH",
-    caption:
-      "Aksi kaki drummer memompa ketukan cepat D-beat punk di atas panggung terbuka Gigsgoks Fest.",
-    venue: "Mal Ciputra CitraRaya",
-    credit: "@gigsgoks",
-    category: "gear",
-    tilt: "rotate-2"
-  },
-  {
-    id: 9,
-    src: "/assets/silly-n-valley/photo_9.jpg",
-    title: "BALACLAVA BASSIST ROAR",
-    caption:
-      "Bassist dengan topeng balaclava hitam membetot 4-senar sebelum set dimulai di Tangerang.",
-    venue: "Backstage Area, Tangerang",
-    credit: "@silly.n.valley",
-    category: "stage",
-    tilt: "-rotate-1"
-  },
-  {
-    id: 10,
-    src: "/assets/silly-n-valley/photo_10.jpg",
-    title: "OFFICIAL MERCH CATALOG DROP",
-    caption:
-      "Poster resmi rilisan fisik EP 'Rantai Reaksi', kaos Berhala-Run, paket bundle, dan kaset pita C-30.",
-    venue: "Tangerang DIY Workshop",
-    credit: "@silly.n.valley",
-    category: "gear",
-    tilt: "rotate-3"
-  },
-  {
-    id: 11,
-    src: "/assets/silly-n-valley/photo_11.jpg",
-    title: "SWEAT & DISTORTION ANTHEM",
-    caption:
-      "Set live penuh keringat dan teriakan lantang. Membuktikan semangat pantang redup.",
-    venue: "HALA Koffie Stage",
-    credit: "@mqrifisnqini",
-    category: "stage",
-    tilt: "-rotate-2"
-  },
-  {
-    id: 12,
-    src: "/assets/silly-n-valley/photo_12.jpg",
-    title: "OFFICIAL MERCH T-SHIRT",
-    caption:
-      "Kaos resmi Silly N Valley dipakai santai di studio. Jahitan rapi, fitting boxy mantap untuk dipakai manggung.",
-    venue: "Studio Chill Session",
-    credit: "@silly.n.valley",
-    category: "gear",
-    tilt: "rotate-1"
-  }
-];
-
 interface MerchItem {
   id: string;
   name: string;
-  category: string;
+  category: "Cassette" | "T-Shirt" | "Bundle";
   price: number;
   formattedPrice: string;
-  badge?: string;
-  stockStatus: "READY STOCK" | "LIMITED EDITION" | "LOW STOCK";
-  desc: string;
-  specs: string[];
-  sizes: string[];
-  photoSrc: string;
+  image: string;
+  status: "IN STOCK" | "PRE-ORDER" | "LIMITED";
+  description: string;
+  sizes?: string[];
 }
 
 const MERCH_CATALOG: MerchItem[] = [
   {
-    id: "bundle-rantai-reaksi",
-    name: "Rantai Reaksi Bulk (T-Shirt + Cassette Tape)",
-    category: "OFFICIAL BUNDLE",
-    price: 220000,
-    formattedPrice: "Rp 220.000",
-    badge: "BEST DEAL",
-    stockStatus: "LIMITED EDITION",
-    desc: "Paket bundling resmi: T-Shirt Rantai Reaksi + Kaset Pita Rantai Reaksi C-30 dengan packaging stensil underground.",
-    specs: [
-      "Heavyweight T-Shirt 24s Rantai Reaksi",
-      "Kaset Pita C-30 Smokey Shell Rantai Reaksi",
-      "Bonus Vinyl Sticker Pack",
-      "Limited physical release"
-    ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    photoSrc: "/assets/silly-n-valley/merch_bundle.jpg"
+    id: "cassette-rantai-reaksi",
+    name: "Kaset Pita C-30 'Rantai Reaksi: Abu Tanpa Api'",
+    category: "Cassette",
+    price: 65000,
+    formattedPrice: "Rp 65.000",
+    image: "/assets/silly-n-valley/album_cover.jpg",
+    status: "LIMITED",
+    description:
+      "Rilisan fisik kaset analog pita magnetik C-30 Type II High Bias. Dilengkapi cover lipat booklet lirik full artwork & stiker pack DIY. Terbatas 100 copy.",
+    sizes: ["One Size"]
   },
   {
     id: "tshirt-rantai-reaksi",
-    name: "Rantai Reaksi T-Shirt",
-    category: "APPAREL",
-    price: 175000,
-    formattedPrice: "Rp 175.000",
-    badge: "OFFICIAL T-SHIRT",
-    stockStatus: "READY STOCK",
-    desc: "Kaos grafis utama Silly N Valley artwork ungu-kuning 'Rantai Reaksi'. Sablon plastisol tebal di atas kain katun hitam pekat.",
-    specs: [
-      "100% Cotton Combed 24s Heavyweight",
-      "Plastisol High-Density Screenprint",
-      "Seamless collar & double needle hems",
-      "Woven label Silly N Valley"
-    ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    photoSrc: "/assets/silly-n-valley/merch_tshirt_rantai_reaksi.jpg"
+    name: "Heavyweight T-Shirt 'Rantai Reaksi'",
+    category: "T-Shirt",
+    price: 150000,
+    formattedPrice: "Rp 150.000",
+    image: "/assets/silly-n-valley/merch_tshirt_rantai_reaksi.jpg",
+    status: "IN STOCK",
+    description:
+      "Kaos katun heavyweight 24s combed tebal tanpa jahitan samping. Sablon plastisol ink vintage wash dengan artwork album cover Silly N Valley.",
+    sizes: ["S", "M", "L", "XL", "XXL"]
   },
   {
     id: "tshirt-berhala-run",
-    name: "Berhala-Run T-Shirt",
-    category: "APPAREL",
+    name: "T-Shirt 'Berhala-Run!' Feat. Tabraklari",
+    category: "T-Shirt",
     price: 150000,
     formattedPrice: "Rp 150.000",
-    badge: "FAN FAVORITE",
-    stockStatus: "READY STOCK",
-    desc: "Kaos resmi single 'Berhala-Run!'. Artwork grafis api & patung berhala satir karya kolaborasi dengan sablon discharge tahan lama.",
-    specs: [
-      "100% Cotton Combed Black Heavyweight",
-      "Discharge soft-hand screenprinting",
-      "Oversized Boxy Fit",
-      "Pre-shrunk fabric"
-    ],
-    sizes: ["S", "M", "L", "XL"],
-    photoSrc: "/assets/silly-n-valley/merch_tshirt_berhala_run.jpg"
+    image: "/assets/silly-n-valley/merch_tshirt_berhala_run.jpg",
+    status: "IN STOCK",
+    description:
+      "Tribute collab single edisi terbatas. Grafis speed-punk tengkorak berlari dengan tinta neon discharge glow-in-the-dark.",
+    sizes: ["M", "L", "XL", "XXL"]
   },
   {
-    id: "cassette-rantai-reaksi",
-    name: "Rantai Reaksi Cassette Tape",
-    category: "PHYSICAL AUDIO",
-    price: 50000,
-    formattedPrice: "Rp 50.000",
-    badge: "PHYSICAL CASSETTE",
-    stockStatus: "READY STOCK",
-    desc: "Rilisan kaset analog resmi 'Rantai Reaksi' C-30 pita magnetik. Clear smokey case dengan full color 3-panel J-card lirik lipat.",
-    specs: [
-      "High-bias Magnetic Tape C-30",
-      "Transparent Smokey Tint C-Shell",
-      "3-Panel J-Card with Full Lyrics",
-      "Official Silly N Valley Tangerang"
-    ],
-    sizes: ["One Size"],
-    photoSrc: "/assets/silly-n-valley/merch_cassette.jpg"
+    id: "bundle-rantai-reaksi",
+    name: "Official Fanzine & Sticker Pack Bundle",
+    category: "Bundle",
+    price: 35000,
+    formattedPrice: "Rp 35.000",
+    image: "/assets/silly-n-valley/merch_bundle.jpg",
+    status: "IN STOCK",
+    description:
+      "Zine fisik cetak xerox 16 halaman berisi dokumentasi gigs eksklusif @mqrifisnqini, esai manifesto, 5 die-cut vinyl stickers, dan patch kanvas sablon.",
+    sizes: ["One Size"]
+  }
+];
+
+interface PhotoItem {
+  id: number;
+  src: string;
+  caption: string;
+  category: "stage" | "crowd" | "gear" | "backstage";
+  timestamp: string;
+}
+
+const INSTAGRAM_PHOTOS: PhotoItem[] = [
+  {
+    id: 1,
+    src: "/assets/silly-n-valley/photo_1.jpg",
+    caption: "Distorsi power-chord dan teriakan tanpa kompromi di panggung mandiri HALA Koffie.",
+    category: "stage",
+    timestamp: "OKTOBER 2024"
+  },
+  {
+    id: 2,
+    src: "/assets/silly-n-valley/photo_2.jpg",
+    caption: "Circle sing-along! Tak ada sekat antara band dan kawan pogo di depan panggung.",
+    category: "crowd",
+    timestamp: "SEPTEMBER 2024"
+  },
+  {
+    id: 3,
+    src: "/assets/silly-n-valley/photo_3.jpg",
+    caption: "Check sound instrumen dan ampli tabung sebelum gemuruh distorsi dinyalakan.",
+    category: "stage",
+    timestamp: "AGUSTUS 2024"
+  },
+  {
+    id: 4,
+    src: "/assets/silly-n-valley/photo_4.jpg",
+    caption: "Momen intim backstage: nafas sejenak, ngopi lokal, dan obrolan kawan pergerakan.",
+    category: "backstage",
+    timestamp: "JULI 2024"
+  },
+  {
+    id: 5,
+    src: "/assets/silly-n-valley/photo_5.jpg",
+    caption: "Rilisan fisik kaset pita C-30 'Rantai Reaksi: Abu Tanpa Api' siap didistribusikan ke distro.",
+    category: "gear",
+    timestamp: "JUNI 2024"
+  },
+  {
+    id: 6,
+    src: "/assets/silly-n-valley/photo_6.jpg",
+    caption: "Keringat, desak-desakan, dan energi positif murni tanpa kekerasan di tengah moshpit.",
+    category: "crowd",
+    timestamp: "MEI 2024"
+  },
+  {
+    id: 7,
+    src: "/assets/silly-n-valley/photo_7.jpg",
+    caption: "Lead vocal take-over: meneriakkan lirik 'Merdeka Tapi Mampus' bersama massa.",
+    category: "stage",
+    timestamp: "APRIL 2024"
+  },
+  {
+    id: 8,
+    src: "/assets/silly-n-valley/photo_8.jpg",
+    caption: "Rundown flyer fotokopian manual yang ditempel di dinding venue acara.",
+    category: "gear",
+    timestamp: "MARET 2024"
+  },
+  {
+    id: 9,
+    src: "/assets/silly-n-valley/photo_9.jpg",
+    caption: "Luthfi Tank Grunge (Tabraklari) berbagi mic untuk track Berhala-Run!",
+    category: "stage",
+    timestamp: "FEBRUARI 2024"
+  },
+  {
+    id: 10,
+    src: "/assets/silly-n-valley/photo_10.jpg",
+    caption: "Persiapan merch booth DIY: kaset, kaos sablon tangan, dan booklet zine.",
+    category: "backstage",
+    timestamp: "JANUARI 2024"
+  },
+  {
+    id: 11,
+    src: "/assets/silly-n-valley/photo_11.jpg",
+    caption: "Panggung Authenticity Soundroom Tangerang. Suara punk menembus batas skena.",
+    category: "stage",
+    timestamp: "DESEMBER 2023"
+  },
+  {
+    id: 12,
+    src: "/assets/silly-n-valley/photo_12.jpg",
+    caption: "Grup foto bersama seluruh audiens & kru seusai showcase berdarah-darah tapi bahagia.",
+    category: "crowd",
+    timestamp: "NOVEMBER 2023"
   }
 ];
 
 interface GigEvent {
-  id: string;
+  id: number;
   title: string;
+  date: string;
   venue: string;
-  location: string;
-  dateStr: string;
-  category: "SHOWCASE MANDIRI" | "FESTIVAL" | "SUPPORT GIG" | "CURATION RADAR";
-  highlightBadge: string;
-  desc: string;
+  city: string;
+  category: "SHOWCASE MANDIRI" | "FESTIVAL" | "PENSI" | "KOMPETISI";
   vibe: string;
   photoSrc: string;
   collab?: string;
@@ -788,72 +367,55 @@ interface GigEvent {
 
 const GIGS_TIMELINE: GigEvent[] = [
   {
-    id: "gig-hala-koffie",
-    title: "Latihan Di Lihatin #1 - #4",
-    venue: "HALA Koffie Stage",
-    location: "Kota Tangerang, Banten",
-    dateStr: "Showcase Rutin Bulanan",
+    id: 1,
+    title: "Latihan Di Lihatin (Vol. 03)",
+    date: "SABTU, 16 NOVEMBER 2024",
+    venue: "HALA Koffie Space, Cipondoh",
+    city: "Kota Tangerang",
     category: "SHOWCASE MANDIRI",
-    highlightBadge: "HOME BASE RESIDENCY",
-    desc: "Showcase mandiri tanpa tiket masuk (free entry). Mengubah kedai kopi menjadi arena sing-along circle dan karaoke punk bersama kawan-kawan tongkrongan.",
-    vibe: "Intimate, moshpit ramah kopi, karaoke massal, no gatekeeping.",
-    photoSrc: "/assets/silly-n-valley/photo_2.jpg",
+    vibe: "Showcase rutin mandiri tanpa tiket, full sing-along dan circle karaoke gratis.",
+    photoSrc: "/assets/silly-n-valley/photo_1.jpg",
     collab: "@halakoffie"
   },
   {
-    id: "gig-gigsgoks",
-    title: "Gigsgoks Fest 2024",
-    venue: "Lapangan Parkir Utara Mal Ciputra",
-    location: "CitraRaya Tangerang, Banten",
-    dateStr: "Edisi Festival Akbar",
+    id: 2,
+    title: "Gigsgoks Fest: Solidaritas Jalanan",
+    date: "MINGGU, 27 OKTOBER 2024",
+    venue: "Tangerang Underground Warehouse",
+    city: "Tangerang",
     category: "FESTIVAL",
-    highlightBadge: "OUTDOOR FESTIVAL",
-    desc: "Membakar panggung festival outdoor bersama deretan band cadas Tangerang dan Jabodetabek. Pogo circle terpanjang di aspal CitraRaya.",
-    vibe: "Open-air crowd surfing, sunset moshpit, distorsi ampli mentok.",
-    photoSrc: "/assets/silly-n-valley/photo_8.jpg",
+    vibe: "Festival kolektif 12 band hardcore/punk Tangerang Raya.",
+    photoSrc: "/assets/silly-n-valley/photo_6.jpg",
     collab: "@gigsgoks"
   },
   {
-    id: "gig-heidegger",
-    title: "Support: Launching Album HeideggerxCrust",
-    venue: "HALA Koffie Stage",
-    location: "Kota Tangerang, Banten",
-    dateStr: "Showcase Solidaritas Scene",
-    category: "SUPPORT GIG",
-    highlightBadge: "BROTHERHOOD SUPPORT",
-    desc: "Menjadi band pembuka pemicu adrenalin untuk pesta peluncuran album kawan satu kota @heideggerxcrust. Solidaritas scene hardcore-crust-punk lokal.",
-    vibe: "High intensity, wall-to-wall pit, persaudaraan lintas subgenre.",
-    photoSrc: "/assets/silly-n-valley/photo_3.jpg",
-    collab: "@heideggerxcrust"
+    id: 3,
+    title: "D-Beat Distortion Night",
+    date: "JUMAT, 13 SEPTEMBER 2024",
+    venue: "Rooftop Kolektif Pasar Lama",
+    city: "Kota Tangerang",
+    category: "SHOWCASE MANDIRI",
+    vibe: "Rilis perdana single 'Berhala-Run!' bersama Tabraklari.",
+    photoSrc: "/assets/silly-n-valley/photo_9.jpg",
+    collab: "@tabraklari"
   },
   {
-    id: "gig-authenticity",
-    title: "Submission Authenticity Soundroom 2024",
-    venue: "Road to Latihan Pestapora",
-    location: "Kurasi & Showcase Nasional",
-    dateStr: "Kurasi Nasional",
-    category: "CURATION RADAR",
-    highlightBadge: "CURATION RADAR",
-    desc: "Silly N Valley terpilih dalam submission resmi Authenticity Soundroom berjejaring ke festival Latihan Pestapora.",
+    id: 4,
+    title: "Authenticity Soundroom Showcase",
+    date: "SABTU, 20 JULI 2024",
+    venue: "Creative Hub Stage",
+    city: "Tangerang",
+    category: "KOMPETISI",
     vibe: "Showcase kompetitif berskala nasional, membuktikan taji punk Tangerang.",
     photoSrc: "/assets/silly-n-valley/photo_11.jpg",
     collab: "@authenticity_id"
   }
 ];
 
-// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
+// === MAIN COMPONENT ===
 
 export default function SillyNValleyPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Audio Cassette states
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playbackSec, setPlaybackSec] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0.7);
-  const [lyricsOpen, setLyricsOpen] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Gallery & Lightbox states
   const [galleryCategory, setGalleryCategory] = useState<string>("all");
@@ -861,17 +423,14 @@ export default function SillyNValleyPage() {
 
   // Merch selector states
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({
-    "bundle-rantai-reaksi": "L",
+    "bundle-rantai-reaksi": "One Size",
     "tshirt-rantai-reaksi": "L",
     "tshirt-berhala-run": "XL",
     "cassette-rantai-reaksi": "One Size"
   });
 
-  // Riders & Tech states
-  const [activeRiderTab, setActiveRiderTab] = useState<"tech" | "hospitality">(
-    "tech"
-  );
-  const [copiedRider, setCopiedRider] = useState(false);
+  // Spotify active track lyrics toggle
+  const [openSpotifyTrackLyrics, setOpenSpotifyTrackLyrics] = useState<number | null>(null);
 
   // Booking quick form states
   const [bookingForm, setBookingForm] = useState({
@@ -881,98 +440,6 @@ export default function SillyNValleyPage() {
     format: "Showcase / Gigs Cafe",
     notes: ""
   });
-
-  // VU Meter random bounce simulation when playing
-  const [vuLevelLeft, setVuLevelLeft] = useState(1);
-  const [vuLevelRight, setVuLevelRight] = useState(1);
-
-  useEffect(() => {
-    let vuInterval: NodeJS.Timeout | null = null;
-    if (isPlaying) {
-      vuInterval = setInterval(() => {
-        setVuLevelLeft(Math.floor(Math.random() * 6) + 3);
-        setVuLevelRight(Math.floor(Math.random() * 6) + 3);
-      }, 120);
-    } else {
-      setVuLevelLeft(0);
-      setVuLevelRight(0);
-    }
-    return () => {
-      if (vuInterval) clearInterval(vuInterval);
-    };
-  }, [isPlaying]);
-
-  // Sync mute & volume
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume;
-    }
-  }, [volume, isMuted]);
-
-  // Track change auto-play when active
-  useEffect(() => {
-    if (audioRef.current && isPlaying) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
-    }
-  }, [currentTrackIndex]);
-
-  // Keyboard navigation for Lightbox
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (activePhotoIndex === null) return;
-      if (e.key === "Escape") {
-        setActivePhotoIndex(null);
-      } else if (e.key === "ArrowLeft") {
-        setActivePhotoIndex(prev =>
-          prev === null || prev === 0 ? INSTAGRAM_PHOTOS.length - 1 : prev - 1
-        );
-      } else if (e.key === "ArrowRight") {
-        setActivePhotoIndex(prev =>
-          prev === null || prev === INSTAGRAM_PHOTOS.length - 1 ? 0 : prev + 1
-        );
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activePhotoIndex]);
-
-  const togglePlayPause = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(err => {
-          console.error("Audio playback error:", err);
-        });
-    }
-  };
-
-  const handleNextTrack = () => {
-    setCurrentTrackIndex(prev => (prev + 1) % TRACKS.length);
-    setPlaybackSec(0);
-  };
-
-  const handlePrevTrack = () => {
-    setCurrentTrackIndex(prev => (prev === 0 ? TRACKS.length - 1 : prev - 1));
-    setPlaybackSec(0);
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  const activeTrack = TRACKS[currentTrackIndex];
 
   const filteredPhotos =
     galleryCategory === "all"
@@ -985,7 +452,7 @@ export default function SillyNValleyPage() {
     const text = encodeURIComponent(
       `Halo Silly N Valley! Saya mau order merch resmi:\n\n• Produk: ${item.name}\n• Ukuran: ${chosenSize}\n• Harga: ${item.formattedPrice}\n\nMohon info ketersediaan stok & ongkir ke kota saya. Makasih! #RantaiReaksi`
     );
-    window.open(`https://wa.me/6282216387253?text=${text}`, "_blank");
+    window.open(`https://wa.me/6281299095137?text=${text}`, "_blank");
   };
 
   // WhatsApp generator for Booking
@@ -999,156 +466,121 @@ export default function SillyNValleyPage() {
       }\n• Tanggal: ${bookingForm.date || "[Tanggal Event]"}\n• Format Event: ${
         bookingForm.format
       }\n• Catatan: ${
-        bookingForm.notes || "Mohon kirimkan info availability & tech rider."
+        bookingForm.notes || "Mohon kirimkan info availability jadwal manggung."
       }\n\nMohon feedback-nya. Cheers! #HighlyMotivatedPunk`
     );
-    window.open(`https://wa.me/6282216387253?text=${text}`, "_blank");
-  };
-
-  // Copy Rider Text
-  const riderRawText = `=== SILLY N VALLEY (HIGHLY MOTIVATED PUNK) - TECHNICAL & HOSPITALITY RIDERS ===
-Contact Booking Hotline: +62 822-1638-7253 | Instagram: @silly.n.valley
-
-[CHANNEL INPUT LIST - 8 CHANNELS]
-CH 1: Kick Drum -> Shure Beta 52A / AKG D112 (Short Boom Stand)
-CH 2: Snare Drum -> Shure SM57 (Standard Boom Stand)
-CH 3: Hi-Hat / Overhead -> Shure SM81 / Condenser (Tall Boom Stand)
-CH 4: Bass Guitar -> DI Box Active / XLR Out Bass Head (BSS / Radial)
-CH 5: Guitar 1 (Lead/Rhythm) -> Shure SM57 / Sennheiser e609 on 4x12 Cab
-CH 6: Guitar 2 (Rhythm) -> Shure SM57 on 4x12 Cab
-CH 7: Lead Vocal -> Shure SM58 / Shure Beta 58A (Straight / Boom Stand)
-CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
-
-[MONITORING REQUIREMENTS]
-- 3 Aux Foldback Monitor Wedges (Front Stage Left, Front Stage Right, Drum Thrown)
-- 2x Independent 220V Grounded Electric Extensions on stage
-
-[HOSPITALITY & GREEN ROOM]
-- Ruang tunggu berventilasi baik / ber-AC yang aman untuk penyimpanan instrumen
-- 2 Karton Air Mineral 600ml (suhu ruang & dingin)
-- Kopi hitam / Cold Brew lokal (Non-alcohol friendly safe space)
-- Buah segar (Pisang & Semangka) + Makanan berat untuk 5 personil & crew
-- Akses loading gear bebas hambatan 2 jam sebelum check sound
-================================================================================`;
-
-  const copyRiderToClipboard = () => {
-    navigator.clipboard.writeText(riderRawText);
-    setCopiedRider(true);
-    setTimeout(() => setCopiedRider(false), 2500);
-  };
-
-  const downloadRiderFile = () => {
-    const element = document.createElement("a");
-    const file = new Blob([riderRawText], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "Riders-Silly-N-Valley-Tangerang.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    window.open(`https://wa.me/6281299095137?text=${text}`, "_blank");
   };
 
   return (
-    <div className="min-h-screen bg-[#EBE7DF] text-[#0D0D0D] font-mono selection:bg-[#FFE500] selection:text-black overflow-x-hidden relative">
-      {/* ─── XEROX HALFTONE PAPER BACKGROUND OVERLAY ───────────────────────── */}
+    <div className="min-h-screen bg-[#1A062B] text-[#F3EFE0] font-mono selection:bg-[#D4E627] selection:text-[#12041D] overflow-x-hidden relative">
+      {/* HALFTONE PAPER BACKGROUND OVERLAY */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-20 z-0"
+        className="fixed inset-0 pointer-events-none opacity-25 z-0"
         style={{
           backgroundImage:
-            "radial-gradient(#0D0D0D 0.75px, transparent 0.75px), radial-gradient(#0D0D0D 0.75px, #EBE7DF 0.75px)",
+            "radial-gradient(#D4E627 0.6px, transparent 0.6px), radial-gradient(#6B249E 0.6px, #1A062B 0.6px)",
           backgroundSize: "24px 24px",
           backgroundPosition: "0 0, 12px 12px"
         }}
       />
 
-      {/* ─── TOP TICKER NEWSLETTER STRIP ─────────────────────────────────────── */}
-      <div className="bg-[#0D0D0D] text-[#FFE500] py-2 px-4 font-mono font-black text-xs uppercase tracking-wider flex items-center justify-between border-b-3 border-black z-50 relative select-none overflow-hidden">
+      {/* TOP TICKER NEWSLETTER STRIP */}
+      <div className="bg-[#10031B] text-[#D4E627] py-2 px-4 font-mono font-black text-xs uppercase tracking-wider flex items-center justify-between border-b-2 border-[#D4E627] z-50 relative select-none overflow-hidden">
         <div className="flex items-center space-x-2 shrink-0 pr-4">
-          <span className="inline-block w-2.5 h-2.5 bg-[#D90429] rounded-full animate-ping" />
-          <span className="bg-[#D90429] text-white px-1.5 py-0.2 text-[10px]">
+          <span className="inline-block w-2.5 h-2.5 bg-[#00BFA5] rounded-full animate-ping" />
+          <span className="bg-[#00BFA5] text-[#12041D] px-1.5 py-0.2 text-[10px] font-bold">
             ZINE ISSUE #04
           </span>
-          <span className="hidden sm:inline text-white">TANGERANG DIY PUNK SCENE</span>
+          <span className="hidden sm:inline text-[#F3EFE0]">TANGERANG DIY PUNK SCENE</span>
         </div>
         <div className="whitespace-nowrap overflow-hidden flex-1 relative text-[11px] sm:text-xs">
           <div className="inline-block animate-[marquee_22s_linear_infinite]">
-            +++ BAND PUNK TAPI KOK NGONTEN!? +++ CASSETTE C-30 &apos;RANTAI REAKSI&apos; OUT NOW +++ SHOWCASE RESIDENCY @ HALA KOFFIE +++ ZERO VIOLENCE SAFE SPACE +++ DOKUMENTASI RESMI @MQRIFISNQINI +++ BOOKING WA: 0822-1638-7253 +++
+            +++ SILLY N VALLEY +++ BAND PUNK TAPI KOK NGONTEN!? +++ OFFICIAL MERCH DROP & CASSETTE C-30 OUT NOW +++ FULL STREAMING DI SPOTIFY +++ SHOWCASE RESIDENCY @ HALA KOFFIE +++ ZERO VIOLENCE SAFE SPACE +++ DOKUMENTASI RESMI @MQRIFISNQINI +++ BOOKING WA: +62 812-9909-5137 +++
           </div>
         </div>
         <div className="hidden md:flex items-center space-x-3 shrink-0 pl-4 text-xs">
           <a
+            href="https://open.spotify.com/search/Silly%20N%20Valley"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline flex items-center gap-1 font-bold text-[#1DB954] hover:text-[#1ed760]"
+          >
+            <SpotifyIcon className="w-3.5 h-3.5 text-[#1DB954]" /> Spotify
+          </a>
+          <span className="text-[#555]">|</span>
+          <a
             href="https://instagram.com/silly.n.valley"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline flex items-center gap-1 font-bold text-white"
+            className="hover:underline flex items-center gap-1 font-bold text-[#F3EFE0] hover:text-[#D4E627]"
           >
-            <InstagramIcon className="w-3.5 h-3.5 text-[#FFE500]" /> @silly.n.valley
+            <InstagramIcon className="w-3.5 h-3.5 text-[#D4E627]" /> @silly.n.valley
           </a>
         </div>
       </div>
 
-      {/* ─── MAIN NAV HEADER (XEROX CUT-OUT STYLE) ────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-[#F2EEE5]/95 backdrop-blur-md border-b-3 border-black shadow-[0_4px_0px_#0D0D0D]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          {/* Brand Logo Ransom Note */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <Link href="/silly-n-valley" className="flex items-center gap-1 select-none">
-              <span className="bg-[#0D0D0D] text-white px-2 sm:px-2.5 py-1 text-lg sm:text-2xl font-black uppercase tracking-tighter -rotate-2 border-2 border-black shadow-[2px_2px_0px_#D90429]">
-                SILLY
-              </span>
-              <span className="bg-[#FFE500] text-black px-1.5 sm:px-2 py-1 text-lg sm:text-2xl font-black uppercase tracking-tighter rotate-1 border-2 border-black shadow-[2px_2px_0px_#0D0D0D]">
-                N
-              </span>
-              <span className="bg-[#D90429] text-white px-2 sm:px-2.5 py-1 text-lg sm:text-2xl font-black uppercase tracking-tighter -rotate-1 border-2 border-black shadow-[2px_2px_0px_#0D0D0D]">
-                VALLEY
-              </span>
+      {/* MAIN NAV HEADER */}
+      <header className="sticky top-0 z-40 bg-[#230B3A]/95 backdrop-blur-md border-b-3 border-black shadow-[0_4px_0px_#D4E627]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+          {/* Brand Logo (From user attachment IMG_2914.PNG) */}
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center select-none group py-1">
+              <img
+                src="/assets/silly-n-valley/logo.png"
+                alt="Silly N Valley Logo"
+                className="h-14 sm:h-18 lg:h-20 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]"
+              />
             </Link>
-
-            <span className="hidden lg:inline-block bg-white text-black text-[10px] font-black uppercase px-2 py-0.5 border border-black rotate-2 shadow-[1px_1px_0px_#000]">
-              TNG HARDCORE
-            </span>
           </div>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center space-x-6 text-xs font-black uppercase tracking-wider">
+          {/* Desktop Nav Links (Sequence: Merch Drop, About Us, Galeri Zine, Listen to Us, Gigs Wall, Booking) */}
+          <nav className="hidden md:flex items-center space-x-5 text-xs font-black uppercase tracking-wider">
+            <a
+              href="#merch"
+              className="text-[#F3EFE0] hover:text-[#D4E627] transition-colors flex items-center gap-1"
+            >
+              <ShoppingBag className="w-4 h-4 text-[#00BFA5]" /> Merch Drop
+            </a>
+            <a
+              href="#about"
+              className="text-[#F3EFE0] hover:text-[#D4E627] transition-colors flex items-center gap-1"
+            >
+              <Flame className="w-4 h-4 text-[#D4E627]" /> About Us
+            </a>
             <a
               href="#photos"
-              className="hover:text-[#D90429] transition-colors flex items-center gap-1"
+              className="text-[#F3EFE0] hover:text-[#D4E627] transition-colors flex items-center gap-1"
             >
-              <Camera className="w-4 h-4 text-[#D90429]" /> Galeri Zine
+              <Camera className="w-4 h-4 text-[#D4E627]" /> Galeri Zine
             </a>
             <a
-              href="#music"
-              className="hover:text-[#D90429] transition-colors flex items-center gap-1"
+              href="#listen"
+              className="text-[#1DB954] hover:text-[#1ed760] transition-colors flex items-center gap-1"
             >
-              <Disc className="w-4 h-4 text-black" /> Kaset C-30
-            </a>
-            <a href="#manifesto" className="hover:text-[#D90429] transition-colors">
-              Manifesto
+              <SpotifyIcon className="w-4 h-4 text-[#1DB954]" /> Listen to Us
             </a>
             <a
               href="#gigs"
-              className="hover:text-[#D90429] transition-colors flex items-center gap-1"
+              className="text-[#F3EFE0] hover:text-[#D4E627] transition-colors flex items-center gap-1"
             >
-              <Calendar className="w-4 h-4 text-[#D90429]" /> Flyer Wall
+              <Calendar className="w-4 h-4 text-[#D4E627]" /> Gigs Wall
             </a>
             <a
-              href="#merch"
-              className="hover:text-[#D90429] transition-colors flex items-center gap-1"
+              href="#booking"
+              className="text-[#F3EFE0] hover:text-[#D4E627] transition-colors flex items-center gap-1"
             >
-              <ShoppingBag className="w-4 h-4 text-black" /> Distro Merch
-            </a>
-            <a href="#riders" className="hover:text-[#D90429] transition-colors">
-              Riders
+              <MessageCircle className="w-4 h-4 text-[#B879AD]" /> Booking
             </a>
           </nav>
 
           {/* Action Button: Booking Hotline */}
           <div className="hidden sm:flex items-center space-x-3">
             <a
-              href="https://wa.me/6282216387253?text=Halo%20Silly%20N%20Valley!%20Mau%20booking%20manggung%20gigs."
+              href="https://wa.me/6281299095137?text=Halo%20Silly%20N%20Valley!%20Mau%20booking%20manggung%20gigs."
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#D90429] hover:bg-[#b00320] text-white px-4 py-2 font-mono font-black text-xs uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#0D0D0D] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5"
+              className="bg-[#D4E627] hover:bg-[#c2d41e] text-[#12041D] px-4 py-2 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#00BFA5] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5"
             >
               <Zap className="w-3.5 h-3.5 fill-current" /> Booking Gigs
             </a>
@@ -1157,7 +589,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
           {/* Mobile Menu Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000]"
+            className="md:hidden p-2 text-[#D4E627] bg-[#1A062B] border-2 border-[#D4E627] shadow-[2px_2px_0px_#000]"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -1166,71 +598,73 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#F2EEE5] border-b-3 border-black px-6 py-5 text-sm uppercase space-y-4">
+          <div className="md:hidden bg-[#230B3A] border-b-3 border-[#D4E627] px-6 py-5 text-sm uppercase space-y-4">
+            <a
+              href="#merch"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
+            >
+              <ShoppingBag className="w-4 h-4 text-[#00BFA5]" /> Official Merch Drop
+            </a>
+            <a
+              href="#about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
+            >
+              <Flame className="w-4 h-4 text-[#D4E627]" /> About Us: Band Punk Kok Ngonten!?
+            </a>
             <a
               href="#photos"
               onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429] flex items-center gap-2"
+              className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
             >
-              <Camera className="w-4 h-4 text-[#D90429]" /> Galeri Zine & Polaroid (12 Foto)
+              <Camera className="w-4 h-4 text-[#D4E627]" /> Galeri Zine & Polaroid (12 Foto)
             </a>
             <a
-              href="#music"
+              href="#listen"
               onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429] flex items-center gap-2"
+              className="block font-bold text-[#1DB954] hover:text-[#1ed760] flex items-center gap-2"
             >
-              <Disc className="w-4 h-4 text-black" /> Tape Deck Kaset C-30 &apos;Rantai Reaksi&apos;
-            </a>
-            <a
-              href="#manifesto"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429]"
-            >
-              Manifesto &quot;Band Punk Ngonten!?&quot;
+              <SpotifyIcon className="w-4 h-4 text-[#1DB954]" /> Listen to Us (Spotify Streaming)
             </a>
             <a
               href="#gigs"
               onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429] flex items-center gap-2"
+              className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
             >
-              <Calendar className="w-4 h-4 text-[#D90429]" /> Flyer Wall & Jadwal Panggung
+              <Calendar className="w-4 h-4 text-[#D4E627]" /> Gigs Wall & Jadwal Panggung
             </a>
             <a
-              href="#merch"
+              href="#booking"
               onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429] flex items-center gap-2"
+              className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
             >
-              <ShoppingBag className="w-4 h-4 text-black" /> Distro Merch & Kaset Fisik
+              <MessageCircle className="w-4 h-4 text-[#B879AD]" /> Booking & Kolaborasi
             </a>
-            <a
-              href="#riders"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-bold hover:text-[#D90429]"
-            >
-              Technical Riders (8 Channel)
-            </a>
-            <div className="pt-2 border-t-2 border-dashed border-black">
+            <div className="pt-2 border-t-2 border-dashed border-[#D4E627]/40">
               <a
-                href="https://wa.me/6282216387253?text=Halo%20Silly%20N%20Valley!%20Mau%20inquiry%20booking."
+                href="https://wa.me/6281299095137?text=Halo%20Silly%20N%20Valley!%20Mau%20inquiry%20booking."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full text-center block bg-[#D90429] text-white py-2.5 font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000]"
+                className="w-full text-center block bg-[#D4E627] text-[#12041D] py-2.5 font-punk text-sm uppercase border-2 border-black shadow-[3px_3px_0px_#00BFA5]"
               >
-                Hotline WA: 0822-1638-7253
+                Hotline WA: +62 812-9909-5137
               </a>
             </div>
           </div>
         )}
       </header>
 
-      {/* ─── SECTION 1: HERO SECTION (XEROX FANZINE COVER COLLAGE) ───────── */}
+      {/* =========================================================================
+          SECTION 1: SILLY N VALLEY (HERO SECTION)
+      ========================================================================= */}
       <section
         id="hero"
-        className="relative pt-10 pb-20 md:pt-16 md:pb-28 border-b-4 border-black z-10 overflow-hidden"
+        className="relative pt-10 pb-20 md:pt-16 md:pb-28 border-b-4 border-black z-10 overflow-hidden bg-gradient-to-b from-[#1F0833] via-[#2A0E44] to-[#1A062B]"
       >
         {/* Punk Stamp Seal */}
-        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center rotate-12 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
-          <div className="text-[10px] font-black uppercase text-center leading-tight tracking-wider text-black">
+        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D4E627] items-center justify-center rotate-12 shadow-[5px_5px_0px_#00BFA5] z-20 pointer-events-none select-none">
+          <div className="text-[10px] font-black uppercase text-center leading-tight tracking-wider text-[#12041D]">
             ⚡ 100% DIY ⚡<br />TANGERANG<br />HARDCORE
           </div>
         </div>
@@ -1241,43 +675,46 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             <div className="lg:col-span-7 space-y-6">
               {/* Badges Bar with DIY Stickers */}
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="bg-[#0D0D0D] text-[#FFE500] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-black shadow-[2px_2px_0px_#D90429]">
+                <span className="bg-[#12041D] text-[#D4E627] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-[#D4E627] shadow-[2px_2px_0px_#B879AD]">
                   HIGHLY MOTIVATED PUNK
                 </span>
-                <span className="bg-white text-black text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#0D0D0D]">
+                <span className="bg-[#B879AD] text-[#12041D] text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#000]">
                   TANGERANG HARDCORE SCENE
                 </span>
-                <span className="bg-[#D90429] text-white text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#FFE500]">
+                <span className="bg-[#00BFA5] text-[#12041D] text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#D4E627]">
                   CASSETTE C-30 OUT NOW
                 </span>
               </div>
 
-              {/* Headline: Newspaper Cutout Ransom Style */}
+              {/* Headline */}
               <div className="space-y-3">
-                <div className="inline-block bg-[#FFE500] text-black px-3 py-1 font-black text-sm uppercase border-2 border-black -rotate-1 shadow-[3px_3px_0px_#000]">
+                <div className="inline-block bg-[#00BFA5] text-[#12041D] px-3 py-1 font-black text-xs sm:text-sm uppercase border-2 border-black -rotate-1 shadow-[3px_3px_0px_#000]">
                   SURAT KABAR BAWAH TANAH EDISI KHUSUS
                 </div>
 
-                <h1 className="text-4xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-black">
+                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-punk uppercase tracking-normal leading-[0.9] text-[#F3EFE0]">
                   SILLY N <br />
-                  <span className="inline-block bg-black text-white px-3 my-1 -rotate-1 border-2 border-black shadow-[6px_6px_0px_#D90429] cursor-default">
+                  <span className="inline-block bg-[#D4E627] text-[#12041D] px-3 my-1 -rotate-1 border-3 border-black shadow-[6px_6px_0px_#B879AD] cursor-default">
                     VALLEY
                   </span>
                 </h1>
 
-                <div className="pt-2">
-                  <span className="inline-block bg-[#D90429] text-white text-lg sm:text-2xl font-black px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#000]">
+                <div className="pt-2 flex flex-wrap items-center gap-2">
+                  <span className="inline-block bg-[#B879AD] text-[#12041D] text-lg sm:text-2xl font-punk px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#D4E627]">
                     &quot;BAND PUNK TAPI KOK NGONTEN!?&quot;
+                  </span>
+                  <span className="inline-block bg-[#12041D] text-[#D4E627] text-sm sm:text-base font-marker px-3 py-1 -rotate-1 border-2 border-[#D4E627] shadow-[2px_2px_0px_#00BFA5]">
+                    RANTAI REAKSI: ABU TANPA API
                   </span>
                 </div>
               </div>
 
               {/* Manifest Paper Paragraph */}
-              <div className="relative bg-[#FAF8F5] border-3 border-black p-5 shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#FFE500] transition-shadow">
-                <DuctTape className="-top-3 left-8 w-20 -rotate-2" />
-                <DuctTape className="-bottom-3 right-8 w-20 rotate-1" />
-                <p className="text-black text-sm sm:text-base leading-relaxed font-mono">
-                  Unit punk rock berdaya ledak tinggi asal <strong>Kota Tangerang</strong>.
+              <div className="relative bg-[#2B1046] border-3 border-[#D4E627] p-5 shadow-[6px_6px_0px_#12041D] hover:shadow-[8px_8px_0px_#D4E627] transition-shadow">
+                <DuctTape className="-top-3 left-8 w-20 -rotate-2" color="yellow" />
+                <DuctTape className="-bottom-3 right-8 w-20 rotate-1" color="purple" />
+                <p className="text-[#F3EFE0] text-sm sm:text-base leading-relaxed font-mono">
+                  Unit punk rock berdaya ledak tinggi asal <strong className="text-[#D4E627]">Kota Tangerang</strong>.
                   Mengawinkan distorsi kencang tanpa kompromi, lirik motivasi harian,
                   kultur DIY kaset pita, dan keberanian membajak algoritma digital demi merayakan
                   ruang aman bagi semua orang di moshpit!
@@ -1287,106 +724,110 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               {/* CTA Action Buttons */}
               <div className="pt-2 flex flex-wrap gap-4 items-center">
                 <a
-                  href="#music"
-                  className="bg-[#FFE500] hover:bg-[#ebd300] text-black px-6 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#D90429] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2 group"
+                  href="#merch"
+                  className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-6 py-3.5 font-punk text-base uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#00BFA5] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2 group"
                 >
-                  <Play className="w-4 h-4 fill-black group-hover:scale-110 transition-transform" />
-                  <span>Putar Kaset C-30</span>
+                  <ShoppingBag className="w-4 h-4 text-[#12041D]" />
+                  <span>Lihat Merch Drop</span>
                 </a>
                 <a
-                  href="#photos"
-                  className="bg-white hover:bg-[#F0ECE1] text-black px-6 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2"
+                  href="#listen"
+                  className="bg-[#1DB954] hover:bg-[#1ed760] text-black px-6 py-3.5 font-punk text-base uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center gap-2"
                 >
-                  <Camera className="w-4 h-4 text-[#D90429]" /> Lihat Foto Instagram
+                  <SpotifyIcon className="w-4 h-4 text-black" /> Dengarkan di Spotify
                 </a>
                 <a
-                  href="#gigs"
-                  className="bg-[#D90429] hover:bg-[#ba0323] text-white px-5 py-3.5 font-black text-sm uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#000] flex items-center gap-1.5"
+                  href="#about"
+                  className="bg-[#B879AD] hover:bg-[#a6689b] text-[#12041D] px-5 py-3.5 font-punk text-base uppercase tracking-wider border-3 border-black shadow-[5px_5px_0px_#D4E627] flex items-center gap-1.5"
                 >
-                  <Calendar className="w-4 h-4 text-white" /> Flyer Gigs
+                  <Flame className="w-4 h-4 text-[#12041D]" /> About Us
                 </a>
               </div>
 
               {/* Quick DIY Stats Badges */}
-              <div className="pt-4 grid grid-cols-3 gap-2 sm:gap-3 border-t-2 border-dashed border-black max-w-lg">
-                <div className="bg-white border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-black text-black">4 TRACKS</div>
-                  <div className="text-[9px] sm:text-[10px] text-[#555] font-bold uppercase">
-                    Kaset Pita C-30
+              <div className="pt-4 grid grid-cols-3 gap-2 sm:gap-3 border-t-2 border-dashed border-[#D4E627]/40 max-w-lg">
+                <div className="bg-[#240A3D] border-2 border-[#D4E627] p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-punk text-[#D4E627]">C-30 TAPE</div>
+                  <div className="text-[9px] sm:text-[10px] text-[#CBB8DC] font-bold uppercase">
+                    Rilisan Fisik
                   </div>
                 </div>
-                <div className="bg-[#FFE500] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-black text-black">100% DIY</div>
-                  <div className="text-[9px] sm:text-[10px] text-black font-bold uppercase">
+                <div className="bg-[#D4E627] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-punk text-[#12041D]">100% DIY</div>
+                  <div className="text-[9px] sm:text-[10px] text-[#12041D] font-bold uppercase">
                     Swadaya Mandiri
                   </div>
                 </div>
-                <div className="bg-[#D90429] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-black text-white">ZERO</div>
-                  <div className="text-[9px] sm:text-[10px] text-white font-bold uppercase">
+                <div className="bg-[#00BFA5] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
+                  <div className="text-xl sm:text-2xl font-punk text-[#12041D]">ZERO</div>
+                  <div className="text-[9px] sm:text-[10px] text-[#12041D] font-bold uppercase">
                     Kekerasan Moshpit
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Authentic Polaroid & Gigs Flyer Collage */}
+            {/* Right Column: Authentic Album Artwork & Polaroid Showcase */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0">
               <div className="relative mx-auto max-w-md px-2 sm:px-0">
-
                 {/* Background Duct Tape Strips */}
-                <DuctTape className="-top-4 left-10 w-28 -rotate-6" />
-                <DuctTape className="-bottom-4 right-12 w-28 rotate-3" />
+                <DuctTape className="-top-4 left-10 w-28 -rotate-6" color="yellow" />
+                <DuctTape className="-bottom-4 right-12 w-28 rotate-3" color="cyan" />
 
-                {/* Pinboard Layer: Photo 1 (Stage dive) */}
-                <div className="bg-white border-3 border-black p-3.5 shadow-[8px_8px_0px_#0D0D0D] rotate-2 relative z-20 group hover:rotate-0 transition-transform duration-300">
-                  <div className="aspect-4/3 bg-black overflow-hidden border-2 border-black relative">
+                {/* Primary Artwork Frame: Album Cover with Notched Border Style */}
+                <div className="bg-[#D4E627] border-4 border-black p-2 sm:p-2.5 shadow-[10px_10px_0px_#12041D] rotate-1 relative z-20 group hover:rotate-0 transition-transform duration-300">
+                  <div className="aspect-square bg-[#1A062B] overflow-hidden border-2 border-black relative">
                     <img
-                      src="/assets/silly-n-valley/photo_1.jpg"
-                      alt="Silly N Valley Stage Dive at HALA Koffie"
-                      className="w-full h-full object-cover contrast-110 group-hover:scale-105 transition-transform duration-300"
+                      src="/assets/silly-n-valley/album_cover.jpg"
+                      alt="Silly N Valley - Rantai Reaksi: Abu Tanpa Api Official Album Artwork"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
-                    <div className="absolute bottom-2 left-2 bg-[#D90429] text-white text-[10px] font-black px-2 py-0.5 border border-black uppercase">
-                      HALA KOFFIE MOSHPIT
+                    <div className="absolute top-2 right-2 bg-[#00BFA5] text-[#12041D] text-[10px] font-black px-2 py-0.5 border border-black uppercase font-mono">
+                      OFFICIAL COVER
+                    </div>
+
+                    <div className="absolute bottom-2 left-2 bg-[#12041D]/90 text-[#D4E627] text-[10px] sm:text-xs font-marker px-2.5 py-1 border border-[#D4E627]">
+                      RANTAI REAKSI: ABU TANPA API
                     </div>
                   </div>
-                  <div className="pt-2.5 flex justify-between items-center text-xs">
-                    <span className="font-black uppercase tracking-tight">
-                      LATIHAN DI LIHATIN #04
+                  <div className="pt-2 px-1 flex justify-between items-center text-xs text-[#12041D]">
+                    <span className="font-punk text-sm tracking-wide">
+                      CASSETTE & DIGITAL RELEASE
                     </span>
-                    <span className="text-[10px] text-[#555] font-bold">
-                      Dok: @mqrifisnqini
+                    <span className="text-[10px] text-[#12041D] font-bold">
+                      SILLY N VALLEY
                     </span>
                   </div>
                 </div>
 
-                {/* Overlapping Secondary Photo: Photo 11 (Sweaty action) */}
-                <div className="bg-[#FFE500] border-3 border-black p-3 shadow-[6px_6px_0px_#0D0D0D] -rotate-4 -mt-16 -ml-6 relative z-10 max-w-[260px]">
-                  <DuctTape className="-top-3 right-6 w-16 rotate-12" color="grey" />
-                  <div className="aspect-square bg-black overflow-hidden border-2 border-black">
+                {/* Overlapping Secondary Photo: Live Stage Action */}
+                <div className="bg-[#2E104B] border-3 border-black p-2 shadow-[6px_6px_0px_#00BFA5] -rotate-6 -mt-16 -ml-6 relative z-30 max-w-[210px] group">
+                  <DuctTape className="-top-3 right-6 w-14 rotate-12" color="purple" />
+                  <div className="aspect-4/3 bg-black overflow-hidden border-2 border-black">
                     <img
-                      src="/assets/silly-n-valley/photo_11.jpg"
+                      src="/assets/silly-n-valley/photo_1.jpg"
                       alt="Live distortion energy"
-                      className="w-full h-full object-cover grayscale contrast-125"
+                      className="w-full h-full object-cover contrast-110 group-hover:scale-105 transition-transform"
                     />
                   </div>
-                  <div className="pt-1.5 text-[10px] font-black uppercase text-black">
-                    DISTORSI & KERINGAT
+                  <div className="pt-1.5 text-[9px] font-mono font-bold text-[#D4E627] flex justify-between">
+                    <span>LIVE MOSHPIT</span>
+                    <span className="text-[#B879AD]">@HALAKOFFIE</span>
                   </div>
                 </div>
 
                 {/* Overlapping Cassette Badge */}
-                <div className="absolute -bottom-6 -right-4 bg-white border-3 border-black p-2.5 shadow-[6px_6px_0px_#D90429] rotate-3 z-30 max-w-[200px]">
-                  <div className="w-full aspect-video overflow-hidden border border-black mb-1.5">
+                <div className="absolute -bottom-6 -right-4 bg-[#B879AD] border-3 border-black p-2 shadow-[6px_6px_0px_#D4E627] rotate-3 z-30 max-w-[190px]">
+                  <div className="w-full aspect-video overflow-hidden border border-black mb-1 bg-black">
                     <img
                       src="/assets/silly-n-valley/photo_5.jpg"
                       alt="Kaset Rantai Reaksi"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="text-[10px] font-black uppercase leading-tight">
-                    KASSETTE PITA C-30 OUT NOW!
+                  <div className="text-[10px] font-punk text-[#12041D] leading-tight">
+                    CASSETTE C-30 OUT NOW!
                   </div>
                 </div>
               </div>
@@ -1395,22 +836,291 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         </div>
       </section>
 
-      {/* ─── SECTION 2: INSTAGRAM PHOTO ZINE GALLERY (12 REAL PHOTOS) ─────── */}
-      <section id="photos" className="py-20 border-b-4 border-black bg-[#E2DDD3] relative">
+      {/* =========================================================================
+          SECTION 2: OFFICIAL MERCH DROP (RILISAN FISIK & DISTRO SHOP)
+      ========================================================================= */}
+      <section
+        id="merch"
+        className="py-20 bg-[#140421] text-[#F3EFE0] border-b-4 border-black relative overflow-hidden"
+      >
+        <span id="kaset-merch" className="absolute -top-20" />
+        <span id="music" className="absolute -top-20" />
+
+        {/* Subtle Ambient Studio Backdrop */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#D4E627]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-[#D4E627] text-[#12041D] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#B879AD] mb-2 font-mono">
+                <ShoppingBag className="w-3.5 h-3.5" /> DIY MERCHANDISE & RILISAN FISIK
+              </div>
+              <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal text-[#F3EFE0]">
+                Official Merch Drop
+              </h2>
+              <p className="text-[#CBB8DC] text-xs sm:text-sm font-mono font-bold mt-1 max-w-2xl">
+                Rilisan fisik kaset pita C-30 &apos;Rantai Reaksi&apos;, t-shirt heavyweight plastisol ink, booklet zine dokumentasi, dan stiker diproduksi secara mandiri & swadaya.
+              </p>
+            </div>
+
+            <div className="text-xs font-mono text-[#D4E627] font-bold">
+              Order via WhatsApp Hotline: <span className="underline">+62 812-9909-5137</span>
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {MERCH_CATALOG.map((item, idx) => {
+              const currentSize = selectedSizes[item.id] || (item.sizes ? item.sizes[0] : "One Size");
+              return (
+                <div
+                  key={item.id}
+                  className={`bg-[#280D41] border-3 border-black p-4 shadow-[6px_6px_0px_#10031B] relative flex flex-col justify-between group hover:-translate-y-1 hover:shadow-[8px_8px_0px_#D4E627] transition-all duration-300 ${
+                    idx % 2 === 0 ? "rotate-0.5" : "-rotate-0.5"
+                  }`}
+                >
+                  <DuctTape
+                    className="-top-3 left-8 w-16"
+                    color={idx % 2 === 0 ? "yellow" : "cyan"}
+                  />
+
+                  <div>
+                    {/* Product Image Frame */}
+                    <div className="aspect-square bg-[#10031B] border-2 border-black overflow-hidden relative mb-3">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span className="absolute top-2 left-2 bg-[#12041D] text-[#D4E627] text-[10px] font-black px-2 py-0.5 border border-[#D4E627] font-mono uppercase">
+                        {item.status}
+                      </span>
+                    </div>
+
+                    {/* Details */}
+                    <span className="text-[10px] text-[#00BFA5] font-black uppercase font-mono">
+                      {item.category}
+                    </span>
+                    <h3 className="text-xl font-punk uppercase text-[#F3EFE0] leading-snug mt-0.5">
+                      {item.name}
+                    </h3>
+                    <p className="text-[11px] text-[#CBB8DC] font-mono leading-relaxed mt-1 line-clamp-3">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t-2 border-dashed border-[#572288] space-y-3">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-xl font-punk text-[#D4E627]">
+                        {item.formattedPrice}
+                      </span>
+                      <span className="text-[10px] text-[#A992C4] font-mono uppercase">
+                        READY STOCK
+                      </span>
+                    </div>
+
+                    {/* Size Selector */}
+                    {item.sizes && item.sizes.length > 1 && (
+                      <div className="flex items-center gap-1.5 text-xs font-mono">
+                        <span className="text-[10px] text-[#888] font-bold">SIZE:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {item.sizes.map(sz => (
+                            <button
+                              key={sz}
+                              onClick={() =>
+                                setSelectedSizes({ ...selectedSizes, [item.id]: sz })
+                              }
+                              className={`px-2 py-0.5 text-[10px] font-black border transition-all cursor-pointer ${
+                                currentSize === sz
+                                  ? "bg-[#D4E627] text-[#12041D] border-black shadow-[1px_1px_0px_#000]"
+                                  : "bg-[#1A062B] text-[#F3EFE0] border-black hover:bg-[#381559]"
+                              }`}
+                            >
+                              {sz}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Direct WA Order Button */}
+                    <button
+                      onClick={() => handleOrderMerch(item)}
+                      className="w-full bg-[#D4E627] hover:bg-[#c2d41e] text-[#12041D] py-2.5 px-3 font-punk text-base uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#00BFA5] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <MessageCircle className="w-4 h-4" /> Beli via WhatsApp
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Shipping Note & Hotline */}
+          <div className="mt-10 bg-[#280D41] border-2 border-[#D4E627] p-4 text-xs text-[#D8CCE6] font-mono font-bold flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="bg-[#D4E627] text-[#12041D] px-1.5 py-0.5 border border-black font-black uppercase font-mono">
+                INFO DISTRO
+              </span>
+              <span>Pengiriman dari Kota Tangerang via JNE / J&T / Paxel. Pembayaran transfer BCA / Mandiri / QRIS.</span>
+            </div>
+            <div className="text-[#00BFA5] font-black font-mono">
+              Admin Hotline: +62 812-9909-5137
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 3: BAND PUNK TAPI KOK NGONTEN (ABOUT US)
+      ========================================================================= */}
+      <section
+        id="about"
+        className="py-20 border-b-4 border-black bg-[#1A062B] relative overflow-hidden"
+      >
+        <span id="manifesto" className="absolute -top-20" />
+
+        {/* Circular Seal in About Us */}
+        <div className="hidden lg:flex absolute -top-4 -right-4 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D4E627] text-[#12041D] items-center justify-center -rotate-6 shadow-[5px_5px_0px_#00BFA5] z-20 pointer-events-none select-none">
+          <div className="text-[10px] font-punk uppercase text-center leading-tight tracking-wider px-1">
+            ★ NO GATEKEEPING ★<br />100% DIY<br />PUNK ETHOS
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Narrative Column */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-[#00BFA5] text-[#12041D] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] font-mono">
+                <Flame className="w-3.5 h-3.5" /> BIOGRAFI & FILOSOFI
+              </div>
+
+              <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal leading-tight text-[#F3EFE0]">
+                ABOUT US <br />
+                <span className="inline-block bg-[#D4E627] text-[#12041D] px-2.5 py-0.5 border-2 border-black shadow-[4px_4px_0px_#B879AD] cursor-default">
+                  Band Punk Tapi Kok Ngonten!?
+                </span>
+              </h2>
+
+              {/* Real Artwork Feature from user upload (about_us.png) */}
+              <div className="relative bg-[#2B1046] border-3 border-[#D4E627] p-5 sm:p-6 shadow-[6px_6px_0px_#10031B] hover:shadow-[8px_8px_0px_#D4E627] transition-shadow">
+                <DuctTape className="-top-3 left-10 w-24 -rotate-2" color="yellow" />
+                <DuctTape className="-bottom-3 right-10 w-24 rotate-2" color="purple" />
+
+                {/* About Us Stage Visual Banner */}
+                <div className="mb-4 overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000]">
+                  <img
+                    src="/assets/silly-n-valley/about_us.png"
+                    alt="Silly N Valley About Us Stage Session"
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+
+                {/* Exact Bio text from image attachment */}
+                <div className="space-y-3 text-[#F3EFE0] text-sm sm:text-base leading-relaxed font-mono">
+                  <p>
+                    <strong className="text-[#D4E627]">Silly N Valley</strong> adalah band punk rock asal Kota Tangerang yang dibentuk pada tahun 2022 dan aktif dalam scene underground disana. Memiliki beberapa single dan album penuh.
+                  </p>
+                  <p>
+                    Mereka lebih dikenal melalui konten &apos;memes&apos; harian yang mereka buat untuk dimanfaatkan sebagai platform untuk memperkenalkan aktivitas dan musik yang mereka buat serta mainkan.
+                  </p>
+                  <p>
+                    Pada akhirnya hal tersebut tetap menjaga semangat independent mereka dalam melakukan setiap dan segala keinginan, upaya dan improvement dalam menjalani eksplorasi musik dan performance didalam dan lintas scene.
+                  </p>
+                </div>
+              </div>
+
+              {/* Quote Statement */}
+              <div className="bg-[#10031B] text-[#F3EFE0] border-2 border-[#D4E627] p-5 shadow-[5px_5px_0px_#00BFA5] relative text-sm">
+                <div className="font-bold italic">
+                  &quot;Kami bikin konten bukan demi jadi selebriti, tapi supaya anak muda Tangerang tahu kalau mereka punya rumah dan distorsi yang siap merangkul mereka kapan saja.&quot;
+                </div>
+                <div className="mt-2 text-[#D4E627] text-xs font-mono font-black uppercase flex items-center justify-between">
+                  <span>(Silly N Valley Official Statement)</span>
+                  <span className="w-2 h-2 rounded-full bg-[#00BFA5] animate-ping" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Bento Grid of Core Values */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Card 1: Safe Space */}
+              <div className="bg-[#2E104B] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#00BFA5] transition-all">
+                <DuctTape className="-top-3 right-6 w-14 rotate-6" color="cyan" />
+                <div className="w-10 h-10 bg-[#00BFA5] text-[#12041D] border-2 border-black flex items-center justify-center font-black">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-punk uppercase text-[#00BFA5] tracking-wide">
+                  Ruang Aman (Safe Space)
+                </h3>
+                <p className="text-xs text-[#D8CCE6] leading-normal font-mono">
+                  Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut.
+                </p>
+              </div>
+
+              {/* Card 2: DIY Culture */}
+              <div className="bg-[#D4E627] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#B879AD] transition-all">
+                <DuctTape className="-top-3 left-6 w-14 -rotate-3" color="purple" />
+                <div className="w-10 h-10 bg-[#12041D] text-[#D4E627] border-2 border-black flex items-center justify-center font-black">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-punk uppercase text-[#12041D] tracking-wide">
+                  DIY Culture & Swadaya
+                </h3>
+                <p className="text-xs text-[#12041D] leading-normal font-mono font-bold">
+                  Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri &apos;Latihan Di Lihatin&apos;, kami mengorganisirnya secara swadaya.
+                </p>
+              </div>
+
+              {/* Card 3: Highly Motivated */}
+              <div className="bg-[#B879AD] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all">
+                <div className="w-10 h-10 bg-[#12041D] text-[#B879AD] border-2 border-black flex items-center justify-center font-black">
+                  <Flame className="w-5 h-5 text-[#D4E627]" />
+                </div>
+                <h3 className="text-xl font-punk uppercase text-[#12041D] tracking-wide">
+                  Highly Motivated
+                </h3>
+                <p className="text-xs text-[#12041D] leading-normal font-mono font-bold">
+                  Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala.
+                </p>
+              </div>
+
+              {/* Card 4: Tangerang Scene */}
+              <div className="bg-[#240A3D] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all">
+                <div className="w-10 h-10 bg-[#D4E627] text-[#12041D] border-2 border-black flex items-center justify-center font-black">
+                  <MapPin className="w-5 h-5 text-[#12041D]" />
+                </div>
+                <h3 className="text-xl font-punk uppercase text-[#D4E627] tracking-wide">
+                  Tangerang Underground (2022)
+                </h3>
+                <p className="text-xs text-[#D8CCE6] leading-normal font-mono">
+                  Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 4: FANZINE PHOTO GALLERY (12 REAL PHOTOS)
+      ========================================================================= */}
+      <section id="photos" className="py-20 border-b-4 border-black bg-[#1E0833] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] mb-2">
+              <div className="inline-flex items-center gap-2 bg-[#00BFA5] text-[#12041D] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] mb-2 font-mono">
                 <Camera className="w-3.5 h-3.5" /> DOKUMENTASI RESMI INSTAGRAM
               </div>
-              <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
+              <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal text-[#F3EFE0]">
                 Fanzine Photo Gallery
               </h2>
-              <p className="text-[#444] text-sm mt-1 max-w-2xl font-bold">
+              <p className="text-[#CBB8DC] text-sm mt-1 max-w-2xl font-bold font-mono">
                 Arsip visual panggung, moshpit circle, rilis fisik, dan suasana showcase Silly N Valley.
-                Dokumentasi eksklusif oleh <strong className="text-black">@silly.n.valley</strong> &{" "}
-                <strong className="text-black">@mqrifisnqini</strong>.
+                Dokumentasi eksklusif oleh <strong className="text-[#D4E627]">@silly.n.valley</strong> &{" "}
+                <strong className="text-[#D4E627]">@mqrifisnqini</strong>.
               </p>
             </div>
 
@@ -1426,10 +1136,10 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <button
                   key={tab.key}
                   onClick={() => setGalleryCategory(tab.key)}
-                  className={`px-3 py-1.5 text-xs font-black uppercase border-2 border-black transition-all ${
+                  className={`px-3 py-1.5 text-xs font-black uppercase border-2 border-black transition-all cursor-pointer ${
                     galleryCategory === tab.key
-                      ? "bg-[#FFE500] text-black shadow-[3px_3px_0px_#000] -translate-y-0.5"
-                      : "bg-white text-black hover:bg-[#F0ECE1] shadow-[2px_2px_0px_#000]"
+                      ? "bg-[#D4E627] text-[#12041D] shadow-[3px_3px_0px_#B879AD] -translate-y-0.5"
+                      : "bg-[#2E104B] text-[#F3EFE0] hover:bg-[#3D1563] shadow-[2px_2px_0px_#000]"
                   }`}
                 >
                   {tab.label}
@@ -1438,715 +1148,326 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             </div>
           </div>
 
-          {/* Polaroid Pinboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {filteredPhotos.map((photo, index) => {
-              const originalIndex = INSTAGRAM_PHOTOS.findIndex(p => p.id === photo.id);
+          {/* Polaroid Zine Photo Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
+            {filteredPhotos.map((photo, idx) => {
+              const rotateClasses = [
+                "-rotate-1 hover:rotate-0",
+                "rotate-2 hover:rotate-0",
+                "-rotate-2 hover:rotate-0",
+                "rotate-1 hover:rotate-0"
+              ];
+              const rotation = rotateClasses[idx % rotateClasses.length];
+
               return (
                 <div
                   key={photo.id}
-                  onClick={() => setActivePhotoIndex(originalIndex)}
-                  className={`group bg-white border-3 border-black p-3.5 shadow-[5px_5px_0px_#0D0D0D] hover:shadow-[7px_7px_0px_#00F0FF,-7px_-7px_0px_#FF0055] hover:-translate-y-2 hover:rotate-0 transition-all duration-300 cursor-pointer relative ${photo.tilt}`}
+                  onClick={() => setActivePhotoIndex(idx)}
+                  className={`bg-[#F3EFE0] text-[#12041D] p-3 border-3 border-black shadow-[6px_6px_0px_#10031B] cursor-pointer group transition-all duration-300 hover:scale-[1.03] hover:shadow-[10px_10px_0px_#D4E627] relative ${rotation}`}
                 >
-                  {/* Duct Tape on top of each polaroid */}
                   <DuctTape
-                    className="-top-3 left-1/2 -translate-x-1/2 w-16"
-                    color={index % 2 === 0 ? "tan" : "grey"}
+                    className="-top-3 left-1/2 -translate-x-1/2 w-20"
+                    color={idx % 3 === 0 ? "yellow" : idx % 3 === 1 ? "purple" : "cyan"}
                   />
 
-                  {/* Photo Frame */}
-                  <div className="aspect-4/3 sm:aspect-square bg-black overflow-hidden border-2 border-black relative">
+                  <div className="aspect-square bg-black overflow-hidden border-2 border-black relative">
                     <img
                       src={photo.src}
-                      alt={photo.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 contrast-105"
+                      alt={photo.caption}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter contrast-105"
                       loading="lazy"
                     />
-                    {/* Animated Xerox Scanline Sweep on Hover */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                    {/* Pop-up Authenticity Punk Stamp */}
-                    <div className="absolute top-2 left-2 bg-[#FF0055] text-white text-[8px] font-black px-1.5 py-0.5 border border-black uppercase -rotate-6 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-[1px_1px_0px_#000] z-10 scale-90 group-hover:scale-100">
-                      AUTHENTIC PUNK
+                    <div className="absolute inset-0 bg-[#12041D]/0 group-hover:bg-[#12041D]/30 transition-colors flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 bg-[#D4E627] text-[#12041D] text-xs font-black uppercase px-2.5 py-1 border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1 transition-opacity">
+                        <Maximize2 className="w-3.5 h-3.5" /> Perbesar
+                      </span>
                     </div>
 
-                    <div className="absolute top-2 right-2 bg-black/80 text-white p-1 rounded-xs opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                      <Maximize2 className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="absolute bottom-2 left-2 bg-[#FFE500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black uppercase z-10">
-                      #{photo.id.toString().padStart(2, "0")}
-                    </div>
+                    <span className="absolute bottom-2 left-2 bg-[#12041D]/80 text-[#D4E627] text-[9px] font-mono font-bold px-1.5 py-0.5 border border-[#D4E627]">
+                      {photo.timestamp}
+                    </span>
                   </div>
 
-                  {/* Handwritten Polaroid Caption Area */}
-                  <div className="pt-3 space-y-1">
-                    <div className="font-black text-xs uppercase tracking-tight text-black truncate">
-                      {photo.title}
-                    </div>
-                    <div className="text-[11px] text-[#444] line-clamp-2 leading-tight">
+                  <div className="pt-3 px-1">
+                    <p className="text-xs font-mono font-bold leading-snug line-clamp-2 text-[#12041D]">
                       {photo.caption}
-                    </div>
-                    <div className="pt-2 border-t border-dashed border-[#BBB] flex justify-between items-center text-[10px] font-bold text-[#666]">
-                      <span className="truncate">{photo.venue}</span>
-                      <span className="text-[#D90429] shrink-0">{photo.credit}</span>
+                    </p>
+                    <div className="mt-2 pt-2 border-t border-dashed border-black/30 flex justify-between items-center text-[10px] text-[#444] font-mono">
+                      <span>#SILLYNVALLEY</span>
+                      <span className="text-black font-black uppercase">FOTO #{photo.id}</span>
                     </div>
                   </div>
                 </div>
               );
             })}
           </div>
-
-          {/* Instagram Follow Plug Banner */}
-          <div className="mt-12 bg-white border-3 border-black p-6 shadow-[8px_8px_0px_#0D0D0D] flex flex-col md:flex-row items-center justify-between gap-6 relative">
-            <DuctTape className="-top-3 left-12 w-24 -rotate-2" />
-            <div className="space-y-1 text-center md:text-left">
-              <div className="inline-block bg-[#FFE500] text-black text-[11px] font-black px-2 py-0.5 border border-black uppercase">
-                INSTAGRAM RESMI
-              </div>
-              <h3 className="text-xl sm:text-2xl font-black uppercase text-black">
-                Mau Lihat Foto & Video Moshpit Lainnya?
-              </h3>
-              <p className="text-xs text-[#555] font-bold">
-                Follow akun official <strong className="text-black">@silly.n.valley</strong> dan arsip fotografer <strong className="text-black">@mqrifisnqini</strong> untuk update jadwal gigs & behind the scenes!
-              </p>
-            </div>
-            <div className="flex gap-3 shrink-0">
-              <a
-                href="https://instagram.com/silly.n.valley"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#D90429] hover:bg-[#ba0323] text-white px-4 py-2.5 text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000] flex items-center gap-1.5"
-              >
-                <InstagramIcon className="w-4 h-4 text-white" /> @silly.n.valley
-              </a>
-              <a
-                href="https://instagram.com/mqrifisnqini"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#0D0D0D] hover:bg-[#222] text-[#FFE500] px-4 py-2.5 text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000] flex items-center gap-1.5"
-              >
-                <InstagramIcon className="w-4 h-4 text-[#FFE500]" /> @mqrifisnqini
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ─── LIGHTBOX MODAL (FULL RESOLUTION ZOOM) ────────────────────────── */}
+      {/* LIGHTBOX MODAL */}
       {activePhotoIndex !== null && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-[#12041D]/90 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setActivePhotoIndex(null)}
         >
           <div
-            className="bg-[#FAF8F5] border-4 border-black p-4 sm:p-6 max-w-4xl w-full shadow-[12px_12px_0px_#D90429] relative max-h-[92vh] overflow-y-auto"
+            className="bg-[#1A062B] border-4 border-black max-w-3xl w-full p-4 sm:p-6 shadow-[10px_10px_0px_#D4E627] relative"
             onClick={e => e.stopPropagation()}
           >
-            {/* Duct tape decorative */}
-            <DuctTape className="-top-3 left-10 w-24 -rotate-3" />
-            <DuctTape className="-top-3 right-10 w-24 rotate-3" color="grey" />
+            <button
+              onClick={() => setActivePhotoIndex(null)}
+              className="absolute -top-4 -right-4 bg-[#D90429] text-white p-2 border-2 border-black font-black hover:scale-110 transition-transform shadow-[2px_2px_0px_#000] z-20"
+              aria-label="Tutup popup"
+            >
+              <X className="w-5 h-5" />
+            </button>
 
-            {/* Modal Header */}
-            <div className="flex justify-between items-center pb-3 mb-3 border-b-2 border-black">
-              <div className="flex items-center gap-2">
-                <span className="bg-[#FFE500] text-black text-xs font-black px-2 py-0.5 border border-black uppercase">
-                  FOTO #{INSTAGRAM_PHOTOS[activePhotoIndex].id} / {INSTAGRAM_PHOTOS.length}
-                </span>
-                <span className="text-xs font-bold text-[#666]">
-                  {INSTAGRAM_PHOTOS[activePhotoIndex].venue}
-                </span>
-              </div>
-              <button
-                onClick={() => setActivePhotoIndex(null)}
-                className="bg-[#D90429] text-white p-1.5 border-2 border-black hover:bg-black transition-colors"
-                aria-label="Tutup foto"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Main High-Res Image Display */}
-            <div className="relative bg-black border-3 border-black overflow-hidden flex items-center justify-center max-h-[58vh]">
+            <div className="aspect-4/3 sm:aspect-16/10 bg-black overflow-hidden border-2 border-black relative">
               <img
-                src={INSTAGRAM_PHOTOS[activePhotoIndex].src}
-                alt={INSTAGRAM_PHOTOS[activePhotoIndex].title}
-                className="max-h-[58vh] w-auto max-w-full object-contain mx-auto"
+                src={filteredPhotos[activePhotoIndex].src}
+                alt={filteredPhotos[activePhotoIndex].caption}
+                className="w-full h-full object-contain"
               />
-
-              {/* Prev & Next Floating Buttons */}
-              <button
-                onClick={() =>
-                  setActivePhotoIndex(prev =>
-                    prev === null || prev === 0
-                      ? INSTAGRAM_PHOTOS.length - 1
-                      : prev - 1
-                  )
-                }
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-white text-black p-2 border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-[#FFE500]"
-                aria-label="Foto sebelumnya"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() =>
-                  setActivePhotoIndex(prev =>
-                    prev === null || prev === INSTAGRAM_PHOTOS.length - 1
-                      ? 0
-                      : prev + 1
-                  )
-                }
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black p-2 border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-[#FFE500]"
-                aria-label="Foto selanjutnya"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
             </div>
 
-            {/* Modal Photo Caption & Details */}
-            <div className="pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div className="pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono">
               <div>
-                <h3 className="text-lg sm:text-xl font-black uppercase text-black">
-                  {INSTAGRAM_PHOTOS[activePhotoIndex].title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#444] mt-1 font-mono">
-                  {INSTAGRAM_PHOTOS[activePhotoIndex].caption}
+                <span className="text-[#00BFA5] font-black uppercase text-[10px]">
+                  DOKUMENTASI FOTO GIGS TANGERANG
+                </span>
+                <p className="text-sm font-bold text-[#F3EFE0] mt-0.5">
+                  {filteredPhotos[activePhotoIndex].caption}
                 </p>
               </div>
-              <div className="text-left sm:text-right shrink-0">
-                <div className="text-[10px] text-[#777] uppercase font-bold">KREDIT FOTOGRAFER:</div>
-                <div className="text-xs font-black text-[#D90429]">
-                  {INSTAGRAM_PHOTOS[activePhotoIndex].credit}
-                </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() =>
+                    setActivePhotoIndex(
+                      (activePhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length
+                    )
+                  }
+                  className="bg-[#2A0E44] hover:bg-[#3D1563] text-[#D4E627] p-2 border-2 border-black cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-[#D4E627] font-bold px-2">
+                  {activePhotoIndex + 1} / {filteredPhotos.length}
+                </span>
+                <button
+                  onClick={() =>
+                    setActivePhotoIndex((activePhotoIndex + 1) % filteredPhotos.length)
+                  }
+                  className="bg-[#2A0E44] hover:bg-[#3D1563] text-[#D4E627] p-2 border-2 border-black cursor-pointer"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* ─── SECTION 3: VINTAGE 80s CASSETTE TAPE DECK & NEON PUNK JUKEBOX ──── */}
-      {/* ─── SECTION 3: VINTAGE CASSETTE TAPE DECK & AUDIO PLAYER ──── */}
-      <section id="music" className="py-20 bg-[#0E0F14] text-[#EBE7DF] border-b-4 border-black relative overflow-hidden">
-        {/* Subtle Ambient Studio Backdrop */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#FFE500]/5 rounded-full blur-3xl pointer-events-none" />
-
+      {/* =========================================================================
+          SECTION 5: LISTEN TO US (DEDICATED SPOTIFY STREAMING HUB)
+      ========================================================================= */}
+      <section
+        id="listen"
+        className="py-20 border-b-4 border-black bg-[#12041D] relative overflow-hidden"
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
-            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000]">
-              <Headphones className="w-3.5 h-3.5" /> OFFICIAL TRACKS
+          {/* Section Header with Spotify Branding */}
+          <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+            <div className="inline-flex items-center gap-2 bg-[#1DB954] text-black px-3.5 py-1 font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_#000]">
+              <SpotifyIcon className="w-4 h-4 text-black" /> OFFICIAL SPOTIFY STREAMING
             </div>
-            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white">
+            <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal text-[#F3EFE0]">
               LISTEN TO US
             </h2>
+            <p className="text-[#CBB8DC] text-xs sm:text-sm font-mono font-bold max-w-xl mx-auto">
+              Dengarkan katalog musik lengkap Silly N Valley di Spotify: dari single &apos;Berhala-Run!&apos;, mini album &apos;Rantai Reaksi (Abu Tanpa Api)&apos;, hingga rekaman panggung live di Tangerang!
+            </p>
           </div>
 
-          {/* VINTAGE STUDIO TAPE DECK INDUSTRIAL RACK HOUSING */}
-          <div className="bg-[#12141A] border-4 border-black p-4 sm:p-7 relative max-w-6xl mx-auto rounded-none shadow-[8px_8px_0px_#000]">
-            {/* Clean Industrial Top Accent Line */}
-            <div className="absolute top-0 inset-x-0 h-1 bg-[#FFE500] pointer-events-none" />
+          {/* Top Spotify Banner Card */}
+          <div className="bg-[#1C0830] border-4 border-black p-6 sm:p-8 shadow-[8px_8px_0px_#1DB954] relative mb-10">
+            <DuctTape className="-top-3 left-10 w-24 -rotate-2" color="cyan" />
+            <DuctTape className="-top-3 right-10 w-24 rotate-3" color="yellow" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
-              {/* LEFT COLUMN (7 COLS): FULL CASSETTE TAPE DECK & CONTROLS */}
-              <div className="lg:col-span-7 bg-[#14161C] border-3 border-black p-4 sm:p-6 shadow-inner flex flex-col justify-between">
-                <div>
-                  {/* Cassette Label Header */}
-                  <div className="bg-[#FFE500] text-black border-2 border-black p-3 flex flex-wrap justify-between items-center font-mono shadow-[3px_3px_0px_#000] gap-2">
-                    <div>
-                      <div className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#333]">
-                        SIDE A • HIGH BIAS TYPE II • C-30 ANALOG CASSETTE
-                      </div>
-                      <div className="text-lg sm:text-2xl font-black uppercase tracking-tight">
-                        RANTAI REAKSI [EP]
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xs font-black bg-black text-[#FFE500] px-2.5 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
-                        SILLY N VALLEY
-                      </div>
-                      <div className="text-[9px] sm:text-[10px] font-bold text-black mt-0.5">TANGERANG DIY REC.</div>
-                    </div>
-                  </div>
-
-                  {/* CASSETTE TAPE WINDOW & ROTATING SPOOLS */}
-                  <div className="my-4 bg-[#0B0C0E] border-3 border-black p-3 sm:p-5 relative shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden">
-                    {/* Backlight warm glow inside cassette well */}
-                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-                      isPlaying ? "bg-[#FFE500]/5" : "bg-transparent"
-                    }`} />
-
-                    {/* Magnetic tape ribbon */}
-                    <div className="absolute inset-x-6 sm:inset-x-12 top-1/2 -translate-y-1/2 h-7 sm:h-8 bg-[#2B150A] opacity-85 pointer-events-none border-y border-[#4A2411]" />
-
-                    {/* Rotating Spools */}
-                    <div className="grid grid-cols-2 gap-4 sm:gap-8 items-center max-w-sm mx-auto relative z-10">
-                      {/* Left Spool (Supply) */}
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
-                            isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
-                          }`}
-                        >
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                            <div className="w-3 h-3 rounded-full bg-[#FFE500]/60" />
-                          </div>
-                          {/* Spokes */}
-                          <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
-                          <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
-                        </div>
-                        <span className="text-[9px] text-[#A4ACB9] mt-1.5 font-mono font-bold uppercase">SUPPLY REEL</span>
-                      </div>
-
-                      {/* Right Spool (Take-up) */}
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-[#1E222B] border-4 border-[#3A4252] flex items-center justify-center relative shadow-[0_0_15px_rgba(0,0,0,0.8)] ${
-                            isPlaying ? "animate-[spin_2.5s_linear_infinite]" : ""
-                          }`}
-                        >
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#101217] border-2 border-white/20 flex items-center justify-center">
-                            <div className="w-3 h-3 rounded-full bg-[#FFE500]/60" />
-                          </div>
-                          <div className="absolute w-full h-1 bg-[#3A4252] pointer-events-none" />
-                          <div className="absolute h-full w-1 bg-[#3A4252] pointer-events-none" />
-                        </div>
-                        <span className="text-[9px] text-[#A4ACB9] mt-1.5 font-mono font-bold uppercase">TAKE-UP REEL</span>
-                      </div>
-                    </div>
-
-                    {/* Amber LED Tape Counter HUD */}
-                    <div className="mt-3 text-center relative z-10">
-                      <div className="inline-flex items-center gap-2 sm:gap-3 bg-[#0A0C10] border-2 border-black px-3 py-1 font-mono text-[11px] sm:text-xs shadow-[2px_2px_0px_#000]">
-                        <span className="text-[#888] hidden sm:inline">TAPE COUNTER:</span>
-                        <span className="text-[#FFE500] font-black tracking-widest text-xs sm:text-sm">
-                          {formatTime(playbackSec)} / {activeTrack.duration}
-                        </span>
-                        <span className="text-[#FFE500] font-black">[{activeTrack.bpm} BPM]</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* NOW PLAYING TRACK STRIP */}
-                  <div className="bg-[#0F1116] border-2 border-black p-3.5 flex flex-wrap items-center justify-between gap-3 font-mono shadow-[2px_2px_0px_#000]">
-                    <div>
-                      <div className="text-[10px] text-[#FFE500] font-bold uppercase">
-                        NOW PLAYING • TRACK #{activeTrack.id} OF 6
-                      </div>
-                      <div className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
-                        {activeTrack.title}
-                      </div>
-                      <div className="text-xs text-[#8E95A5] mt-0.5">
-                        {activeTrack.story}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="bg-[#1A1D24] text-[#FFE500] border border-black px-2 py-0.5 text-[11px] font-bold uppercase shadow-[2px_2px_0px_#000]">
-                        {activeTrack.energy}
-                      </span>
-                      <button
-                        onClick={() => setLyricsOpen(!lyricsOpen)}
-                        className="bg-[#22252D] hover:bg-[#2C303A] text-white px-3 py-1.5 text-xs font-bold border border-black flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_#000]"
-                      >
-                        <FileText className="w-3.5 h-3.5 text-[#FFE500]" />
-                        {lyricsOpen ? "Tutup Lirik" : "Baca Lirik"}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* NATIVE HTML5 AUDIO ELEMENT */}
-                  <audio
-                    ref={audioRef}
-                    src={activeTrack.audioSrc}
-                    onTimeUpdate={() => {
-                      if (audioRef.current) {
-                        setPlaybackSec(Math.floor(audioRef.current.currentTime));
-                      }
-                    }}
-                    onEnded={handleNextTrack}
-                    preload="auto"
-                  />
-
-                  {/* MONOCHROME SPECTRUM EQUALIZER BARS & NORMAL SEEK BAR */}
-                  <div className="mt-4 space-y-1.5">
-                    {/* Uniform Spectrum Bars */}
-                    <div className="flex items-end gap-1 h-5 px-0.5" aria-hidden="true">
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(bar => {
-                        const height = isPlaying
-                          ? `${Math.max(20, ((bar * 23 + playbackSec * 29) % 80) + 20)}%`
-                          : "15%";
-                        return (
-                          <div
-                            key={bar}
-                            className={`flex-1 transition-all duration-150 ${
-                              isPlaying ? "bg-[#FFE500]" : "bg-[#2A2E39]"
-                            }`}
-                            style={{ height }}
-                          />
-                        );
-                      })}
-                    </div>
-
-                    {/* Normal Progress / Seek Bar with Scrubber */}
-                    <div
-                      className="relative w-full bg-[#1A1D24] h-3.5 border-2 border-black cursor-pointer shadow-inner group select-none"
-                      onClick={e => {
-                        if (!audioRef.current) return;
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const clickX = e.clientX - rect.left;
-                        const newPct = Math.max(0, Math.min(1, clickX / rect.width));
-                        const targetSec = newPct * activeTrack.durationSec;
-                        audioRef.current.currentTime = targetSec;
-                        setPlaybackSec(Math.floor(targetSec));
-                      }}
-                      title="Klik untuk seek posisi lagu"
-                      role="progressbar"
-                      aria-valuenow={playbackSec}
-                      aria-valuemin={0}
-                      aria-valuemax={activeTrack.durationSec}
-                    >
-                      {/* Fill Bar Solid Yellow */}
-                      <div
-                        className="bg-[#FFE500] h-full transition-all duration-100 relative pointer-events-none"
-                        style={{
-                          width: `${Math.min(100, (playbackSec / activeTrack.durationSec) * 100)}%`
-                        }}
-                      >
-                        {/* Scrubber Thumb Indicator */}
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-5 bg-white border-2 border-black shadow-[1px_1px_0px_#000] group-hover:scale-110 transition-transform" />
-                      </div>
-                    </div>
-
-                    {/* Time Counter Below Seek Bar */}
-                    <div className="flex justify-between items-center text-[10px] font-mono text-[#8E95A5] px-0.5">
-                      <span>{formatTime(playbackSec)}</span>
-                      <span>{activeTrack.duration}</span>
-                    </div>
-                  </div>
-
-                  {/* HEAVY TACTILE TRANSPORT BUTTONS & NORMAL VOLUME SLIDER */}
-                  <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t-2 border-black/80">
-                    {/* Buttons */}
-                    <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
-                      <button
-                        onClick={handlePrevTrack}
-                        className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform cursor-pointer"
-                        title="Track Sebelumnya"
-                        aria-label="Previous track"
-                      >
-                        <SkipBack className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        onClick={togglePlayPause}
-                        className={`flex-1 sm:flex-initial px-6 sm:px-9 py-3 min-h-[44px] font-mono font-black text-sm uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 transition-all active:translate-y-0.5 active:shadow-none cursor-pointer ${
-                          isPlaying
-                            ? "bg-[#101217] text-[#FFE500] border-[#FFE500] shadow-[4px_4px_0px_#000]"
-                            : "bg-[#FFE500] text-black shadow-[4px_4px_0px_#000]"
-                        }`}
-                      >
-                        {isPlaying ? (
-                          <>
-                            <Pause className="w-4 h-4 fill-current" /> STOP TAPE
-                          </>
-                        ) : (
-                          <>
-                            <Play className="w-4 h-4 fill-current" /> PLAY TAPE
-                          </>
-                        )}
-                      </button>
-
-                      <button
-                        onClick={handleNextTrack}
-                        className="bg-[#2B2E38] hover:bg-[#383C48] active:bg-[#1E2027] text-white p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-transform cursor-pointer"
-                        title="Track Selanjutnya"
-                        aria-label="Next track"
-                      >
-                        <SkipForward className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    {/* Volume Slider & Mute Toggle */}
-                    <div className="flex items-center gap-2.5 bg-[#14161C] px-3 py-2 border-2 border-black shadow-[2px_2px_0px_#000] text-xs font-mono w-full sm:w-auto justify-between sm:justify-start">
-                      <button
-                        onClick={() => setIsMuted(!isMuted)}
-                        className="text-[#A4ACB9] hover:text-[#FFE500] transition-colors cursor-pointer"
-                        aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-                        title={isMuted ? "Unmute" : "Mute"}
-                      >
-                        {isMuted ? (
-                          <VolumeX className="w-4 h-4 text-[#FFE500]" />
-                        ) : (
-                          <Volume2 className="w-4 h-4" />
-                        )}
-                      </button>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.05"
-                        value={isMuted ? 0 : volume}
-                        onChange={e => {
-                          const val = parseFloat(e.target.value);
-                          setVolume(val);
-                          if (isMuted && val > 0) setIsMuted(false);
-                        }}
-                        className="w-24 h-2 bg-[#22242B] accent-[#FFE500] rounded-none cursor-pointer"
-                        aria-label="Volume slider"
-                      />
-                      <span className="text-[11px] font-bold text-[#A4ACB9] w-9 text-right tabular-nums">
-                        {isMuted ? "0%" : `${Math.round(volume * 100)}%`}
-                      </span>
-                    </div>
-                  </div>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4 text-left">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#1DB954] text-black flex items-center justify-center shrink-0 border-3 border-black shadow-[3px_3px_0px_#000]">
+                  <SpotifyIcon className="w-9 h-9 sm:w-11 sm:h-11 text-black" />
                 </div>
-
-                {/* LYRICS DRAWER ACCORDION */}
-                {lyricsOpen && (
-                  <div className="mt-4 pt-4 border-t-2 border-dashed border-[#444] animate-fadeIn">
-                    <div className="bg-[#0C0D11] border-2 border-black p-4 font-mono text-xs shadow-[3px_3px_0px_#000]">
-                      <div className="flex justify-between items-center mb-2 pb-1 border-b border-[#222]">
-                        <span className="text-[#FFE500] font-black uppercase flex items-center gap-1.5">
-                          <Flame className="w-3.5 h-3.5 text-[#FFE500]" /> Lirik: {activeTrack.title}
-                        </span>
-                        <span className="text-[10px] text-[#FFE500] font-bold">
-                          {activeTrack.sourceType === "live" ? "🔴 LIVE SESSION" : "⚡ STUDIO MASTER"}
-                        </span>
-                      </div>
-                      <pre className="font-mono text-[#D4D8E2] whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto text-xs">
-                        {activeTrack.lyrics}
-                      </pre>
-                    </div>
+                <div>
+                  <div className="text-[10px] text-[#1DB954] font-black uppercase tracking-wider font-mono">
+                    AVAILABLE ON ALL DEVICES
                   </div>
-                )}
+                  <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#F3EFE0]">
+                    Silly N Valley on Spotify
+                  </h3>
+                  <p className="text-xs text-[#CBB8DC] font-mono font-bold mt-0.5">
+                    Stream bebas iklan, kualitas audio master jernih, dan tambahkan ke playlist punk favoritmu!
+                  </p>
+                </div>
               </div>
 
-              {/* RIGHT COLUMN (5 COLS): COMPACT PUNK STAGE & PLAYLIST */}
-              <div className="lg:col-span-5 flex flex-col gap-4">
-                {/* COMPACT PUNK STAGE: DUAL VU METERS + SKULL MASCOT */}
-                <div className="bg-[#101217] border-2 border-[#2A2E39] p-3 sm:p-4 shadow-inner relative overflow-hidden">
-                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-[#2A2E39]">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FFE500]" />
-                      <span className="font-mono text-xs font-black text-white uppercase tracking-wider">
-                        LIVE STAGE MONITOR
-                      </span>
-                    </div>
-                    <div className="text-[10px] font-mono text-[#A4ACB9]">
-                      <span className="bg-black px-2 py-0.5 border border-[#333]">192KBPS MASTER</span>
-                    </div>
-                  </div>
+              <div className="flex flex-wrap gap-3 shrink-0">
+                <a
+                  href="https://open.spotify.com/search/Silly%20N%20Valley"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#1DB954] hover:bg-[#1ed760] text-black px-6 py-3 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 cursor-pointer active:translate-y-0.5"
+                >
+                  <SpotifyIcon className="w-4 h-4 text-black" /> Buka di Spotify Web / App
+                </a>
+                <a
+                  href="https://open.spotify.com/search/Rantai%20Reaksi%20Abu%20Tanpa%20Api"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-5 py-3 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Disc className="w-4 h-4" /> Cari EP Rantai Reaksi
+                </a>
+              </div>
+            </div>
 
-                  {/* Stage row: Left VU + Center Skull + Right VU */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex flex-col items-center shrink-0">
-                      <AnalogVUMeter channel="L" isPlaying={isPlaying} level={vuLevelLeft} />
-                      <span className="text-[8px] font-mono text-[#888] mt-1 font-bold">CH L</span>
+            {/* Spotify Embedded Web Player Frame */}
+            <div className="mt-8 pt-6 border-t-2 border-dashed border-[#572288]">
+              <div className="flex items-center justify-between mb-3 text-xs font-mono font-bold">
+                <span className="text-[#00BFA5] uppercase flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#1DB954] animate-ping" />
+                  SPOTIFY EMBEDDED PREVIEW
+                </span>
+                <span className="text-[#888]">Langsung dengarkan tanpa tinggalkan halaman</span>
+              </div>
+              <div className="rounded-lg overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000]">
+                <iframe
+                  style={{ borderRadius: "8px" }}
+                  src="https://open.spotify.com/embed/search/Silly%20N%20Valley"
+                  width="100%"
+                  height="232"
+                  frameBorder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  className="w-full bg-[#12041D]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* SPOTIFY TRACKLIST GRID */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[#572288]">
+              <h3 className="text-2xl font-punk uppercase text-[#D4E627]">
+                Daftar Lagu di Spotify ({TRACKS.length} Tracks)
+              </h3>
+              <span className="text-xs font-mono text-[#CBB8DC] font-bold">
+                Pilih lagu untuk dengarkan langsung di Spotify
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {TRACKS.map(t => {
+                const isOpen = openSpotifyTrackLyrics === t.id;
+                const spotifyTrackUrl = `https://open.spotify.com/search/${encodeURIComponent(
+                  t.title + " Silly N Valley"
+                )}`;
+
+                return (
+                  <div
+                    key={t.id}
+                    className="bg-[#240A3D] border-3 border-black p-4 shadow-[4px_4px_0px_#000] hover:border-[#1DB954] hover:shadow-[6px_6px_0px_#1DB954] transition-all relative flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-7 h-7 rounded-full bg-[#1DB954] text-black font-black text-xs flex items-center justify-center font-mono">
+                            0{t.id}
+                          </span>
+                          <span className="text-[10px] font-mono font-black uppercase text-[#00BFA5]">
+                            {t.sourceType === "single" ? "STUDIO SINGLE" : "LIVE AT HALA KOFFIE"}
+                          </span>
+                        </div>
+                        <span className="bg-[#12041D] text-[#D4E627] text-[10px] font-black px-2 py-0.5 border border-[#D4E627] font-mono">
+                          {t.bpm} BPM
+                        </span>
+                      </div>
+
+                      <h4 className="text-2xl font-punk uppercase text-[#F3EFE0] tracking-wide">
+                        {t.title}
+                      </h4>
+                      <p className="text-xs text-[#CBB8DC] font-mono mt-1 font-bold">
+                        {t.story}
+                      </p>
                     </div>
 
-                    <div className="flex-1 flex justify-center">
-                      <PunkSkullWithMic
-                        isPlaying={isPlaying}
-                        bpm={activeTrack.bpm}
-                        currentTrackTitle={activeTrack.title}
-                      />
-                    </div>
+                    <div className="mt-4 pt-3 border-t-2 border-dashed border-[#572288] flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 text-xs font-mono text-[#888]">
+                        <span>Durasi: <strong className="text-white">{t.duration}</strong></span>
+                        <span>•</span>
+                        <button
+                          onClick={() => setOpenSpotifyTrackLyrics(isOpen ? null : t.id)}
+                          className="text-[#D4E627] hover:underline cursor-pointer"
+                        >
+                          {isOpen ? "Tutup Lirik ↑" : "Lirik Lagu ↓"}
+                        </button>
+                      </div>
 
-                    <div className="flex flex-col items-center shrink-0">
-                      <AnalogVUMeter channel="R" isPlaying={isPlaying} level={vuLevelRight} />
-                      <span className="text-[8px] font-mono text-[#888] mt-1 font-bold">CH R</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* TRACKLIST SELECTOR */}
-                <div className="bg-[#14161C] border-2 border-black p-3 sm:p-4 shadow-inner flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex justify-between items-center mb-2.5 text-xs font-mono font-bold text-[#A4ACB9]">
-                      <span className="text-white">PILIH LAGU ({TRACKS.length} TRACKS):</span>
                       <a
-                        href="https://sillynvalley.bandcamp.com"
+                        href={spotifyTrackUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#FFE500] hover:underline flex items-center gap-1 text-[11px]"
+                        className="bg-[#1DB954] hover:bg-[#1ed760] text-black px-3.5 py-1.5 font-punk text-xs uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5 cursor-pointer"
                       >
-                        <ExternalLink className="w-3 h-3" /> Bandcamp Resmi
+                        <SpotifyIcon className="w-3.5 h-3.5 text-black" /> Putar di Spotify
                       </a>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-2">
-                      {TRACKS.map((t, idx) => {
-                        const isSelected = idx === currentTrackIndex;
-                        return (
-                          <button
-                            key={t.id}
-                            onClick={() => {
-                              setCurrentTrackIndex(idx);
-                              setPlaybackSec(0);
-                              setIsPlaying(true);
-                            }}
-                            className={`p-2.5 text-left font-mono border-2 transition-all flex items-center justify-between cursor-pointer ${
-                              isSelected
-                                ? "bg-[#FFE500] text-black border-black shadow-[3px_3px_0px_#000]"
-                                : "bg-[#1A1D24] text-[#A4ACB9] border-black hover:border-[#FFE500] hover:text-white"
-                            }`}
-                          >
-                            <div className="flex items-center gap-2 truncate">
-                              <span className="font-black text-xs">0{t.id}.</span>
-                              <span className="font-black text-xs sm:text-sm uppercase tracking-tight truncate">
-                                {t.title}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2 text-[10px] font-bold shrink-0 ml-2">
-                              <span>{t.duration}</span>
-                              <span className={`px-1.5 py-0.5 text-[9px] ${isSelected && isPlaying ? "bg-black text-[#FFE500]" : "bg-black/40 text-[#BBB]"}`}>
-                                {isSelected && isPlaying ? "▶ PLAYING" : `${t.bpm} BPM`}
-                              </span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {isOpen && (
+                      <div className="mt-3 bg-[#12041D] border-2 border-[#1DB954] p-3 text-xs font-mono whitespace-pre-line text-[#F3EFE0]">
+                        <div className="text-[10px] text-[#1DB954] font-black uppercase mb-1">
+                          LIRIK RESMI: {t.title}
+                        </div>
+                        {t.lyrics}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 4: MANIFESTO & PHILOSOPHY (TYPEWRITER ESSAY) ──────────── */}
-      <section id="manifesto" className="py-20 border-b-4 border-black bg-[#F5F2EB] relative overflow-hidden">
-        {/* Circular Seal in Manifesto */}
-        <div className="hidden lg:flex absolute -top-4 -right-4 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D90429] text-white items-center justify-center -rotate-6 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
-          <div className="text-[9px] font-black uppercase text-center leading-tight tracking-widest px-1">
-            ★ NO GATEKEEPING ★<br />100% DIY<br />PUNK ETHOS
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Narrative Column */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
-                <Flame className="w-3.5 h-3.5" /> SURAT TERBUKA & MANIFESTO
-              </div>
-
-              <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight leading-tight text-black">
-                Band Punk Tapi <br />
-                <span className="inline-block bg-[#FFE500] text-black px-2 border-2 border-black shadow-[3px_3px_0px_#000] cursor-default">
-                  Kok Ngonten!?
-                </span>
-              </h2>
-
-              <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed bg-white border-3 border-black p-6 shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#FFE500] transition-shadow relative">
-                <DuctTape className="-top-3 left-10 w-20 -rotate-2" />
-                <p>
-                  Pertanyaan ini paling sering dilempar: <em className="font-bold">&quot;Katanya band punk rock, tapi kok rajin bikin reels, ngonten TikTok, dan aktif di algoritma? Kenapa nggak sembunyi di gorong-gorong aja?&quot;</em>
-                </p>
-                <p>
-                  Bagi <strong>Silly N Valley</strong>, etos punk itu tentang <strong>kejujuran, kemandirian (DIY), dan perlawanan terhadap elitisme</strong>. Punk bukan aturan kolot tentang apa yang &quot;boleh&quot; dan &quot;nggak boleh&quot; dilakukan menurut gatekeeper scene lama.
-                </p>
-                <p>
-                  Di zaman di mana media sosial dipenuhi kepalsuan dan toxic comparison, kami membajak platform itu untuk menyebarkan pesan positif: <strong>bergerak, jangan menyerah, cintai scene kotamu, dan jaga ruang aman bersama</strong>.
-                </p>
-              </div>
-
-              {/* Quote Sticker */}
-              <div className="bg-[#0D0D0D] text-white border-2 border-black p-5 shadow-[5px_5px_0px_#FFE500] relative text-sm">
-                <div className="font-bold italic">
-                  &quot;Kami bikin konten bukan demi jadi selebriti, tapi supaya anak muda Tangerang tahu kalau mereka punya rumah dan distorsi yang siap merangkul mereka kapan saja.&quot;
-                </div>
-                <div className="mt-2 text-[#FFE500] text-xs font-black uppercase flex items-center justify-between">
-                  <span>(Silly N Valley Official Statement)</span>
-                  <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Bento Grid of Core Values */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Card 1: Safe Space */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D90429] transition-all">
-                <DuctTape className="-top-3 right-6 w-14 rotate-6" />
-                <div className="w-10 h-10 bg-[#D90429] text-white border-2 border-black flex items-center justify-center font-black">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-black uppercase text-black tracking-tight">
-                  Ruang Aman (Safe Space)
-                </h3>
-                <p className="text-xs text-[#444] leading-normal font-mono">
-                  Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut.
-                </p>
-              </div>
-
-              {/* Card 2: DIY Culture */}
-              <div className="bg-[#FFE500] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#000] transition-all">
-                <DuctTape className="-top-3 left-6 w-14 -rotate-3" color="grey" />
-                <div className="w-10 h-10 bg-black text-[#FFE500] border-2 border-black flex items-center justify-center font-black">
-                  <Zap className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-black uppercase text-black tracking-tight">
-                  DIY Culture & Swadaya
-                </h3>
-                <p className="text-xs text-black leading-normal font-mono font-bold">
-                  Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri &apos;Latihan Di Lihatin&apos;, kami mengorganisirnya secara swadaya.
-                </p>
-              </div>
-
-              {/* Card 3: High Energy Motivation */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFE500] transition-all">
-                <div className="w-10 h-10 bg-[#FFE500] text-black border-2 border-black flex items-center justify-center font-black">
-                  <Flame className="w-5 h-5 text-[#D90429]" />
-                </div>
-                <h3 className="text-base font-black uppercase text-black tracking-tight">
-                  Highly Motivated
-                </h3>
-                <p className="text-xs text-[#444] leading-normal font-mono">
-                  Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala.
-                </p>
-              </div>
-
-              {/* Card 4: Tangerang Pride */}
-              <div className="bg-white border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D90429] transition-all">
-                <div className="w-10 h-10 bg-black text-white border-2 border-black flex items-center justify-center font-black">
-                  <MapPin className="w-5 h-5 text-[#FFE500]" />
-                </div>
-                <h3 className="text-base font-black uppercase text-black tracking-tight">
-                  Tangerang Hyper-Local
-                </h3>
-                <p className="text-xs text-[#444] leading-normal font-mono">
-                  Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 5: GIGS FLYER WALL (PASTED POSTER BOARD) ─────────────── */}
-      <section id="gigs" className="py-20 border-b-4 border-black bg-[#DDD7CB] relative">
+      {/* =========================================================================
+          SECTION 6: GIGS & FLYER WALL
+      ========================================================================= */}
+      <section id="gigs" className="py-20 border-b-4 border-black bg-[#180529] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 bg-[#0D0D0D] text-[#FFE500] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#D90429] mb-2">
+              <div className="inline-flex items-center gap-2 bg-[#D4E627] text-[#12041D] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#00BFA5] mb-2 font-mono">
                 <Calendar className="w-3.5 h-3.5" /> FLYER WALL & PANGGUNG
               </div>
-              <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
+              <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal text-[#F3EFE0]">
                 Gigs & Flyer Wall
               </h2>
-              <p className="text-[#444] text-sm mt-1 font-bold">
+              <p className="text-[#CBB8DC] text-sm mt-1 font-bold font-mono">
                 Jejak poster gigs fotokopi dinding, showcase mandiri, dan panggung festival Silly N Valley.
               </p>
             </div>
             <a
-              href="https://wa.me/6282216387253?text=Halo%20Silly%20N%20Valley!%20Mau%20ajak%20manggung%20di%20kota%20kami."
+              href="https://wa.me/6281299095137?text=Halo%20Silly%20N%20Valley!%20Mau%20ajak%20manggung%20di%20kota%20kami."
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#D90429] hover:bg-[#ba0323] text-white px-5 py-3 font-mono font-black text-xs uppercase tracking-wider border-3 border-black shadow-[4px_4px_0px_#000] flex items-center gap-2 self-start md:self-auto hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="bg-[#00BFA5] hover:bg-[#00ab94] text-[#12041D] px-5 py-3 font-punk text-sm uppercase tracking-wider border-3 border-black shadow-[4px_4px_0px_#D4E627] flex items-center gap-2 self-start md:self-auto hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <Zap className="w-4 h-4 fill-white" /> Ajak Manggung di Kotamu
+              <Zap className="w-4 h-4 fill-current" /> Ajak Manggung di Kotamu
             </a>
           </div>
 
@@ -2155,65 +1476,62 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             {GIGS_TIMELINE.map((gig, idx) => (
               <div
                 key={gig.id}
-                className={`bg-white border-3 border-black p-6 shadow-[7px_7px_0px_#0D0D0D] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D90429] transition-all duration-300 ${
+                className={`bg-[#280D41] border-3 border-black p-6 shadow-[7px_7px_0px_#10031B] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D4E627] transition-all duration-300 ${
                   idx % 2 === 0 ? "-rotate-1" : "rotate-1"
                 }`}
               >
-                {/* Duct Tape on top edges */}
                 <DuctTape
                   className="-top-3 left-12 w-20 -rotate-3"
-                  color={idx % 2 === 0 ? "tan" : "grey"}
+                  color={idx % 2 === 0 ? "yellow" : "purple"}
                 />
 
                 <div>
                   {/* Top Badges */}
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs">
-                    <span className="bg-[#D90429] text-white px-2 py-0.5 font-black uppercase border border-black flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                    <span className="bg-[#B879AD] text-[#12041D] px-2 py-0.5 font-black uppercase border border-black flex items-center gap-1.5 font-mono">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#12041D] animate-ping" />
                       {gig.category}
                     </span>
-                    <span className="text-black font-black flex items-center gap-1 bg-[#FFE500] px-2 py-0.5 border border-black">
-                      <Clock className="w-3.5 h-3.5" /> {gig.dateStr}
+                    <span className="text-[#12041D] font-black flex items-center gap-1 bg-[#D4E627] px-2 py-0.5 border border-black font-mono">
+                      <Calendar className="w-3 h-3 text-[#12041D]" /> {gig.date}
                     </span>
                   </div>
 
-                  {/* Flyer Visual Preview Thumbnail */}
-                  <div className="aspect-16/9 bg-black overflow-hidden border-2 border-black mb-4 relative">
-                    <img
-                      src={gig.photoSrc}
-                      alt={gig.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 contrast-110"
-                    />
-                    <div className="absolute bottom-2 left-2 bg-black/80 text-white font-mono text-[10px] px-2 py-0.5 border border-white uppercase">
-                      {gig.highlightBadge}
-                    </div>
-                  </div>
-
-                  {/* Title & Venue */}
-                  <h3 className="text-2xl font-black uppercase text-black group-hover:text-[#D90429] transition-colors leading-tight">
+                  <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#F3EFE0] leading-tight mb-2">
                     {gig.title}
                   </h3>
 
-                  <div className="mt-2 space-y-0.5 text-xs text-[#555]">
-                    <div className="flex items-center gap-1.5 text-black font-bold">
-                      <MapPin className="w-3.5 h-3.5 text-[#D90429]" /> {gig.venue}
-                    </div>
-                    <div className="text-[11px] pl-5">{gig.location}</div>
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#D4E627] mb-4">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>
+                      {gig.venue}, {gig.city}
+                    </span>
                   </div>
 
-                  <p className="mt-3 text-xs sm:text-sm text-[#333] leading-relaxed font-mono">
-                    {gig.desc}
+                  {/* Flyer Snapshot Graphic */}
+                  <div className="aspect-16/9 bg-black border-2 border-black overflow-hidden mb-4 relative">
+                    <img
+                      src={gig.photoSrc}
+                      alt={gig.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 filter contrast-110"
+                    />
+                    <div className="absolute bottom-2 right-2 bg-[#12041D] text-[#D4E627] text-[10px] font-mono px-2 py-0.5 border border-[#D4E627] uppercase">
+                      ARSIP LIVE
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-[#D8CCE6] font-mono leading-relaxed">
+                    {gig.vibe}
                   </p>
                 </div>
 
-                {/* Footer of Gig Card */}
-                <div className="mt-6 pt-3 border-t-2 border-dashed border-black flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <div className="text-[#D90429] font-black text-[11px]">
-                    VIBE: {gig.vibe}
-                  </div>
+                <div className="mt-5 pt-3 border-t-2 border-dashed border-[#572288] flex justify-between items-center text-xs">
+                  <span className="text-[#D4E627] font-punk text-sm">
+                    STATUS: SELESAI DIGUNCANG
+                  </span>
                   {gig.collab && (
-                    <div className="text-[#555] text-[11px] font-bold">
-                      Collab: <span className="text-black font-black">{gig.collab}</span>
+                    <div className="text-[#CBB8DC] text-[11px] font-mono font-bold">
+                      Collab: <span className="text-[#00BFA5] font-black">{gig.collab}</span>
                     </div>
                   )}
                 </div>
@@ -2221,18 +1539,17 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
             ))}
           </div>
 
-
           {/* Interactive Showcase Box for HALA Koffie */}
-          <div className="mt-10 bg-[#FFE500] border-3 border-black p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_#0D0D0D] relative">
-            <DuctTape className="-top-3 right-16 w-24 rotate-2" />
-            <div className="space-y-2 max-w-2xl text-black">
-              <span className="bg-black text-[#FFE500] text-[10px] font-black px-2 py-0.5 uppercase border border-black">
+          <div className="mt-10 bg-[#D4E627] border-3 border-black p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_#00BFA5] relative">
+            <DuctTape className="-top-3 right-16 w-24 rotate-2" color="purple" />
+            <div className="space-y-2 max-w-2xl text-[#12041D]">
+              <span className="bg-[#12041D] text-[#D4E627] text-[10px] font-black px-2 py-0.5 uppercase border border-black font-mono">
                 SHOWCASE RESIDENCY MANDIRI
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black uppercase text-black leading-tight">
+              <h3 className="text-3xl sm:text-4xl font-punk uppercase text-[#12041D] leading-tight">
                 Mau Ikutan Sing-Along di &apos;Latihan Di Lihatin&apos;?
               </h3>
-              <p className="text-xs sm:text-sm text-black font-bold font-mono">
+              <p className="text-xs sm:text-sm text-[#12041D] font-bold font-mono">
                 Acara rutin di HALA Koffie Tangerang selalu gratis tanpa tiket. Pantau info jadwal sesi berikutnya langsung di Instagram stories @silly.n.valley!
               </p>
             </div>
@@ -2240,483 +1557,102 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               href="https://instagram.com/silly.n.valley"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-black hover:bg-[#222] text-[#FFE500] px-6 py-3 font-black text-xs uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#D90429] shrink-0 flex items-center gap-2"
+              className="bg-[#12041D] hover:bg-[#230B3A] text-[#D4E627] px-6 py-3 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#B879AD] shrink-0 flex items-center gap-2"
             >
-              <InstagramIcon className="w-4 h-4 text-[#FFE500]" /> Cek IG @silly.n.valley
+              <InstagramIcon className="w-4 h-4 text-[#D4E627]" /> Cek IG @silly.n.valley
             </a>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 6: MERCHANDISE DISTRO STALLS ──────────────────────────── */}
-      <section id="merch" className="py-20 border-b-4 border-black bg-[#EAE5DA] relative overflow-hidden">
-        {/* Circular Seal in Merch */}
-        <div className="hidden md:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#FFE500] items-center justify-center rotate-6 shadow-[5px_5px_0px_#000] z-20 pointer-events-none select-none">
-          <div className="text-[9px] font-black uppercase text-center leading-tight tracking-wider text-black">
-            ⚡ MERCH DROP ⚡<br />OFFICIAL DIY<br />DISTRO
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#FFE500] text-black px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
-              <ShoppingBag className="w-3.5 h-3.5" /> DISTRO PUNK UNDERGROUND
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
-              Kaset Pita & Merch Drop
-            </h2>
-            <p className="text-[#555] text-xs sm:text-sm font-mono font-bold">
-              Semua hasil penjualan dialokasikan mandiri untuk pembiayaan rekaman, produksi kaset analog, dan operasional gigs gratis.
-            </p>
-          </div>
-
-          {/* Merch Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {MERCH_CATALOG.map((item, mIdx) => {
-              const currentSize = selectedSizes[item.id] || item.sizes[0];
-              return (
-                <div
-                  key={item.id}
-                  className={`bg-white border-3 border-black shadow-[6px_6px_0px_#0D0D0D] hover:shadow-[8px_8px_0px_#00F0FF,-8px_-8px_0px_#FF0055] hover:-translate-y-2 hover:rotate-0 transition-all duration-300 flex flex-col justify-between p-5 relative group ${
-                    mIdx % 2 === 0 ? "-rotate-1" : "rotate-1"
-                  }`}
-                >
-                  <DuctTape
-                    className="-top-3 left-6 w-16 -rotate-2"
-                    color={mIdx % 2 === 0 ? "tan" : "grey"}
-                  />
-
-                  {/* Badge */}
-                  {item.badge && (
-                    <div className="absolute -top-3 right-4 bg-[#FFE500] text-black font-black text-[10px] px-2 py-0.5 uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
-                      {item.badge}
-                    </div>
-                  )}
-
-                  <div>
-                    {/* Category & Status */}
-                    <div className="flex justify-between items-center text-[10px] text-[#777] mb-3 font-bold">
-                      <span className="font-mono">{item.category}</span>
-                      <span className="text-[#D90429] font-black flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D90429] animate-ping" />
-                        {item.stockStatus}
-                      </span>
-                    </div>
-
-                    {/* Merch Real Photo Frame */}
-                    <div className="aspect-square bg-[#D2D2D2] border-2 border-black overflow-hidden relative mb-4">
-                      <img
-                        src={item.photoSrc}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute bottom-2 left-2 bg-[#FFE500] text-black text-[9px] font-black px-1.5 py-0.5 border border-black uppercase">
-                        ORIGINAL ITEM
-                      </div>
-                    </div>
-
-                    {/* Item Name & Price */}
-                    <h3 className="text-base sm:text-lg font-black uppercase text-black tracking-tight leading-snug group-hover:text-[#D90429] transition-colors">
-                      {item.name}
-                    </h3>
-                    <div className="text-xl font-black text-[#D90429] font-mono mt-1">
-                      {item.formattedPrice}
-                    </div>
-
-                    <p className="text-xs text-[#555] mt-2 leading-relaxed">
-                      {item.desc}
-                    </p>
-
-                    {/* Specs List */}
-                    <ul className="mt-3 space-y-1 text-[11px] text-[#444] font-bold">
-                      {item.specs.map((sp, sIdx) => (
-                        <li key={sIdx} className="flex items-center gap-1.5">
-                          <Check className="w-3.5 h-3.5 text-[#D90429] shrink-0" />
-                          <span>{sp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Size Selector & Order Button */}
-                  <div className="mt-6 pt-4 border-t-2 border-dashed border-black space-y-3">
-                    {item.sizes.length > 1 && (
-                      <div>
-                        <label className="block text-[10px] text-[#777] uppercase mb-1 font-black">
-                          PILIH UKURAN:
-                        </label>
-                        <div className="flex gap-1.5 flex-wrap">
-                          {item.sizes.map(sz => (
-                            <button
-                              key={sz}
-                              type="button"
-                              onClick={() =>
-                                setSelectedSizes({
-                                  ...selectedSizes,
-                                  [item.id]: sz
-                                })
-                              }
-                              className={`px-2 py-1 text-xs font-mono font-bold border-2 transition-colors cursor-pointer ${
-                                currentSize === sz
-                                  ? "bg-[#FFE500] text-black border-black font-black"
-                                  : "bg-white text-black border-black hover:bg-[#F0ECE1]"
-                              }`}
-                            >
-                              {sz}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Direct WA Order Button */}
-
-                    <button
-                      onClick={() => handleOrderMerch(item)}
-                      className="w-full bg-[#D90429] hover:bg-[#ba0323] text-white py-2.5 px-3 font-black text-xs uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      <MessageCircle className="w-3.5 h-3.5" /> Beli via WhatsApp
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Shipping Note */}
-          <div className="mt-10 bg-white border-2 border-black p-4 text-xs text-[#555] font-bold flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span className="bg-[#FFE500] text-black px-1.5 py-0.5 border border-black font-black uppercase">
-                INFO
-              </span>
-              <span>Pengiriman dari Kota Tangerang via JNE / J&T / Paxel. Pembayaran transfer BCA / Mandiri / QRIS.</span>
-            </div>
-            <div className="text-black font-black">
-              Admin Hotline: 0822-1638-7253
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 7: TECHNICAL RIDERS (TYPEWRITER CARBON COPY) ─────────── */}
-      <section id="riders" className="py-20 border-b-4 border-black bg-[#F5F2EB] relative">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 bg-[#0D0D0D] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#FFE500]">
-              <Sliders className="w-3.5 h-3.5" /> STAGE PLOT & HOSPITALITY
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
-              Technical Riders
-            </h2>
-            <p className="text-[#555] text-xs sm:text-sm font-mono font-bold">
-              Spesifikasi teknis patch 8 channel & kebutuhan logistik demi kelancaran sound check Silly N Valley.
-            </p>
-          </div>
-
-          {/* Tab Switcher */}
-          <div className="flex justify-center mb-8">
-            <div className="bg-white border-3 border-black p-1 inline-flex shadow-[4px_4px_0px_#000]">
-              <button
-                onClick={() => setActiveRiderTab("tech")}
-                className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                  activeRiderTab === "tech"
-                    ? "bg-[#FFE500] text-black border-2 border-black shadow-[2px_2px_0px_#000]"
-                    : "text-[#555] hover:text-black"
-                }`}
-              >
-                Channel Input List (8 CH)
-              </button>
-              <button
-                onClick={() => setActiveRiderTab("hospitality")}
-                className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                  activeRiderTab === "hospitality"
-                    ? "bg-[#FFE500] text-black border-2 border-black shadow-[2px_2px_0px_#000]"
-                    : "text-[#555] hover:text-black"
-                }`}
-              >
-                Hospitality & Ruang Tunggu
-              </button>
-            </div>
-          </div>
-
-          {/* Content Document Box */}
-          <div className="bg-white border-4 border-black p-6 sm:p-9 shadow-[9px_9px_0px_#0D0D0D] relative">
-            <DuctTape className="-top-4 left-10 w-24 -rotate-3" />
-            <DuctTape className="-top-4 right-10 w-24 rotate-3" color="grey" />
-
-            {activeRiderTab === "tech" ? (
-              <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-black">
-                  <div>
-                    <h3 className="text-xl font-black uppercase text-black flex items-center">
-                      8-Channel Stage Patch List
-                      <span className="inline-block w-2.5 h-4 bg-black ml-1.5 animate-pulse align-middle" />
-                    </h3>
-                    <p className="text-xs text-[#555] font-bold">
-                      Setup simpel, bertenaga, cocok untuk panggung cafe, hall, maupun festival outdoor.
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={copyRiderToClipboard}
-                      className="bg-white hover:bg-[#F0ECE1] text-black px-3.5 py-2 text-xs font-black uppercase border-2 border-black flex items-center gap-1.5 shadow-[2px_2px_0px_#000] cursor-pointer"
-                    >
-                      {copiedRider ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-[#009933]" /> Disalin!
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" /> Salin Teks
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={downloadRiderFile}
-                      className="bg-[#FFE500] hover:bg-[#ebd300] text-black px-3.5 py-2 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" /> Download (.txt)
-                    </button>
-                  </div>
-                </div>
-
-                {/* Table Patch */}
-                <div className="overflow-x-auto -mx-2 sm:mx-0">
-                  <table className="w-full text-left font-mono text-xs min-w-[520px]">
-                    <thead>
-                      <tr className="border-b-2 border-black bg-[#EAE5DA] text-black font-black">
-                        <th className="p-3">CH</th>
-                        <th className="p-3">INSTRUMENT / SOURCE</th>
-                        <th className="p-3">MIC / DI BOX</th>
-                        <th className="p-3">STAND</th>
-                        <th className="p-3">REMARKS</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-black/20 text-black">
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0" />
-                          CH 01
-                        </td>
-                        <td className="p-3 font-bold">Kick Drum</td>
-                        <td className="p-3">Shure Beta 52A / AKG D112</td>
-                        <td className="p-3">Short Boom</td>
-                        <td className="p-3 text-[#666]">Punchy low end</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.2s]" />
-                          CH 02
-                        </td>
-                        <td className="p-3 font-bold">Snare Drum</td>
-                        <td className="p-3">Shure SM57</td>
-                        <td className="p-3">Short Boom / Clip</td>
-                        <td className="p-3 text-[#666]">Top snare crack</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.4s]" />
-                          CH 03
-                        </td>
-                        <td className="p-3 font-bold">Hi-Hat / OH</td>
-                        <td className="p-3">Shure SM81 / Condenser</td>
-                        <td className="p-3">Tall Boom</td>
-                        <td className="p-3 text-[#666]">Crisp attack</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.1s]" />
-                          CH 04
-                        </td>
-                        <td className="p-3 font-bold">Bass Guitar</td>
-                        <td className="p-3">DI Box Active / XLR Out Head</td>
-                        <td className="p-3">-</td>
-                        <td className="p-3 text-[#666]">Direct low-mid grit</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.3s]" />
-                          CH 05
-                        </td>
-                        <td className="p-3 font-bold">Guitar 1 (Lead/Cab)</td>
-                        <td className="p-3">Shure SM57 / Sennheiser e609</td>
-                        <td className="p-3">Short Boom</td>
-                        <td className="p-3 text-[#666]">Marshall / Peavey Cab</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.5s]" />
-                          CH 06
-                        </td>
-                        <td className="p-3 font-bold">Guitar 2 (Rhythm)</td>
-                        <td className="p-3">Shure SM57</td>
-                        <td className="p-3">Short Boom</td>
-                        <td className="p-3 text-[#666]">Full distortion wall</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.25s]" />
-                          CH 07
-                        </td>
-                        <td className="p-3 font-bold">Lead Vocal</td>
-                        <td className="p-3">Shure SM58 / Beta 58A</td>
-                        <td className="p-3">Straight / Boom</td>
-                        <td className="p-3 text-[#666]">High gain, feedback-free</td>
-                      </tr>
-                      <tr>
-                        <td className="p-3 font-black text-[#D90429] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping shrink-0 [animation-delay:0.35s]" />
-                          CH 08
-                        </td>
-                        <td className="p-3 font-bold">Backing Vocal</td>
-                        <td className="p-3">Shure SM58</td>
-                        <td className="p-3">Boom Stand</td>
-                        <td className="p-3 text-[#666]">Guitar 2 backing shouts</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="sm:hidden text-[10px] text-[#666] font-mono italic mt-1.5">
-                  ↔ Geser tabel ke samping untuk melihat detail mic & stands
-                </div>
-
-                {/* Electric & Monitoring Note */}
-                <div className="bg-[#FAF8F5] border-2 border-black p-4 text-xs space-y-1">
-                  <div className="text-black font-black uppercase">KEBUTUHAN MONITOR & LISTRIK:</div>
-                  <div>• 3 Unit Foldback Wedge Monitors (Vocal Front, Stage Right, Drum Thrown).</div>
-                  <div>• 2 Jalur Colokan Listrik 220V Grounded di dekat pedalboard gitar & bass.</div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-black uppercase text-black">
-                    Hospitality & Logistics Guide
-                  </h3>
-                  <p className="text-xs text-[#555] font-bold">
-                    Standar keramahan dan fasilitas yang kami butuhkan untuk 5 personil & crew.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                  <div className="bg-[#FAF8F5] border-2 border-black p-4 space-y-1.5">
-                    <div className="text-[#D90429] font-black uppercase flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4" /> RUANG TUNGGU & KEAMANAN
-                    </div>
-                    <p className="text-[#444] leading-relaxed">
-                      Ruang tunggu ber-AC / berventilasi memadai dengan akses aman untuk menyimpan instrumen dan gear sebelum serta sesudah perform.
-                    </p>
-                  </div>
-
-                  <div className="bg-[#FAF8F5] border-2 border-black p-4 space-y-1.5">
-                    <div className="text-black font-black uppercase flex items-center gap-2">
-                      <Heart className="w-4 h-4 text-[#D90429]" /> KONSUMSI & BEVERAGE
-                    </div>
-                    <p className="text-[#444] leading-relaxed">
-                      2 karton air mineral 600ml (suhu ruang & dingin), buah segar (pisang), dan kopi lokal Tangerang. Makanan berat setelah check sound.
-                    </p>
-                  </div>
-
-                  <div className="bg-[#FAF8F5] border-2 border-black p-4 space-y-1.5">
-                    <div className="text-[#D90429] font-black uppercase flex items-center gap-2">
-                      <Flame className="w-4 h-4" /> NON-ALCOHOL FRIENDLY
-                    </div>
-                    <p className="text-[#444] leading-relaxed">
-                      Strictly ruang aman dan non-alcohol friendly. Kami memprioritaskan performa prima berenergi tinggi tanpa kewajiban konsumsi alkohol.
-                    </p>
-                  </div>
-
-                  <div className="bg-[#FAF8F5] border-2 border-black p-4 space-y-1.5">
-                    <div className="text-black font-black uppercase flex items-center gap-2">
-                      <Clock className="w-4 h-4" /> WAKTU SOUNDCHECK
-                    </div>
-                    <p className="text-[#444] leading-relaxed">
-                      Akses panggung minimal 2 jam sebelum open gate / rundown untuk check sound 30 menit demi kualitas audio maksimal.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 8: CONTACT & BOOKING HOTLINE ─────────────────────────── */}
-      <section id="booking" className="py-20 border-b-4 border-black bg-[#EAE5DA] relative">
+      {/* =========================================================================
+          SECTION 7: BOOKING & KOLABORASI
+      ========================================================================= */}
+      <section id="booking" className="py-20 border-b-4 border-black bg-[#1E0833] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left: Contact Info */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="inline-flex items-center gap-2 bg-[#D90429] text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000]">
+              <div className="inline-flex items-center gap-2 bg-[#D4E627] text-[#12041D] px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#000] font-mono">
                 <Zap className="w-3.5 h-3.5 fill-current" /> DIRECT MANAGEMENT HOTLINE
               </div>
 
-              <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
+              <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal text-[#F3EFE0]">
                 Booking & Kolaborasi
               </h2>
 
-              <p className="text-[#444] text-sm sm:text-base leading-relaxed font-bold">
+              <p className="text-[#CBB8DC] text-sm sm:text-base leading-relaxed font-bold font-mono">
                 Kami siap mengguncang gigs mandiri, pensi kampus, festival musik, showcase cafe, hingga tur lintas kota. Hubungi hotline resmi manajemen di bawah ini.
               </p>
 
-              {/* Direct Info Card */}
-              <div className="bg-white border-3 border-black p-5 shadow-[6px_6px_0px_#0D0D0D] space-y-4 text-xs">
+              {/* Direct Info Card with Phone Number */}
+              <div className="bg-[#280D41] border-3 border-black p-5 shadow-[6px_6px_0px_#10031B] space-y-4 text-xs font-mono">
                 <div>
-                  <div className="text-[10px] text-[#777] uppercase font-black">WHATSAPP BOOKING HOTLINE</div>
+                  <div className="text-[10px] text-[#CBB8DC] uppercase font-black">WHATSAPP BOOKING HOTLINE</div>
                   <a
-                    href="https://wa.me/6282216387253"
+                    href="https://wa.me/6281299095137"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xl font-black text-[#D90429] hover:underline flex items-center gap-2 mt-0.5"
+                    className="text-2xl font-punk text-[#D4E627] hover:underline flex items-center gap-2 mt-0.5 tracking-wide"
                   >
                     <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D90429] opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-[#D90429]"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00BFA5] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00BFA5]"></span>
                     </span>
-                    +62 822-1638-7253 <ArrowUpRight className="w-4 h-4" />
+                    +62 812-9909-5137 <ArrowUpRight className="w-4 h-4" />
                   </a>
-                  <div className="text-[#555] text-[11px] mt-0.5">Respon cepat via pesan WhatsApp</div>
+                  <div className="text-[#CBB8DC] text-[11px] mt-0.5">Respon cepat via pesan WhatsApp</div>
                 </div>
 
-                <div className="pt-3 border-t-2 border-dashed border-black">
-                  <div className="text-[10px] text-[#777] uppercase font-black">OFFICIAL INSTAGRAM</div>
+                <div className="pt-3 border-t-2 border-dashed border-[#572288]">
+                  <div className="text-[10px] text-[#CBB8DC] uppercase font-black">OFFICIAL SPOTIFY</div>
+                  <a
+                    href="https://open.spotify.com/search/Silly%20N%20Valley"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-bold text-[#1DB954] hover:underline flex items-center gap-1.5 mt-0.5"
+                  >
+                    <SpotifyIcon className="w-4 h-4 text-[#1DB954]" /> Silly N Valley on Spotify
+                  </a>
+                </div>
+
+                <div className="pt-3 border-t-2 border-dashed border-[#572288]">
+                  <div className="text-[10px] text-[#CBB8DC] uppercase font-black">OFFICIAL INSTAGRAM</div>
                   <a
                     href="https://instagram.com/silly.n.valley"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-base font-black text-black hover:text-[#D90429] flex items-center gap-1.5 mt-0.5"
+                    className="text-base font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-1.5 mt-0.5"
                   >
-                    <InstagramIcon className="w-4 h-4 text-[#D90429]" /> @silly.n.valley
+                    <InstagramIcon className="w-4 h-4 text-[#D4E627]" /> @silly.n.valley
                   </a>
                 </div>
 
-                <div className="pt-3 border-t-2 border-dashed border-black">
-                  <div className="text-[10px] text-[#777] uppercase font-black">FOTOGRAFER & ARSIP DOKUMENTASI</div>
+                <div className="pt-3 border-t-2 border-dashed border-[#572288]">
+                  <div className="text-[10px] text-[#CBB8DC] uppercase font-black">FOTOGRAFER & ARSIP DOKUMENTASI</div>
                   <a
                     href="https://instagram.com/mqrifisnqini"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-base font-black text-black hover:text-[#D90429] flex items-center gap-1.5 mt-0.5"
+                    className="text-base font-bold text-[#F3EFE0] hover:text-[#00BFA5] flex items-center gap-1.5 mt-0.5"
                   >
-                    <InstagramIcon className="w-4 h-4 text-black" /> @mqrifisnqini
+                    <InstagramIcon className="w-4 h-4 text-[#00BFA5]" /> @mqrifisnqini
                   </a>
-                  <div className="text-[#555] text-[11px] mt-0.5">Dokumentasi foto & video gigs resmi</div>
+                  <div className="text-[#CBB8DC] text-[11px] mt-0.5">Dokumentasi foto & video gigs resmi</div>
                 </div>
               </div>
             </div>
 
             {/* Right: Booking Form */}
             <div className="lg:col-span-7">
-              <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-[8px_8px_0px_#0D0D0D] relative">
-                <DuctTape className="-top-3 right-12 w-20 rotate-3" />
+              <div className="bg-[#280D41] border-4 border-black p-6 sm:p-8 shadow-[8px_8px_0px_#D4E627] relative">
+                <DuctTape className="-top-3 right-12 w-20 rotate-3" color="purple" />
 
-                <div className="mb-6 pb-4 border-b-2 border-black">
-                  <h3 className="text-2xl font-black uppercase text-black">
+                <div className="mb-6 pb-4 border-b-2 border-[#572288]">
+                  <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#D4E627]">
                     Formulir Inquiry Manggung
                   </h3>
-                  <p className="text-xs text-[#555] mt-1 font-bold">
+                  <p className="text-xs text-[#CBB8DC] mt-1 font-bold font-mono">
                     Isi detail acara Anda untuk generate template pesan WhatsApp otomatis langsung ke nomor manajemen Silly N Valley.
                   </p>
                 </div>
@@ -2724,7 +1660,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                 <form onSubmit={handleSendBookingInquiry} className="space-y-4 text-xs font-mono">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-black uppercase font-black mb-1">
+                      <label className="block text-[#F3EFE0] uppercase font-black mb-1">
                         Nama Acara / Penyelenggara:
                       </label>
                       <input
@@ -2734,12 +1670,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onChange={e =>
                           setBookingForm({ ...bookingForm, eventName: e.target.value })
                         }
-                        className="w-full bg-[#FAF8F5] border-2 border-black p-3 text-black outline-none font-bold"
+                        className="w-full bg-[#180529] border-2 border-[#572288] focus:border-[#D4E627] p-3 text-[#F3EFE0] outline-none font-bold"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-black uppercase font-black mb-1">
+                      <label className="block text-[#F3EFE0] uppercase font-black mb-1">
                         Venue & Kota:
                       </label>
                       <input
@@ -2749,7 +1685,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onChange={e =>
                           setBookingForm({ ...bookingForm, venueCity: e.target.value })
                         }
-                        className="w-full bg-[#FAF8F5] border-2 border-black p-3 text-black outline-none font-bold"
+                        className="w-full bg-[#180529] border-2 border-[#572288] focus:border-[#D4E627] p-3 text-[#F3EFE0] outline-none font-bold"
                         required
                       />
                     </div>
@@ -2757,7 +1693,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-black uppercase font-black mb-1">
+                      <label className="block text-[#F3EFE0] uppercase font-black mb-1">
                         Estimasi Tanggal:
                       </label>
                       <input
@@ -2766,12 +1702,12 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onChange={e =>
                           setBookingForm({ ...bookingForm, date: e.target.value })
                         }
-                        className="w-full bg-[#FAF8F5] border-2 border-black p-3 text-black outline-none font-bold"
+                        className="w-full bg-[#180529] border-2 border-[#572288] focus:border-[#D4E627] p-3 text-[#F3EFE0] outline-none font-bold"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-black uppercase font-black mb-1">
+                      <label className="block text-[#F3EFE0] uppercase font-black mb-1">
                         Format Event:
                       </label>
                       <select
@@ -2779,7 +1715,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                         onChange={e =>
                           setBookingForm({ ...bookingForm, format: e.target.value })
                         }
-                        className="w-full bg-[#FAF8F5] border-2 border-black p-3 text-black outline-none font-bold"
+                        className="w-full bg-[#180529] border-2 border-[#572288] focus:border-[#D4E627] p-3 text-[#F3EFE0] outline-none font-bold cursor-pointer"
                       >
                         <option>Showcase / Gigs Cafe</option>
                         <option>Festival Musik Outdoor</option>
@@ -2791,7 +1727,7 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                   </div>
 
                   <div>
-                    <label className="block text-black uppercase font-black mb-1">
+                    <label className="block text-[#F3EFE0] uppercase font-black mb-1">
                       Catatan Tambahan / Rundown:
                     </label>
                     <textarea
@@ -2801,15 +1737,15 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
                       onChange={e =>
                         setBookingForm({ ...bookingForm, notes: e.target.value })
                       }
-                      className="w-full bg-[#FAF8F5] border-2 border-black p-3 text-black outline-none resize-none font-bold"
+                      className="w-full bg-[#180529] border-2 border-[#572288] focus:border-[#D4E627] p-3 text-[#F3EFE0] outline-none resize-none font-bold"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-[#FFE500] hover:bg-[#ebd300] text-black font-black uppercase text-sm py-3.5 px-4 border-3 border-black shadow-[4px_4px_0px_#D90429] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-[#D4E627] hover:bg-[#c2d41e] text-[#12041D] font-punk uppercase text-base py-3.5 px-4 border-3 border-black shadow-[4px_4px_0px_#00BFA5] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <MessageCircle className="w-4 h-4 fill-black" /> Kirim Inquiry via WhatsApp
+                    <MessageCircle className="w-4 h-4 fill-[#12041D]" /> Kirim Inquiry via WhatsApp
                   </button>
                 </form>
               </div>
@@ -2818,42 +1754,47 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
         </div>
       </section>
 
-      {/* ─── FOOTER (FANZINE COLOPHON & BARCODE) ──────────────────────────── */}
-      <footer className="bg-[#0D0D0D] text-[#FAF8F5] border-t-4 border-black pt-14 pb-12 font-mono">
+      {/* FOOTER */}
+      <footer className="bg-[#0E0316] text-[#F3EFE0] border-t-4 border-[#D4E627] pt-14 pb-12 font-mono">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="border-b-2 border-[#333] pb-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
-            <div>
-              <div className="flex items-center justify-center sm:justify-start gap-1">
-                <span className="bg-white text-black px-2 py-0.5 text-2xl font-black uppercase -rotate-1">
-                  SILLY
-                </span>
-                <span className="bg-[#FFE500] text-black px-2 py-0.5 text-2xl font-black uppercase rotate-1">
-                  N
-                </span>
-                <span className="bg-[#D90429] text-white px-2 py-0.5 text-2xl font-black uppercase -rotate-1">
-                  VALLEY
-                </span>
-              </div>
-              <div className="text-xs text-[#FFE500] font-black mt-2">
+          <div className="border-b-2 border-[#331153] pb-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <Link href="/" className="select-none group">
+                <img
+                  src="/assets/silly-n-valley/logo.png"
+                  alt="Silly N Valley"
+                  className="h-14 sm:h-18 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                />
+              </Link>
+              <div className="text-sm font-punk text-[#D4E627] tracking-wide">
                 HIGHLY MOTIVATED PUNK ROCK • KOTA TANGERANG, BANTEN
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <a
+                href="https://open.spotify.com/search/Silly%20N%20Valley"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#1DB954] text-black hover:bg-[#1ed760] p-2.5 border-2 border-black transition-colors"
+                title="Silly N Valley on Spotify"
+              >
+                <SpotifyIcon className="w-4 h-4 text-black" />
+              </a>
+              <a
                 href="https://instagram.com/silly.n.valley"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-black hover:bg-[#FFE500] p-2.5 border-2 border-black transition-colors"
+                className="bg-[#280D41] text-[#D4E627] hover:bg-[#D4E627] hover:text-[#12041D] p-2.5 border-2 border-black transition-colors"
                 title="Instagram @silly.n.valley"
               >
                 <InstagramIcon className="w-4 h-4" />
               </a>
               <a
-                href="https://wa.me/6282216387253"
+                href="https://wa.me/6281299095137"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#D90429] text-white hover:bg-[#ba0323] p-2.5 border-2 border-black transition-colors"
+                className="bg-[#D4E627] text-[#12041D] hover:bg-[#00BFA5] p-2.5 border-2 border-black transition-colors"
                 title="WhatsApp Hotline"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -2866,11 +1807,11 @@ CH 8: Backing Vocal (Guitar 2) -> Shure SM58 (Boom Stand)
               © {new Date().getFullYear()} SILLY N VALLEY. Dibuat dengan etos DIY & kecintaan pada skena lokal Tangerang.
             </div>
             <div className="flex items-center gap-4">
-              <a href="#hero" className="hover:text-white transition-colors">
+              <a href="#hero" className="hover:text-[#D4E627] transition-colors">
                 Kembali ke Atas ↑
               </a>
               <span className="text-[#444]">|</span>
-              <span className="text-[#FFE500] font-bold">BAND PUNK TAPI KOK NGONTEN!?</span>
+              <span className="text-[#D4E627] font-punk text-sm">BAND PUNK TAPI KOK NGONTEN!?</span>
             </div>
           </div>
         </div>

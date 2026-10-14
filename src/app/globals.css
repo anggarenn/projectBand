@@ -5,42 +5,27 @@
   --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", serif;
   --font-script: var(--font-script), "Alex Brush", cursive;
   --font-inria: var(--font-inria), "Inria Serif", Georgia, serif;
-  --font-cormorant: var(--font-cormorant), "Cormorant Infant", Georgia, serif;
+  --font-punk: var(--font-punk), "Bangers", Impact, "Arial Black", sans-serif;
+  --font-marker: var(--font-marker), "Permanent Marker", cursive, sans-serif;
   
-  --color-canvas: #FAF8F5;
-  --color-surface: #FFFFFF;
-  --color-ink: #1F1D1B;
-  --color-ink-muted: #6B655E;
-  --color-border-warm: #EAE5DD;
-  --color-terracotta: #A04F34;
-  --color-terracotta-dark: #873E27;
-  --color-terracotta-soft: #F7EFEA;
-  --color-champagne: #C59B3C;
-  --color-champagne-soft: #FBF6EB;
-  --color-forest: #3A5743;
-  --color-forest-soft: #EDF3EE;
+  --color-punk-purple: #240A39;
+  --color-punk-purple-dark: #160424;
+  --color-punk-purple-surface: #2E1047;
+  --color-punk-purple-border: #4D1D75;
+  --color-punk-yellow: #D4E627;
+  --color-punk-yellow-bright: #E4F72F;
+  --color-punk-lilac: #B879AD;
+  --color-punk-cyan: #00BFA5;
+  --color-punk-ink: #0F0218;
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: #FAF8F5;
-  color: #1F1D1B;
+.font-punk {
+  font-family: var(--font-punk), "Bangers", Impact, "Arial Black", sans-serif;
+  letter-spacing: 0.04em;
 }
 
-.font-serif-display {
-  font-family: var(--font-serif);
-}
-
-.font-script {
-  font-family: var(--font-script);
-}
-
-.font-inria {
-  font-family: var(--font-inria);
-}
-
-.font-cormorant {
-  font-family: var(--font-cormorant);
+.font-marker {
+  font-family: var(--font-marker), "Permanent Marker", cursive, sans-serif;
 }
 
 /* Entrance animations */
