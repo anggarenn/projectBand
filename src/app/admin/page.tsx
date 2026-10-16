@@ -28,7 +28,8 @@ import {
   DollarSign,
   MessageCircle,
   Tag,
-  AlertCircle
+  AlertCircle,
+  FolderOpen
 } from "lucide-react";
 
 // =========================================================================
@@ -392,6 +393,86 @@ export default function AdminDashboardPage() {
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  // Helper to read file as Data URL (Base64)
+  const readFileAsDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = err => reject(err);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleStageImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setProfile(prev => ({ ...prev, stageImage: dataUrl }));
+      triggerToast("Foto panggung dipilih dari komputer!");
+    } catch (err) {
+      alert("Gagal membaca file foto.");
+    }
+  };
+
+  const handleAlbumCoverFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setAlbumForm(prev => ({ ...prev, coverImage: dataUrl }));
+      triggerToast("Foto cover album dipilih!");
+    } catch (err) {
+      alert("Gagal membaca file foto.");
+    }
+  };
+
+  const handleAlbumPhotosFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    try {
+      const dataUrls = await Promise.all(
+        Array.from(files).map(f => readFileAsDataUrl(f))
+      );
+      setAlbumForm(prev => ({
+        ...prev,
+        photos: [...(prev.photos || []), ...dataUrls]
+      }));
+      triggerToast(`${files.length} foto berhasil dimasukkan dari folder!`);
+    } catch (err) {
+      alert("Gagal membaca file foto.");
+    }
+  };
+
+  const handleGigFlyersFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    try {
+      const dataUrls = await Promise.all(
+        Array.from(files).map(f => readFileAsDataUrl(f))
+      );
+      setGigForm(prev => ({
+        ...prev,
+        flyerImages: [...(prev.flyerImages || []), ...dataUrls]
+      }));
+      triggerToast(`${files.length} gambar flyer dipilih!`);
+    } catch (err) {
+      alert("Gagal membaca file flyer.");
+    }
+  };
+
+  const handleMerchImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setMerchForm(prev => ({ ...prev, image: dataUrl }));
+      triggerToast("Foto produk dipilih dari folder!");
+    } catch (err) {
+      alert("Gagal membaca file foto.");
+    }
   };
 
   // Login handler (Default simple PIN: "silly123" or "punk")
@@ -918,19 +999,29 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
-                      Path / URL Foto Banner
+                  <div className="space-y-3">
+                    <label className="cursor-pointer w-full bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-2.5 px-4 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#000] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all">
+                      <FolderOpen className="w-4 h-4" />
+                      <span>Buka Folder & Pilih Foto Baru</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleStageImageFileChange}
+                      />
                     </label>
-                    <input
-                      type="text"
-                      value={profile.stageImage}
-                      onChange={e => setProfile({ ...profile, stageImage: e.target.value })}
-                      className="w-full bg-[#12041D] border-2 border-black p-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
-                    />
-                    <p className="text-[10px] font-mono text-[#888] mt-1">
-                      Bisa path lokal misal: /assets/silly-n-valley/about_us.png atau link gambar URL publik.
-                    </p>
+
+                    <div className="pt-2 border-t border-[#331154]">
+                      <label className="block text-[11px] font-mono font-bold text-[#888] uppercase mb-1">
+                        Atau Masukkan Path / URL Manual:
+                      </label>
+                      <input
+                        type="text"
+                        value={profile.stageImage}
+                        onChange={e => setProfile({ ...profile, stageImage: e.target.value })}
+                        className="w-full bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -1411,66 +1502,102 @@ export default function AdminDashboardPage() {
 
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
-                  Foto Sampul Depan (Cover Image Path / URL)
+                  Foto Sampul Depan (Cover Gigs)
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="/assets/silly-n-valley/gallery/photo-1.jpg"
-                  value={albumForm.coverImage}
-                  onChange={e => setAlbumForm({ ...albumForm, coverImage: e.target.value })}
-                  className="w-full bg-[#12041D] border-2 border-black p-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
-                />
+                <div className="space-y-2">
+                  <label className="cursor-pointer w-full bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-2.5 px-4 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all">
+                    <FolderOpen className="w-4 h-4" />
+                    <span>Pilih Foto Cover dari Folder</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleAlbumCoverFileChange}
+                    />
+                  </label>
+                  {albumForm.coverImage && (
+                    <div className="flex items-center gap-2 p-2 bg-[#12041D] border border-black">
+                      <div className="w-12 h-12 bg-black border border-black shrink-0 overflow-hidden">
+                        <img src={albumForm.coverImage} alt="Cover Preview" className="w-full h-full object-cover" />
+                      </div>
+                      <span className="text-xs font-mono text-[#00BFA5] truncate flex-1">
+                        Foto cover terpilih
+                      </span>
+                    </div>
+                  )}
+                  <input
+                    type="text"
+                    placeholder="Atau masukkan path/URL cover..."
+                    value={albumForm.coverImage}
+                    onChange={e => setAlbumForm({ ...albumForm, coverImage: e.target.value })}
+                    className="w-full bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                  />
+                </div>
               </div>
 
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
-                  Koleksi Foto Tambahan (Bisa digeser saat diklik)
+                  Koleksi Foto Dokumentasi (Bisa Pilih Banyak Foto Sekaligus)
                 </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder="Masukkan URL/path foto baru..."
-                    value={newPhotoUrlInput}
-                    onChange={e => setNewPhotoUrlInput(e.target.value)}
-                    className="flex-1 bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#00BFA5]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (newPhotoUrlInput.trim()) {
-                        const cur = albumForm.photos || [];
-                        setAlbumForm({ ...albumForm, photos: [...cur, newPhotoUrlInput.trim()] });
-                        setNewPhotoUrlInput("");
-                      }
-                    }}
-                    className="bg-[#00BFA5] text-[#12041D] px-3 font-mono text-xs font-bold border border-black"
-                  >
-                    + Tambah
-                  </button>
-                </div>
+                <div className="space-y-2">
+                  <label className="cursor-pointer w-full bg-[#00BFA5] hover:bg-[#00a892] text-[#12041D] py-2.5 px-4 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all">
+                    <FolderOpen className="w-4 h-4" />
+                    <span>Buka Folder & Pilih Banyak Foto Sekaligus (Multi-Select)</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={handleAlbumPhotosFileChange}
+                    />
+                  </label>
 
-                {albumForm.photos && albumForm.photos.length > 0 && (
-                  <div className="flex flex-wrap gap-2 p-2 bg-[#12041D] border border-black max-h-32 overflow-y-auto">
-                    {albumForm.photos.map((p, i) => (
-                      <div key={i} className="flex items-center gap-1 bg-[#2E104B] text-[10px] font-mono px-2 py-1 text-white border border-black">
-                        <span className="truncate max-w-[120px]">{p}</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setAlbumForm({
-                              ...albumForm,
-                              photos: albumForm.photos?.filter((_, idx) => idx !== i)
-                            });
-                          }}
-                          className="text-[#FF4D4D] hover:text-white"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Atau tambah URL foto manual..."
+                      value={newPhotoUrlInput}
+                      onChange={e => setNewPhotoUrlInput(e.target.value)}
+                      className="flex-1 bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#00BFA5]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newPhotoUrlInput.trim()) {
+                          const cur = albumForm.photos || [];
+                          setAlbumForm({ ...albumForm, photos: [...cur, newPhotoUrlInput.trim()] });
+                          setNewPhotoUrlInput("");
+                        }
+                      }}
+                      className="bg-[#2E104B] text-white px-3 font-mono text-xs font-bold border border-black hover:bg-[#3E1564]"
+                    >
+                      + Tambah URL
+                    </button>
                   </div>
-                )}
+
+                  {albumForm.photos && albumForm.photos.length > 0 && (
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 bg-[#12041D] border border-black max-h-40 overflow-y-auto">
+                      {albumForm.photos.map((p, i) => (
+                        <div key={i} className="relative aspect-square bg-black border border-black group">
+                          <img src={p} alt={`Photo ${i}`} className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAlbumForm({
+                                ...albumForm,
+                                photos: albumForm.photos?.filter((_, idx) => idx !== i)
+                              });
+                            }}
+                            className="absolute -top-1.5 -right-1.5 bg-[#D90429] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black shadow border border-black cursor-pointer"
+                            title="Hapus foto ini"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
@@ -1607,52 +1734,67 @@ export default function AdminDashboardPage() {
 
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
-                  Flyer Images (Bisa lebih dari 1 untuk carousel)
+                  Flyer Images (Bisa Lebih Dari 1 Untuk Carousel)
                 </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder="URL/Path gambar flyer..."
-                    value={newFlyerUrlInput}
-                    onChange={e => setNewFlyerUrlInput(e.target.value)}
-                    className="flex-1 bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (newFlyerUrlInput.trim()) {
-                        const cur = gigForm.flyerImages || [];
-                        setGigForm({ ...gigForm, flyerImages: [...cur, newFlyerUrlInput.trim()] });
-                        setNewFlyerUrlInput("");
-                      }
-                    }}
-                    className="bg-[#D4E627] text-[#12041D] px-3 font-mono text-xs font-bold border border-black"
-                  >
-                    + Tambah
-                  </button>
-                </div>
+                <div className="space-y-2">
+                  <label className="cursor-pointer w-full bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-2.5 px-4 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all">
+                    <FolderOpen className="w-4 h-4" />
+                    <span>Pilih Flyer dari Folder Explorer (Multi-Select)</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={handleGigFlyersFileChange}
+                    />
+                  </label>
 
-                {gigForm.flyerImages && gigForm.flyerImages.length > 0 && (
-                  <div className="flex flex-wrap gap-2 p-2 bg-[#12041D] border border-black max-h-32 overflow-y-auto">
-                    {gigForm.flyerImages.map((f, i) => (
-                      <div key={i} className="flex items-center gap-1 bg-[#2E104B] text-[10px] font-mono px-2 py-1 text-white border border-black">
-                        <span className="truncate max-w-[120px]">{f}</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setGigForm({
-                              ...gigForm,
-                              flyerImages: gigForm.flyerImages?.filter((_, idx) => idx !== i)
-                            });
-                          }}
-                          className="text-[#FF4D4D] hover:text-white"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Atau tambah URL flyer..."
+                      value={newFlyerUrlInput}
+                      onChange={e => setNewFlyerUrlInput(e.target.value)}
+                      className="flex-1 bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newFlyerUrlInput.trim()) {
+                          const cur = gigForm.flyerImages || [];
+                          setGigForm({ ...gigForm, flyerImages: [...cur, newFlyerUrlInput.trim()] });
+                          setNewFlyerUrlInput("");
+                        }
+                      }}
+                      className="bg-[#2E104B] text-white px-3 font-mono text-xs font-bold border border-black hover:bg-[#3E1564]"
+                    >
+                      + Tambah URL
+                    </button>
                   </div>
-                )}
+
+                  {gigForm.flyerImages && gigForm.flyerImages.length > 0 && (
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 bg-[#12041D] border border-black max-h-36 overflow-y-auto">
+                      {gigForm.flyerImages.map((f, i) => (
+                        <div key={i} className="relative aspect-3/4 bg-black border border-black group">
+                          <img src={f} alt={`Flyer ${i}`} className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setGigForm({
+                                ...gigForm,
+                                flyerImages: gigForm.flyerImages?.filter((_, idx) => idx !== i)
+                              });
+                            }}
+                            className="absolute -top-1.5 -right-1.5 bg-[#D90429] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black shadow border border-black cursor-pointer"
+                            title="Hapus"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
@@ -1740,16 +1882,37 @@ export default function AdminDashboardPage() {
 
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
-                  Foto Produk (Path / URL)
+                  Foto Produk Merch
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="/assets/silly-n-valley/cover.jpg"
-                  value={merchForm.image}
-                  onChange={e => setMerchForm({ ...merchForm, image: e.target.value })}
-                  className="w-full bg-[#12041D] border-2 border-black p-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
-                />
+                <div className="space-y-2">
+                  <label className="cursor-pointer w-full bg-[#00BFA5] hover:bg-[#00a892] text-[#12041D] py-2.5 px-4 font-punk text-sm uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 flex items-center justify-center gap-2 transition-all">
+                    <FolderOpen className="w-4 h-4" />
+                    <span>Pilih Foto Produk dari Folder / Galeri</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleMerchImageFileChange}
+                    />
+                  </label>
+                  {merchForm.image && (
+                    <div className="flex items-center gap-2 p-2 bg-[#12041D] border border-black">
+                      <div className="w-12 h-12 bg-black border border-black shrink-0 overflow-hidden">
+                        <img src={merchForm.image} alt="Merch Preview" className="w-full h-full object-cover" />
+                      </div>
+                      <span className="text-xs font-mono text-[#D4E627] truncate flex-1">
+                        Foto produk siap digunakan
+                      </span>
+                    </div>
+                  )}
+                  <input
+                    type="text"
+                    placeholder="Atau masukkan path/URL manual..."
+                    value={merchForm.image}
+                    onChange={e => setMerchForm({ ...merchForm, image: e.target.value })}
+                    className="w-full bg-[#12041D] border-2 border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                  />
+                </div>
               </div>
 
               <div>
