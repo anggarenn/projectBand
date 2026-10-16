@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Calendar,
@@ -19,6 +19,7 @@ import {
   ChevronRight,
   Camera
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 // === ICONS ===
 
@@ -198,11 +199,11 @@ Untuk semua kawan yang suaranya selalu dipinggirkan dari meja perundingan elit. 
 interface MerchItem {
   id: string;
   name: string;
-  category: "Cassette" | "T-Shirt" | "Bundle";
+  category: "Cassette" | "T-Shirt" | "Bundle" | string;
   price: number;
   formattedPrice: string;
   image: string;
-  status: "IN STOCK" | "PRE-ORDER" | "LIMITED";
+  status: "IN STOCK" | "PRE-ORDER" | "LIMITED" | string;
   description: string;
   sizes?: string[];
 }
@@ -354,12 +355,12 @@ const INSTAGRAM_PHOTOS: PhotoItem[] = [
 ];
 
 interface GigEvent {
-  id: number;
+  id: number | string;
   title: string;
   date: string;
   venue: string;
   city: string;
-  category: "SHOWCASE MANDIRI" | "FESTIVAL" | "PENSI" | "KOMPETISI";
+  category: "SHOWCASE MANDIRI" | "FESTIVAL" | "PENSI" | "KOMPETISI" | string;
   vibe: string;
   photoSrc: string;
   collab?: string;
@@ -417,6 +418,53 @@ const GIGS_TIMELINE: GigEvent[] = [
 export default function SillyNValleyPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Supabase dynamic state hooks with default canonical data
+  const [profile, setProfile] = useState({
+    bandName: "Silly N Valley",
+    tagline: "Band Punk Tapi Kok Ngonten!?",
+    headlineQuote: "Highly Motivated Punk Rock asal Kota Tangerang.",
+    bioParagraph1:
+      "Silly N Valley adalah band punk rock asal Kota Tangerang yang dibentuk pada tahun 2022 dan aktif dalam scene underground disana. Memiliki beberapa single dan album penuh.",
+    bioParagraph2:
+      "Mereka lebih dikenal melalui konten 'memes' harian yang mereka buat untuk dimanfaatkan sebagai platform untuk memperkenalkan aktivitas dan musik yang mereka buat serta mainkan.",
+    bioParagraph3:
+      "Pada akhirnya hal tersebut tetap menjaga semangat independent mereka dalam melakukan setiap dan segala keinginan, upaya dan improvement dalam menjalani eksplorasi musik dan performance didalam dan lintas scene.",
+    stageImage: "/assets/silly-n-valley/about_us.png",
+    whatsappHotline: "+62 812-9909-5137",
+    instagramUrl: "https://instagram.com/silly.n.valley",
+    spotifyUrl: "https://open.spotify.com/search/Silly%20N%20Valley",
+    coreValues: [
+      {
+        title: "Ruang Aman (Safe Space)",
+        badge: "Moshpit Etiquette",
+        description:
+          "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
+      },
+      {
+        title: "DIY Culture & Swadaya",
+        badge: "Mandiri",
+        description:
+          "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
+      },
+      {
+        title: "Highly Motivated",
+        badge: "Anti Burnout",
+        description:
+          "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
+      },
+      {
+        title: "Tangerang Underground (2022)",
+        badge: "Est. 2022",
+        description:
+          "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
+      }
+    ]
+  });
+
+  const [merchList, setMerchList] = useState<MerchItem[]>(MERCH_CATALOG);
+  const [gigsList, setGigsList] = useState<GigEvent[]>(GIGS_TIMELINE);
+  const [photosList, setPhotosList] = useState<PhotoItem[]>(INSTAGRAM_PHOTOS);
+
   // Gallery & Lightbox states
   const [galleryCategory, setGalleryCategory] = useState<string>("all");
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
@@ -441,23 +489,191 @@ export default function SillyNValleyPage() {
     notes: ""
   });
 
+  // Live Supabase Sync on Mount
+  useEffect(() => {
+    async function fetchLiveContent() {
+      try {
+        // 1. Profile
+        const { data: profData } = await supabase
+          .from("band_profile")
+          .select("*")
+          .eq("id", "main")
+          .maybeSingle();
+
+        if (profData) {
+          setProfile({
+            bandName: profData.band_name || "Silly N Valley",
+            tagline: profData.tagline || "Band Punk Tapi Kok Ngonten!?",
+            headlineQuote: profData.headline_quote || "Highly Motivated Punk Rock asal Kota Tangerang.",
+            bioParagraph1: profData.bio_paragraph_1 || "",
+            bioParagraph2: profData.bio_paragraph_2 || "",
+            bioParagraph3: profData.bio_paragraph_3 || "",
+            stageImage: profData.stage_image || "/assets/silly-n-valley/about_us.png",
+            whatsappHotline: profData.whatsapp_hotline || "+62 812-9909-5137",
+            instagramUrl: profData.instagram_url || "https://instagram.com/silly.n.valley",
+            spotifyUrl: profData.spotify_url || "https://open.spotify.com/search/Silly%20N%20Valley",
+            coreValues: Array.isArray(profData.core_values) && profData.core_values.length > 0
+              ? profData.core_values
+              : [
+                  {
+                    title: "Ruang Aman (Safe Space)",
+                    badge: "Moshpit Etiquette",
+                    description: "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
+                  },
+                  {
+                    title: "DIY Culture & Swadaya",
+                    badge: "Mandiri",
+                    description: "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
+                  },
+                  {
+                    title: "Highly Motivated",
+                    badge: "Anti Burnout",
+                    description: "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
+                  },
+                  {
+                    title: "Tangerang Underground (2022)",
+                    badge: "Est. 2022",
+                    description: "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
+                  }
+                ]
+          });
+        }
+
+        // 2. Merch
+        const { data: merchData } = await supabase
+          .from("merch")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (merchData && merchData.length > 0) {
+          setMerchList(
+            merchData.map((m: any) => ({
+              id: m.id,
+              name: m.name,
+              category:
+                m.category === "cassette"
+                  ? ("Cassette" as const)
+                  : m.category === "bundle" || m.category === "accessories"
+                  ? ("Bundle" as const)
+                  : ("T-Shirt" as const),
+              price: parseInt(m.price.replace(/[^0-9]/g, "")) || 50000,
+              formattedPrice: m.price.startsWith("Rp") ? m.price : `Rp ${m.price}`,
+              image: m.image,
+              status:
+                m.status === "available"
+                  ? ("IN STOCK" as const)
+                  : m.status === "preorder"
+                  ? ("PRE-ORDER" as const)
+                  : ("LIMITED" as const),
+              description: m.description,
+              sizes: m.category === "apparel" || m.category === "T-Shirt" ? ["S", "M", "L", "XL", "XXL"] : ["One Size"]
+            }))
+          );
+        }
+
+        // 3. Gigs
+        const { data: gigData } = await supabase
+          .from("gigs")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (gigData && gigData.length > 0) {
+          setGigsList(
+            gigData.map((g: any, idx: number) => ({
+              id: g.id || idx + 1,
+              title: g.title,
+              date: g.date,
+              venue: g.venue,
+              city: g.city || "Kota Tangerang",
+              category: (g.status === "upcoming" ? "SHOWCASE MANDIRI" : "FESTIVAL") as any,
+              vibe: `${g.time || "19:00 WIB"} | HTM: ${g.htm || "Donasi"} | Silly N Valley Live Stage`,
+              photoSrc:
+                Array.isArray(g.flyer_images) && g.flyer_images.length > 0
+                  ? g.flyer_images[0]
+                  : "/assets/silly-n-valley/photo_1.jpg",
+              collab: g.instagram_url ? "@silly.n.valley" : undefined
+            }))
+          );
+        }
+
+        // 4. Albums / Photos
+        const { data: albumData } = await supabase
+          .from("fanzine_albums")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (albumData && albumData.length > 0) {
+          const dynamicPhotos: PhotoItem[] = [];
+          let pId = 1;
+          albumData.forEach((alb: any) => {
+            const photosArr: string[] =
+              Array.isArray(alb.photos) && alb.photos.length > 0
+                ? alb.photos
+                : [alb.cover_image];
+            photosArr.forEach((src: string, pIdx: number) => {
+              dynamicPhotos.push({
+                id: pId++,
+                src,
+                caption: `${alb.title} - ${alb.venue} (${alb.date})`,
+                category:
+                  pIdx % 4 === 0
+                    ? "stage"
+                    : pIdx % 4 === 1
+                    ? "crowd"
+                    : pIdx % 4 === 2
+                    ? "gear"
+                    : "backstage",
+                timestamp: alb.date
+              });
+            });
+          });
+          if (dynamicPhotos.length > 0) {
+            setPhotosList(dynamicPhotos);
+          }
+        }
+      } catch (err) {
+        console.warn("Supabase fetchLiveContent fallback:", err);
+      }
+    }
+
+    fetchLiveContent();
+  }, []);
+
   const filteredPhotos =
     galleryCategory === "all"
-      ? INSTAGRAM_PHOTOS
-      : INSTAGRAM_PHOTOS.filter(p => p.category === galleryCategory);
+      ? photosList
+      : photosList.filter(p => p.category === galleryCategory);
 
   // WhatsApp generator for Merch Order
   const handleOrderMerch = (item: MerchItem) => {
     const chosenSize = selectedSizes[item.id] || "L";
+    const cleanHotline = profile.whatsappHotline.replace(/[^0-9]/g, "") || "6281299095137";
     const text = encodeURIComponent(
       `Halo Silly N Valley! Saya mau order merch resmi:\n\n• Produk: ${item.name}\n• Ukuran: ${chosenSize}\n• Harga: ${item.formattedPrice}\n\nMohon info ketersediaan stok & ongkir ke kota saya. Makasih! #RantaiReaksi`
     );
-    window.open(`https://wa.me/6281299095137?text=${text}`, "_blank");
+    window.open(`https://wa.me/${cleanHotline}?text=${text}`, "_blank");
   };
 
-  // WhatsApp generator for Booking
-  const handleSendBookingInquiry = (e: React.FormEvent) => {
+  // WhatsApp generator for Booking (and sync to Supabase bookings inbox)
+  const handleSendBookingInquiry = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await supabase.from("bookings").insert({
+        id: "book-" + Date.now(),
+        sender_name: bookingForm.eventName || "Inquiry Manggung",
+        collective: "",
+        event_name: bookingForm.eventName,
+        event_date: bookingForm.date || "TBD",
+        whatsapp: "+62",
+        city: bookingForm.venueCity || "",
+        notes: `Format: ${bookingForm.format} | Catatan: ${bookingForm.notes}`,
+        status: "unread"
+      });
+    } catch (err) {
+      console.warn("Booking Supabase note:", err);
+    }
+
+    const cleanHotline = profile.whatsappHotline.replace(/[^0-9]/g, "") || "6281299095137";
     const text = encodeURIComponent(
       `Halo Manajemen Silly N Valley! Kami mau invite manggung:\n\n• Nama Event: ${
         bookingForm.eventName || "[Nama Event]"
@@ -469,7 +685,7 @@ export default function SillyNValleyPage() {
         bookingForm.notes || "Mohon kirimkan info availability jadwal manggung."
       }\n\nMohon feedback-nya. Cheers! #HighlyMotivatedPunk`
     );
-    window.open(`https://wa.me/6281299095137?text=${text}`, "_blank");
+    window.open(`https://wa.me/${cleanHotline}?text=${text}`, "_blank");
   };
 
   return (
@@ -643,12 +859,12 @@ export default function SillyNValleyPage() {
             </a>
             <div className="pt-2 border-t-2 border-dashed border-[#D4E627]/40">
               <a
-                href="https://wa.me/6281299095137?text=Halo%20Silly%20N%20Valley!%20Mau%20inquiry%20booking."
+                href={`https://wa.me/${profile.whatsappHotline.replace(/[^0-9]/g, "") || "6281299095137"}?text=Halo%20Silly%20N%20Valley!%20Mau%20inquiry%20booking.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full text-center block bg-[#D4E627] text-[#12041D] py-2.5 font-punk text-sm uppercase border-2 border-black shadow-[3px_3px_0px_#00BFA5]"
               >
-                Hotline WA: +62 812-9909-5137
+                Hotline WA: {profile.whatsappHotline}
               </a>
             </div>
           </div>
@@ -678,7 +894,7 @@ export default function SillyNValleyPage() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-2">
                   <span className="inline-block bg-[#B879AD] text-[#12041D] text-lg sm:text-2xl font-punk px-3 py-1 rotate-1 border-2 border-black shadow-[4px_4px_0px_#D4E627]">
-                    &quot;BAND PUNK TAPI KOK NGONTEN!?&quot;
+                    &quot;{profile.tagline ? profile.tagline.toUpperCase() : "BAND PUNK TAPI KOK NGONTEN!?"}&quot;
                   </span>
                   <span className="inline-block bg-[#12041D] text-[#D4E627] text-sm sm:text-base font-marker px-3 py-1 -rotate-1 border-2 border-[#D4E627] shadow-[2px_2px_0px_#00BFA5]">
                     RANTAI REAKSI: ABU TANPA API
@@ -691,8 +907,7 @@ export default function SillyNValleyPage() {
                 <DuctTape className="-top-3 left-8 w-20 -rotate-2" color="yellow" />
                 <DuctTape className="-bottom-3 right-8 w-20 rotate-1" color="purple" />
                 <p className="text-[#F3EFE0] text-sm sm:text-base leading-relaxed font-mono">
-                  Unit punk rock berdaya ledak tinggi asal <strong className="text-[#D4E627]">Kota Tangerang</strong>.
-                  Mengawinkan distorsi kencang tanpa kompromi, lirik motivasi harian,
+                  {profile.headlineQuote || "Unit punk rock berdaya ledak tinggi asal Kota Tangerang."} Mengawinkan distorsi kencang tanpa kompromi, lirik motivasi harian,
                   kultur DIY kaset pita, dan keberanian membajak algoritma digital demi merayakan
                   ruang aman bagi semua orang di moshpit!
                 </p>
@@ -820,13 +1035,13 @@ export default function SillyNValleyPage() {
             </div>
 
             <div className="text-xs font-mono text-[#D4E627] font-bold">
-              Order via WhatsApp Hotline: <span className="underline">+62 812-9909-5137</span>
+              Order via WhatsApp Hotline: <span className="underline">{profile.whatsappHotline}</span>
             </div>
           </div>
 
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {MERCH_CATALOG.map((item, idx) => {
+            {merchList.map((item, idx) => {
               const currentSize = selectedSizes[item.id] || (item.sizes ? item.sizes[0] : "One Size");
               return (
                 <div
@@ -921,7 +1136,7 @@ export default function SillyNValleyPage() {
               <span>Pengiriman dari Kota Tangerang via JNE / J&T / Paxel. Pembayaran transfer BCA / Mandiri / QRIS.</span>
             </div>
             <div className="text-[#00BFA5] font-black font-mono">
-              Admin Hotline: +62 812-9909-5137
+              Admin Hotline: {profile.whatsappHotline}
             </div>
           </div>
         </div>
@@ -954,11 +1169,11 @@ export default function SillyNValleyPage() {
               <h2 className="text-4xl sm:text-6xl font-punk uppercase tracking-normal leading-tight text-[#F3EFE0]">
                 ABOUT US <br />
                 <span className="inline-block bg-[#D4E627] text-[#12041D] px-2.5 py-0.5 border-2 border-black shadow-[4px_4px_0px_#B879AD] cursor-default">
-                  Band Punk Tapi Kok Ngonten!?
+                  {profile.tagline || "Band Punk Tapi Kok Ngonten!?"}
                 </span>
               </h2>
 
-              {/* Real Artwork Feature from user upload (about_us.png) */}
+              {/* Real Artwork Feature from user upload (about_us.png or cloud storage) */}
               <div className="relative bg-[#2B1046] border-3 border-[#D4E627] p-5 sm:p-6 shadow-[6px_6px_0px_#10031B] hover:shadow-[8px_8px_0px_#D4E627] transition-shadow">
                 <DuctTape className="-top-3 left-10 w-24 -rotate-2" color="yellow" />
                 <DuctTape className="-bottom-3 right-10 w-24 rotate-2" color="purple" />
@@ -966,82 +1181,98 @@ export default function SillyNValleyPage() {
                 {/* About Us Stage Visual Banner */}
                 <div className="mb-4 overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000]">
                   <img
-                    src="/assets/silly-n-valley/about_us.png"
+                    src={profile.stageImage || "/assets/silly-n-valley/about_us.png"}
                     alt="Silly N Valley About Us Stage Session"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover max-h-[460px]"
                   />
                 </div>
 
-                {/* Exact Bio text from image attachment */}
+                {/* Dynamic Bio text from Supabase or canonical defaults */}
                 <div className="space-y-3 text-[#F3EFE0] text-sm sm:text-base leading-relaxed font-mono">
-                  <p>
-                    <strong className="text-[#D4E627]">Silly N Valley</strong> adalah band punk rock asal Kota Tangerang yang dibentuk pada tahun 2022 dan aktif dalam scene underground disana. Memiliki beberapa single dan album penuh.
-                  </p>
-                  <p>
-                    Mereka lebih dikenal melalui konten &apos;memes&apos; harian yang mereka buat untuk dimanfaatkan sebagai platform untuk memperkenalkan aktivitas dan musik yang mereka buat serta mainkan.
-                  </p>
-                  <p>
-                    Pada akhirnya hal tersebut tetap menjaga semangat independent mereka dalam melakukan setiap dan segala keinginan, upaya dan improvement dalam menjalani eksplorasi musik dan performance didalam dan lintas scene.
-                  </p>
+                  {profile.bioParagraph1 && (
+                    <p>
+                      <strong className="text-[#D4E627]">{profile.bandName || "Silly N Valley"}</strong>{" "}
+                      {profile.bioParagraph1.startsWith(profile.bandName)
+                        ? profile.bioParagraph1.slice(profile.bandName.length).trimStart()
+                        : profile.bioParagraph1}
+                    </p>
+                  )}
+                  {profile.bioParagraph2 && <p>{profile.bioParagraph2}</p>}
+                  {profile.bioParagraph3 && <p>{profile.bioParagraph3}</p>}
                 </div>
               </div>
             </div>
 
             {/* Right Bento Grid of Core Values */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Card 1: Safe Space */}
-              <div className="bg-[#2E104B] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#00BFA5] transition-all">
-                <DuctTape className="-top-3 right-6 w-14 rotate-6" color="cyan" />
-                <div className="w-10 h-10 bg-[#00BFA5] text-[#12041D] border-2 border-black flex items-center justify-center font-black">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <h3 className="text-xl font-punk uppercase text-[#00BFA5] tracking-wide">
-                  Ruang Aman (Safe Space)
-                </h3>
-                <p className="text-xs text-[#D8CCE6] leading-normal font-mono">
-                  Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut.
-                </p>
-              </div>
+              {profile.coreValues.map((val, idx) => {
+                const styles = [
+                  {
+                    bg: "bg-[#2E104B]",
+                    rot: "-rotate-1",
+                    iconBg: "bg-[#00BFA5] text-[#12041D]",
+                    titleColor: "text-[#00BFA5]",
+                    descColor: "text-[#D8CCE6]",
+                    badgeBg: "border-[#00BFA5] text-[#00BFA5]",
+                    tapeColor: "cyan" as const,
+                    icon: <ShieldCheck className="w-5 h-5" />
+                  },
+                  {
+                    bg: "bg-[#D4E627]",
+                    rot: "rotate-1",
+                    iconBg: "bg-[#12041D] text-[#D4E627]",
+                    titleColor: "text-[#12041D]",
+                    descColor: "text-[#12041D] font-bold",
+                    badgeBg: "border-black text-black",
+                    tapeColor: "purple" as const,
+                    icon: <Zap className="w-5 h-5" />
+                  },
+                  {
+                    bg: "bg-[#B879AD]",
+                    rot: "rotate-1",
+                    iconBg: "bg-[#12041D] text-[#B879AD]",
+                    titleColor: "text-[#12041D]",
+                    descColor: "text-[#12041D] font-bold",
+                    badgeBg: "border-black text-black",
+                    tapeColor: "yellow" as const,
+                    icon: <Flame className="w-5 h-5 text-[#D4E627]" />
+                  },
+                  {
+                    bg: "bg-[#240A3D]",
+                    rot: "-rotate-1",
+                    iconBg: "bg-[#D4E627] text-[#12041D]",
+                    titleColor: "text-[#D4E627]",
+                    descColor: "text-[#D8CCE6]",
+                    badgeBg: "border-[#D4E627] text-[#D4E627]",
+                    tapeColor: "cyan" as const,
+                    icon: <MapPin className="w-5 h-5 text-[#12041D]" />
+                  }
+                ];
+                const s = styles[idx % styles.length];
 
-              {/* Card 2: DIY Culture */}
-              <div className="bg-[#D4E627] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#B879AD] transition-all">
-                <DuctTape className="-top-3 left-6 w-14 -rotate-3" color="purple" />
-                <div className="w-10 h-10 bg-[#12041D] text-[#D4E627] border-2 border-black flex items-center justify-center font-black">
-                  <Zap className="w-5 h-5" />
-                </div>
-                <h3 className="text-xl font-punk uppercase text-[#12041D] tracking-wide">
-                  DIY Culture & Swadaya
-                </h3>
-                <p className="text-xs text-[#12041D] leading-normal font-mono font-bold">
-                  Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri &apos;Latihan Di Lihatin&apos;, kami mengorganisirnya secara swadaya.
-                </p>
-              </div>
-
-              {/* Card 3: Highly Motivated */}
-              <div className="bg-[#B879AD] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all">
-                <div className="w-10 h-10 bg-[#12041D] text-[#B879AD] border-2 border-black flex items-center justify-center font-black">
-                  <Flame className="w-5 h-5 text-[#D4E627]" />
-                </div>
-                <h3 className="text-xl font-punk uppercase text-[#12041D] tracking-wide">
-                  Highly Motivated
-                </h3>
-                <p className="text-xs text-[#12041D] leading-normal font-mono font-bold">
-                  Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala.
-                </p>
-              </div>
-
-              {/* Card 4: Tangerang Scene */}
-              <div className="bg-[#240A3D] border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 -rotate-1 relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all">
-                <div className="w-10 h-10 bg-[#D4E627] text-[#12041D] border-2 border-black flex items-center justify-center font-black">
-                  <MapPin className="w-5 h-5 text-[#12041D]" />
-                </div>
-                <h3 className="text-xl font-punk uppercase text-[#D4E627] tracking-wide">
-                  Tangerang Underground (2022)
-                </h3>
-                <p className="text-xs text-[#D8CCE6] leading-normal font-mono">
-                  Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas.
-                </p>
-              </div>
+                return (
+                  <div
+                    key={idx}
+                    className={`${s.bg} border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 ${s.rot} relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all`}
+                  >
+                    <DuctTape className="-top-3 right-6 w-14" color={s.tapeColor} />
+                    <div className="flex items-center justify-between">
+                      <div className={`w-10 h-10 ${s.iconBg} border-2 border-black flex items-center justify-center font-black`}>
+                        {s.icon}
+                      </div>
+                      <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 border ${s.badgeBg}`}>
+                        {val.badge}
+                      </span>
+                    </div>
+                    <h3 className={`text-xl font-punk uppercase ${s.titleColor} tracking-wide`}>
+                      {val.title}
+                    </h3>
+                    <p className={`text-xs ${s.descColor} leading-normal font-mono`}>
+                      {val.description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -1071,7 +1302,7 @@ export default function SillyNValleyPage() {
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-2">
               {[
-                { key: "all", label: "SEMUA (12)" },
+                { key: "all", label: `SEMUA (${photosList.length})` },
                 { key: "stage", label: "PANGGUNG" },
                 { key: "crowd", label: "MOSHPIT" },
                 { key: "gear", label: "KASET & GEAR" },
@@ -1394,7 +1625,7 @@ export default function SillyNValleyPage() {
 
           {/* Flyers Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {GIGS_TIMELINE.map((gig, idx) => (
+            {gigsList.map((gig, idx) => (
               <div
                 key={gig.id}
                 className={`bg-[#280D41] border-3 border-black p-6 shadow-[7px_7px_0px_#10031B] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D4E627] transition-all duration-300 ${
@@ -1511,7 +1742,7 @@ export default function SillyNValleyPage() {
                 <div>
                   <div className="text-[10px] text-[#CBB8DC] uppercase font-black">WHATSAPP BOOKING HOTLINE</div>
                   <a
-                    href="https://wa.me/6281299095137"
+                    href={`https://wa.me/${profile.whatsappHotline.replace(/[^0-9]/g, "") || "6281299095137"}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-2xl font-punk text-[#D4E627] hover:underline flex items-center gap-2 mt-0.5 tracking-wide"
@@ -1520,7 +1751,7 @@ export default function SillyNValleyPage() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00BFA5] opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00BFA5]"></span>
                     </span>
-                    +62 812-9909-5137 <ArrowUpRight className="w-4 h-4" />
+                    {profile.whatsappHotline} <ArrowUpRight className="w-4 h-4" />
                   </a>
                   <div className="text-[#CBB8DC] text-[11px] mt-0.5">Respon cepat via pesan WhatsApp</div>
                 </div>
@@ -1528,7 +1759,7 @@ export default function SillyNValleyPage() {
                 <div className="pt-3 border-t-2 border-dashed border-[#572288]">
                   <div className="text-[10px] text-[#CBB8DC] uppercase font-black">OFFICIAL SPOTIFY</div>
                   <a
-                    href="https://open.spotify.com/search/Silly%20N%20Valley"
+                    href={profile.spotifyUrl || "https://open.spotify.com/search/Silly%20N%20Valley"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-base font-bold text-[#1DB954] hover:underline flex items-center gap-1.5 mt-0.5"
@@ -1540,7 +1771,7 @@ export default function SillyNValleyPage() {
                 <div className="pt-3 border-t-2 border-dashed border-[#572288]">
                   <div className="text-[10px] text-[#CBB8DC] uppercase font-black">OFFICIAL INSTAGRAM</div>
                   <a
-                    href="https://instagram.com/silly.n.valley"
+                    href={profile.instagramUrl || "https://instagram.com/silly.n.valley"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-base font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-1.5 mt-0.5"

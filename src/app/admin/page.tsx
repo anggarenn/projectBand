@@ -31,6 +31,7 @@ import {
   AlertCircle,
   FolderOpen
 } from "lucide-react";
+import { supabase, uploadImageToStorage } from "@/lib/supabase";
 
 // =========================================================================
 // TYPES & DATA CONTRACTS
@@ -350,49 +351,135 @@ export default function AdminDashboardPage() {
     description: ""
   });
 
-  // Load from localStorage on mount
+  // Load from Supabase on mount (with localStorage/default fallbacks)
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedAuth = localStorage.getItem("snv_admin_logged");
       if (storedAuth === "true") {
         setIsAuthenticated(true);
       }
+    }
 
-      const storedProfile = localStorage.getItem("snv_profile");
-      if (storedProfile) {
-        try {
-          setProfile(JSON.parse(storedProfile));
-        } catch (e) {}
-      }
+    async function loadSupabaseData() {
+      try {
+        // 1. Profile
+        const { data: profData } = await supabase
+          .from("band_profile")
+          .select("*")
+          .eq("id", "main")
+          .maybeSingle();
 
-      const storedAlbums = localStorage.getItem("snv_albums");
-      if (storedAlbums) {
-        try {
-          setAlbums(JSON.parse(storedAlbums));
-        } catch (e) {}
-      }
+        if (profData) {
+          setProfile({
+            bandName: profData.band_name || INITIAL_PROFILE.bandName,
+            tagline: profData.tagline || INITIAL_PROFILE.tagline,
+            headlineQuote: profData.headline_quote || INITIAL_PROFILE.headlineQuote,
+            bioParagraph1: profData.bio_paragraph_1 || INITIAL_PROFILE.bioParagraph1,
+            bioParagraph2: profData.bio_paragraph_2 || INITIAL_PROFILE.bioParagraph2,
+            bioParagraph3: profData.bio_paragraph_3 || INITIAL_PROFILE.bioParagraph3,
+            stageImage: profData.stage_image || INITIAL_PROFILE.stageImage,
+            whatsappHotline: profData.whatsapp_hotline || INITIAL_PROFILE.whatsappHotline,
+            instagramUrl: profData.instagram_url || INITIAL_PROFILE.instagramUrl,
+            spotifyUrl: profData.spotify_url || INITIAL_PROFILE.spotifyUrl,
+            coreValues: Array.isArray(profData.core_values)
+              ? profData.core_values
+              : INITIAL_PROFILE.coreValues
+          });
+        }
 
-      const storedGigs = localStorage.getItem("snv_gigs");
-      if (storedGigs) {
-        try {
-          setGigs(JSON.parse(storedGigs));
-        } catch (e) {}
-      }
+        // 2. Albums
+        const { data: albumData } = await supabase
+          .from("fanzine_albums")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      const storedMerch = localStorage.getItem("snv_merch");
-      if (storedMerch) {
-        try {
-          setMerch(JSON.parse(storedMerch));
-        } catch (e) {}
-      }
+        if (albumData && albumData.length > 0) {
+          setAlbums(
+            albumData.map((a: any) => ({
+              id: a.id,
+              title: a.title,
+              date: a.date,
+              venue: a.venue,
+              photographer: a.photographer,
+              coverImage: a.cover_image,
+              photos: Array.isArray(a.photos) ? a.photos : [a.cover_image]
+            }))
+          );
+        }
 
-      const storedBookings = localStorage.getItem("snv_bookings");
-      if (storedBookings) {
-        try {
-          setBookings(JSON.parse(storedBookings));
-        } catch (e) {}
+        // 3. Gigs
+        const { data: gigData } = await supabase
+          .from("gigs")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (gigData && gigData.length > 0) {
+          setGigs(
+            gigData.map((g: any) => ({
+              id: g.id,
+              title: g.title,
+              date: g.date,
+              time: g.time,
+              venue: g.venue,
+              city: g.city,
+              htm: g.htm,
+              instagramUrl: g.instagram_url,
+              flyerImages: Array.isArray(g.flyer_images) ? g.flyer_images : [],
+              status: g.status
+            }))
+          );
+        }
+
+        // 4. Merch
+        const { data: merchData } = await supabase
+          .from("merch")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (merchData && merchData.length > 0) {
+          setMerch(
+            merchData.map((m: any) => ({
+              id: m.id,
+              name: m.name,
+              price: m.price,
+              category: m.category,
+              image: m.image,
+              status: m.status,
+              description: m.description
+            }))
+          );
+        }
+
+        // 5. Bookings
+        const { data: bookingData } = await supabase
+          .from("bookings")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (bookingData && bookingData.length > 0) {
+          setBookings(
+            bookingData.map((b: any) => ({
+              id: b.id,
+              senderName: b.sender_name,
+              collective: b.collective,
+              eventName: b.event_name,
+              eventDate: b.event_date,
+              whatsapp: b.whatsapp,
+              city: b.city,
+              notes: b.notes,
+              receivedAt: b.created_at
+                ? new Date(b.created_at).toLocaleString("id-ID")
+                : "Baru saja",
+              status: b.status
+            }))
+          );
+        }
+      } catch (err) {
+        console.warn("Supabase load fallback:", err);
       }
     }
+
+    loadSupabaseData();
   }, []);
 
   const triggerToast = (msg: string) => {
@@ -400,23 +487,14 @@ export default function AdminDashboardPage() {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
-  // Helper to read file as Data URL (Base64)
-  const readFileAsDataUrl = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = err => reject(err);
-      reader.readAsDataURL(file);
-    });
-  };
-
   const handleStageImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      setProfile(prev => ({ ...prev, stageImage: dataUrl }));
-      triggerToast("Foto panggung dipilih dari komputer!");
+      triggerToast("Mengupload foto panggung...");
+      const uploadedUrl = await uploadImageToStorage(file, "stage");
+      setProfile(prev => ({ ...prev, stageImage: uploadedUrl }));
+      triggerToast("Foto panggung berhasil dipilih & diupload!");
     } catch (err) {
       alert("Gagal membaca file foto.");
     }
@@ -426,9 +504,10 @@ export default function AdminDashboardPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      setAlbumForm(prev => ({ ...prev, coverImage: dataUrl }));
-      triggerToast("Foto cover album dipilih!");
+      triggerToast("Mengupload cover album...");
+      const uploadedUrl = await uploadImageToStorage(file, "covers");
+      setAlbumForm(prev => ({ ...prev, coverImage: uploadedUrl }));
+      triggerToast("Foto cover album berhasil dipilih!");
     } catch (err) {
       alert("Gagal membaca file foto.");
     }
@@ -438,12 +517,13 @@ export default function AdminDashboardPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     try {
-      const dataUrls = await Promise.all(
-        Array.from(files).map(f => readFileAsDataUrl(f))
+      triggerToast(`Mengupload ${files.length} foto...`);
+      const uploadedUrls = await Promise.all(
+        Array.from(files).map(f => uploadImageToStorage(f, "gallery"))
       );
       setAlbumForm(prev => ({
         ...prev,
-        photos: [...(prev.photos || []), ...dataUrls]
+        photos: [...(prev.photos || []), ...uploadedUrls]
       }));
       triggerToast(`${files.length} foto berhasil dimasukkan dari folder!`);
     } catch (err) {
@@ -455,12 +535,13 @@ export default function AdminDashboardPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     try {
-      const dataUrls = await Promise.all(
-        Array.from(files).map(f => readFileAsDataUrl(f))
+      triggerToast(`Mengupload ${files.length} flyer...`);
+      const uploadedUrls = await Promise.all(
+        Array.from(files).map(f => uploadImageToStorage(f, "flyers"))
       );
       setGigForm(prev => ({
         ...prev,
-        flyerImages: [...(prev.flyerImages || []), ...dataUrls]
+        flyerImages: [...(prev.flyerImages || []), ...uploadedUrls]
       }));
       triggerToast(`${files.length} gambar flyer dipilih!`);
     } catch (err) {
@@ -472,8 +553,9 @@ export default function AdminDashboardPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      setMerchForm(prev => ({ ...prev, image: dataUrl }));
+      triggerToast("Mengupload foto produk...");
+      const uploadedUrl = await uploadImageToStorage(file, "merch");
+      setMerchForm(prev => ({ ...prev, image: uploadedUrl }));
       triggerToast("Foto produk dipilih dari folder!");
     } catch (err) {
       alert("Gagal membaca file foto.");
@@ -503,8 +585,31 @@ export default function AdminDashboardPage() {
   };
 
   // Save Handlers
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      triggerToast("Menyimpan perubahan ke cloud...");
+      const { error } = await supabase.from("band_profile").upsert({
+        id: "main",
+        band_name: profile.bandName,
+        tagline: profile.tagline,
+        headline_quote: profile.headlineQuote,
+        bio_paragraph_1: profile.bioParagraph1,
+        bio_paragraph_2: profile.bioParagraph2,
+        bio_paragraph_3: profile.bioParagraph3,
+        stage_image: profile.stageImage,
+        whatsapp_hotline: profile.whatsappHotline,
+        instagram_url: profile.instagramUrl,
+        spotify_url: profile.spotifyUrl,
+        core_values: profile.coreValues,
+        updated_at: new Date().toISOString()
+      });
+      if (error) {
+        console.warn("Supabase save profile warning:", error.message);
+      }
+    } catch (err) {
+      console.warn("Profile cloud save fallback:", err);
+    }
     if (typeof window !== "undefined") {
       localStorage.setItem("snv_profile", JSON.stringify(profile));
     }
@@ -538,7 +643,7 @@ export default function AdminDashboardPage() {
     setIsAlbumModalOpen(true);
   };
 
-  const handleSaveAlbum = (e: React.FormEvent) => {
+  const handleSaveAlbum = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!albumForm.title || !albumForm.coverImage) {
       alert("Judul dan foto sampul wajib diisi.");
@@ -546,6 +651,7 @@ export default function AdminDashboardPage() {
     }
 
     if (editingAlbumId) {
+      const updatedPhotos = albumForm.photos && albumForm.photos.length > 0 ? albumForm.photos : [albumForm.coverImage!];
       const updated = albums.map(a =>
         a.id === editingAlbumId
           ? {
@@ -555,7 +661,7 @@ export default function AdminDashboardPage() {
               venue: albumForm.venue || a.venue,
               photographer: albumForm.photographer || a.photographer,
               coverImage: albumForm.coverImage!,
-              photos: albumForm.photos && albumForm.photos.length > 0 ? albumForm.photos : [albumForm.coverImage!]
+              photos: updatedPhotos
             }
           : a
       );
@@ -563,6 +669,23 @@ export default function AdminDashboardPage() {
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_albums", JSON.stringify(updated));
       }
+
+      try {
+        await supabase
+          .from("fanzine_albums")
+          .update({
+            title: albumForm.title!,
+            date: albumForm.date || "",
+            venue: albumForm.venue || "",
+            photographer: albumForm.photographer || "@silly.n.valley",
+            cover_image: albumForm.coverImage!,
+            photos: updatedPhotos
+          })
+          .eq("id", editingAlbumId);
+      } catch (err) {
+        console.warn("Supabase album update note:", err);
+      }
+
       setIsAlbumModalOpen(false);
       setEditingAlbumId(null);
       triggerToast("Album dokumentasi berhasil diperbarui!");
@@ -583,16 +706,36 @@ export default function AdminDashboardPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("snv_albums", JSON.stringify(updated));
     }
+
+    try {
+      await supabase.from("fanzine_albums").insert({
+        id: newAlbum.id,
+        title: newAlbum.title,
+        date: newAlbum.date,
+        venue: newAlbum.venue,
+        photographer: newAlbum.photographer,
+        cover_image: newAlbum.coverImage,
+        photos: newAlbum.photos
+      });
+    } catch (err) {
+      console.warn("Supabase album insert note:", err);
+    }
+
     setIsAlbumModalOpen(false);
     triggerToast("Album dokumentasi gigs berhasil ditambahkan!");
   };
 
-  const handleDeleteAlbum = (id: string) => {
+  const handleDeleteAlbum = async (id: string) => {
     if (confirm("Yakin ingin menghapus album dokumentasi ini?")) {
       const updated = albums.filter(a => a.id !== id);
       setAlbums(updated);
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_albums", JSON.stringify(updated));
+      }
+      try {
+        await supabase.from("fanzine_albums").delete().eq("id", id);
+      } catch (err) {
+        console.warn("Supabase album delete note:", err);
       }
       triggerToast("Album dihapus.");
     }
@@ -631,7 +774,7 @@ export default function AdminDashboardPage() {
     setIsGigModalOpen(true);
   };
 
-  const handleSaveGig = (e: React.FormEvent) => {
+  const handleSaveGig = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!gigForm.title || !gigForm.venue) {
       alert("Nama gigs dan venue wajib diisi.");
@@ -639,6 +782,7 @@ export default function AdminDashboardPage() {
     }
 
     if (editingGigId) {
+      const updatedFlyers = gigForm.flyerImages && gigForm.flyerImages.length > 0 ? gigForm.flyerImages : [];
       const updated = gigs.map(g =>
         g.id === editingGigId
           ? {
@@ -650,7 +794,7 @@ export default function AdminDashboardPage() {
               city: gigForm.city || g.city,
               htm: gigForm.htm || g.htm,
               instagramUrl: gigForm.instagramUrl || g.instagramUrl,
-              flyerImages: gigForm.flyerImages && gigForm.flyerImages.length > 0 ? gigForm.flyerImages : g.flyerImages,
+              flyerImages: updatedFlyers.length > 0 ? updatedFlyers : g.flyerImages,
               status: (gigForm.status as any) || g.status
             }
           : g
@@ -659,6 +803,26 @@ export default function AdminDashboardPage() {
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_gigs", JSON.stringify(updated));
       }
+
+      try {
+        await supabase
+          .from("gigs")
+          .update({
+            title: gigForm.title!,
+            date: gigForm.date || "",
+            time: gigForm.time || "19:00 WIB",
+            venue: gigForm.venue!,
+            city: gigForm.city || "Kota Tangerang",
+            htm: gigForm.htm || "Donasi",
+            instagram_url: gigForm.instagramUrl || "https://instagram.com/silly.n.valley",
+            flyer_images: updatedFlyers,
+            status: gigForm.status || "upcoming"
+          })
+          .eq("id", editingGigId);
+      } catch (err) {
+        console.warn("Supabase gig update note:", err);
+      }
+
       setIsGigModalOpen(false);
       setEditingGigId(null);
       triggerToast("Jadwal gigs berhasil diperbarui!");
@@ -685,16 +849,39 @@ export default function AdminDashboardPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("snv_gigs", JSON.stringify(updated));
     }
+
+    try {
+      await supabase.from("gigs").insert({
+        id: newGig.id,
+        title: newGig.title,
+        date: newGig.date,
+        time: newGig.time,
+        venue: newGig.venue,
+        city: newGig.city,
+        htm: newGig.htm,
+        instagram_url: newGig.instagramUrl,
+        flyer_images: newGig.flyerImages,
+        status: newGig.status
+      });
+    } catch (err) {
+      console.warn("Supabase gig insert note:", err);
+    }
+
     setIsGigModalOpen(false);
     triggerToast("Jadwal gigs & flyer berhasil ditambahkan!");
   };
 
-  const handleDeleteGig = (id: string) => {
+  const handleDeleteGig = async (id: string) => {
     if (confirm("Hapus jadwal gigs ini?")) {
       const updated = gigs.filter(g => g.id !== id);
       setGigs(updated);
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_gigs", JSON.stringify(updated));
+      }
+      try {
+        await supabase.from("gigs").delete().eq("id", id);
+      } catch (err) {
+        console.warn("Supabase gig delete note:", err);
       }
       triggerToast("Jadwal gigs dihapus.");
     }
@@ -727,7 +914,7 @@ export default function AdminDashboardPage() {
     setIsMerchModalOpen(true);
   };
 
-  const handleSaveMerch = (e: React.FormEvent) => {
+  const handleSaveMerch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!merchForm.name || !merchForm.price) {
       alert("Nama produk dan harga wajib diisi.");
@@ -752,6 +939,23 @@ export default function AdminDashboardPage() {
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_merch", JSON.stringify(updated));
       }
+
+      try {
+        await supabase
+          .from("merch")
+          .update({
+            name: merchForm.name!,
+            price: merchForm.price!,
+            category: merchForm.category || "apparel",
+            image: merchForm.image || "/assets/silly-n-valley/cover.jpg",
+            status: merchForm.status || "available",
+            description: merchForm.description || ""
+          })
+          .eq("id", editingMerchId);
+      } catch (err) {
+        console.warn("Supabase merch update note:", err);
+      }
+
       setIsMerchModalOpen(false);
       setEditingMerchId(null);
       triggerToast("Produk merch berhasil diperbarui!");
@@ -772,27 +976,49 @@ export default function AdminDashboardPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("snv_merch", JSON.stringify(updated));
     }
+
+    try {
+      await supabase.from("merch").insert({
+        id: newItem.id,
+        name: newItem.name,
+        price: newItem.price,
+        category: newItem.category,
+        image: newItem.image,
+        status: newItem.status,
+        description: newItem.description
+      });
+    } catch (err) {
+      console.warn("Supabase merch insert note:", err);
+    }
+
     setIsMerchModalOpen(false);
     triggerToast("Produk merch berhasil ditambahkan!");
   };
 
-  const handleDeleteMerch = (id: string) => {
+  const handleDeleteMerch = async (id: string) => {
     if (confirm("Hapus produk merch ini?")) {
       const updated = merch.filter(m => m.id !== id);
       setMerch(updated);
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_merch", JSON.stringify(updated));
       }
+      try {
+        await supabase.from("merch").delete().eq("id", id);
+      } catch (err) {
+        console.warn("Supabase merch delete note:", err);
+      }
       triggerToast("Merch dihapus.");
     }
   };
 
-  const handleToggleBookingStatus = (id: string) => {
+  const handleToggleBookingStatus = async (id: string) => {
+    let nextStatus: "unread" | "replied" = "replied";
     const updated = bookings.map(b => {
       if (b.id === id) {
+        nextStatus = b.status === "unread" ? ("replied" as const) : ("unread" as const);
         return {
           ...b,
-          status: b.status === "unread" ? ("replied" as const) : ("unread" as const)
+          status: nextStatus
         };
       }
       return b;
@@ -801,15 +1027,25 @@ export default function AdminDashboardPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("snv_bookings", JSON.stringify(updated));
     }
+    try {
+      await supabase.from("bookings").update({ status: nextStatus }).eq("id", id);
+    } catch (err) {
+      console.warn("Supabase booking status update note:", err);
+    }
     triggerToast("Status pesan diperbarui.");
   };
 
-  const handleDeleteBooking = (id: string) => {
+  const handleDeleteBooking = async (id: string) => {
     if (confirm("Hapus pesan booking ini?")) {
       const updated = bookings.filter(b => b.id !== id);
       setBookings(updated);
       if (typeof window !== "undefined") {
         localStorage.setItem("snv_bookings", JSON.stringify(updated));
+      }
+      try {
+        await supabase.from("bookings").delete().eq("id", id);
+      } catch (err) {
+        console.warn("Supabase booking delete note:", err);
       }
       triggerToast("Pesan dihapus.");
     }

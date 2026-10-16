@@ -47,8 +47,8 @@ next-env.d.ts
 /*.log
 /*_frames/
 /__pycache__/
-/scratch/
-/qa-artifacts/
-/graphify-out/
-/tasks/
+# local temporary uploads and downloads
+/gambar/
+*.pdf
+*.crdownload
 
