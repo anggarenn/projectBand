@@ -312,6 +312,11 @@ export default function AdminDashboardPage() {
   const [isGigModalOpen, setIsGigModalOpen] = useState(false);
   const [isMerchModalOpen, setIsMerchModalOpen] = useState(false);
 
+  // Editing IDs
+  const [editingAlbumId, setEditingAlbumId] = useState<string | null>(null);
+  const [editingGigId, setEditingGigId] = useState<string | null>(null);
+  const [editingMerchId, setEditingMerchId] = useState<string | null>(null);
+
   // Temp form states
   const [albumForm, setAlbumForm] = useState<Partial<FanzineAlbum>>({
     title: "",
@@ -506,12 +511,64 @@ export default function AdminDashboardPage() {
     triggerToast("Data Profile & About Us berhasil disimpan!");
   };
 
-  const handleCreateAlbum = (e: React.FormEvent) => {
+  // Album Handlers
+  const handleOpenCreateAlbum = () => {
+    setEditingAlbumId(null);
+    setAlbumForm({
+      title: "",
+      date: "",
+      venue: "",
+      photographer: "@silly.n.valley",
+      coverImage: "",
+      photos: []
+    });
+    setIsAlbumModalOpen(true);
+  };
+
+  const handleOpenEditAlbum = (alb: FanzineAlbum) => {
+    setEditingAlbumId(alb.id);
+    setAlbumForm({
+      title: alb.title,
+      date: alb.date,
+      venue: alb.venue,
+      photographer: alb.photographer,
+      coverImage: alb.coverImage,
+      photos: alb.photos
+    });
+    setIsAlbumModalOpen(true);
+  };
+
+  const handleSaveAlbum = (e: React.FormEvent) => {
     e.preventDefault();
     if (!albumForm.title || !albumForm.coverImage) {
       alert("Judul dan foto sampul wajib diisi.");
       return;
     }
+
+    if (editingAlbumId) {
+      const updated = albums.map(a =>
+        a.id === editingAlbumId
+          ? {
+              ...a,
+              title: albumForm.title!,
+              date: albumForm.date || a.date,
+              venue: albumForm.venue || a.venue,
+              photographer: albumForm.photographer || a.photographer,
+              coverImage: albumForm.coverImage!,
+              photos: albumForm.photos && albumForm.photos.length > 0 ? albumForm.photos : [albumForm.coverImage!]
+            }
+          : a
+      );
+      setAlbums(updated);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("snv_albums", JSON.stringify(updated));
+      }
+      setIsAlbumModalOpen(false);
+      setEditingAlbumId(null);
+      triggerToast("Album dokumentasi berhasil diperbarui!");
+      return;
+    }
+
     const newAlbum: FanzineAlbum = {
       id: "alb-" + Date.now(),
       title: albumForm.title,
@@ -527,14 +584,6 @@ export default function AdminDashboardPage() {
       localStorage.setItem("snv_albums", JSON.stringify(updated));
     }
     setIsAlbumModalOpen(false);
-    setAlbumForm({
-      title: "",
-      date: "",
-      venue: "",
-      photographer: "@silly.n.valley",
-      coverImage: "",
-      photos: []
-    });
     triggerToast("Album dokumentasi gigs berhasil ditambahkan!");
   };
 
@@ -549,12 +598,73 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleCreateGig = (e: React.FormEvent) => {
+  // Gig Handlers
+  const handleOpenCreateGig = () => {
+    setEditingGigId(null);
+    setGigForm({
+      title: "",
+      date: "",
+      time: "19:00 WIB",
+      venue: "",
+      city: "Kota Tangerang",
+      htm: "Gratis / Donasi",
+      instagramUrl: "https://instagram.com/silly.n.valley",
+      flyerImages: [],
+      status: "upcoming"
+    });
+    setIsGigModalOpen(true);
+  };
+
+  const handleOpenEditGig = (g: GigItem) => {
+    setEditingGigId(g.id);
+    setGigForm({
+      title: g.title,
+      date: g.date,
+      time: g.time,
+      venue: g.venue,
+      city: g.city,
+      htm: g.htm,
+      instagramUrl: g.instagramUrl,
+      flyerImages: g.flyerImages,
+      status: g.status
+    });
+    setIsGigModalOpen(true);
+  };
+
+  const handleSaveGig = (e: React.FormEvent) => {
     e.preventDefault();
     if (!gigForm.title || !gigForm.venue) {
       alert("Nama gigs dan venue wajib diisi.");
       return;
     }
+
+    if (editingGigId) {
+      const updated = gigs.map(g =>
+        g.id === editingGigId
+          ? {
+              ...g,
+              title: gigForm.title!,
+              date: gigForm.date || g.date,
+              time: gigForm.time || g.time,
+              venue: gigForm.venue!,
+              city: gigForm.city || g.city,
+              htm: gigForm.htm || g.htm,
+              instagramUrl: gigForm.instagramUrl || g.instagramUrl,
+              flyerImages: gigForm.flyerImages && gigForm.flyerImages.length > 0 ? gigForm.flyerImages : g.flyerImages,
+              status: (gigForm.status as any) || g.status
+            }
+          : g
+      );
+      setGigs(updated);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("snv_gigs", JSON.stringify(updated));
+      }
+      setIsGigModalOpen(false);
+      setEditingGigId(null);
+      triggerToast("Jadwal gigs berhasil diperbarui!");
+      return;
+    }
+
     const newGig: GigItem = {
       id: "gig-" + Date.now(),
       title: gigForm.title,
@@ -576,17 +686,6 @@ export default function AdminDashboardPage() {
       localStorage.setItem("snv_gigs", JSON.stringify(updated));
     }
     setIsGigModalOpen(false);
-    setGigForm({
-      title: "",
-      date: "",
-      time: "19:00 WIB",
-      venue: "",
-      city: "Kota Tangerang",
-      htm: "Gratis / Donasi",
-      instagramUrl: "https://instagram.com/silly.n.valley",
-      flyerImages: [],
-      status: "upcoming"
-    });
     triggerToast("Jadwal gigs & flyer berhasil ditambahkan!");
   };
 
@@ -601,12 +700,64 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleCreateMerch = (e: React.FormEvent) => {
+  // Merch Handlers
+  const handleOpenCreateMerch = () => {
+    setEditingMerchId(null);
+    setMerchForm({
+      name: "",
+      price: "Rp 50.000",
+      category: "apparel",
+      image: "",
+      status: "available",
+      description: ""
+    });
+    setIsMerchModalOpen(true);
+  };
+
+  const handleOpenEditMerch = (m: MerchItem) => {
+    setEditingMerchId(m.id);
+    setMerchForm({
+      name: m.name,
+      price: m.price,
+      category: m.category,
+      image: m.image,
+      status: m.status,
+      description: m.description
+    });
+    setIsMerchModalOpen(true);
+  };
+
+  const handleSaveMerch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!merchForm.name || !merchForm.price) {
       alert("Nama produk dan harga wajib diisi.");
       return;
     }
+
+    if (editingMerchId) {
+      const updated = merch.map(m =>
+        m.id === editingMerchId
+          ? {
+              ...m,
+              name: merchForm.name!,
+              price: merchForm.price!,
+              category: (merchForm.category as any) || m.category,
+              image: merchForm.image || m.image,
+              status: (merchForm.status as any) || m.status,
+              description: merchForm.description !== undefined ? merchForm.description : m.description
+            }
+          : m
+      );
+      setMerch(updated);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("snv_merch", JSON.stringify(updated));
+      }
+      setIsMerchModalOpen(false);
+      setEditingMerchId(null);
+      triggerToast("Produk merch berhasil diperbarui!");
+      return;
+    }
+
     const newItem: MerchItem = {
       id: "merch-" + Date.now(),
       name: merchForm.name,
@@ -622,14 +773,6 @@ export default function AdminDashboardPage() {
       localStorage.setItem("snv_merch", JSON.stringify(updated));
     }
     setIsMerchModalOpen(false);
-    setMerchForm({
-      name: "",
-      price: "Rp 50.000",
-      category: "apparel",
-      image: "",
-      status: "available",
-      description: ""
-    });
     triggerToast("Produk merch berhasil ditambahkan!");
   };
 
@@ -1064,7 +1207,7 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
               <button
-                onClick={() => setIsAlbumModalOpen(true)}
+                onClick={handleOpenCreateAlbum}
                 className="bg-[#00BFA5] hover:bg-[#00a892] text-[#12041D] px-5 py-2.5 font-punk text-base uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#D4E627] flex items-center gap-2 cursor-pointer active:translate-y-0.5"
               >
                 <Plus className="w-4 h-4" />
@@ -1124,13 +1267,24 @@ export default function AdminDashboardPage() {
                       <span>Jajal Slider ({alb.photos.length})</span>
                     </button>
 
-                    <button
-                      onClick={() => handleDeleteAlbum(alb.id)}
-                      className="bg-[#D90429]/20 hover:bg-[#D90429] text-[#FF4D4D] hover:text-white p-1.5 border border-black transition-colors cursor-pointer"
-                      title="Hapus Album"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => handleOpenEditAlbum(alb)}
+                        className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-2.5 py-1.5 text-xs font-mono font-bold border border-black flex items-center gap-1 cursor-pointer"
+                        title="Edit Album"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteAlbum(alb.id)}
+                        className="bg-[#D90429]/20 hover:bg-[#D90429] text-[#FF4D4D] hover:text-white p-1.5 border border-black transition-colors cursor-pointer"
+                        title="Hapus Album"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1153,7 +1307,7 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
               <button
-                onClick={() => setIsGigModalOpen(true)}
+                onClick={handleOpenCreateGig}
                 className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-5 py-2.5 font-punk text-base uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#00BFA5] flex items-center gap-2 cursor-pointer active:translate-y-0.5"
               >
                 <Plus className="w-4 h-4" />
@@ -1215,8 +1369,16 @@ export default function AdminDashboardPage() {
                       </div>
                     </div>
 
-                    {/* Instagram Link Button */}
+                    {/* Actions & Instagram Link Button */}
                     <div className="pt-2 flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() => handleOpenEditGig(g)}
+                        className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-3 py-1.5 text-xs font-mono font-bold border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit Gigs</span>
+                      </button>
+
                       <a
                         href={g.instagramUrl}
                         target="_blank"
@@ -1249,7 +1411,7 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
               <button
-                onClick={() => setIsMerchModalOpen(true)}
+                onClick={handleOpenCreateMerch}
                 className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-5 py-2.5 font-punk text-base uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#00BFA5] flex items-center gap-2 cursor-pointer active:translate-y-0.5"
               >
                 <Plus className="w-4 h-4" />
@@ -1292,7 +1454,7 @@ export default function AdminDashboardPage() {
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t-2 border-dashed border-[#572288] flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t-2 border-dashed border-[#572288] flex items-center justify-between gap-1">
                     <button
                       onClick={() => {
                         const nextStatus: Record<string, MerchItem["status"]> = {
@@ -1309,18 +1471,29 @@ export default function AdminDashboardPage() {
                         }
                         triggerToast("Status stok diubah!");
                       }}
-                      className="bg-[#240A3D] hover:bg-[#340F57] text-white px-3 py-1.5 text-[11px] font-mono font-bold border border-black cursor-pointer"
+                      className="bg-[#240A3D] hover:bg-[#340F57] text-white px-2.5 py-1.5 text-[11px] font-mono font-bold border border-black cursor-pointer"
                     >
-                      Ganti Status Stok ↻
+                      Status Stok ↻
                     </button>
 
-                    <button
-                      onClick={() => handleDeleteMerch(m.id)}
-                      className="text-[#FF4D4D] hover:text-white p-1.5 cursor-pointer"
-                      title="Hapus"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleOpenEditMerch(m)}
+                        className="bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] px-2.5 py-1.5 text-[11px] font-mono font-bold border border-black flex items-center gap-1 cursor-pointer"
+                        title="Edit Merch"
+                      >
+                        <Edit3 className="w-3 h-3" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteMerch(m.id)}
+                        className="text-[#FF4D4D] hover:text-white p-1.5 cursor-pointer"
+                        title="Hapus"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1442,10 +1615,10 @@ export default function AdminDashboardPage() {
             </button>
 
             <h3 className="text-2xl font-punk uppercase text-[#D4E627] mb-4">
-              Tambah Album Dokumentasi Gigs
+              {editingAlbumId ? "Edit Album Dokumentasi Gigs" : "Tambah Album Dokumentasi Gigs"}
             </h3>
 
-            <form onSubmit={handleCreateAlbum} className="space-y-4">
+            <form onSubmit={handleSaveAlbum} className="space-y-4">
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
                   Nama Gigs / Acara
@@ -1612,7 +1785,7 @@ export default function AdminDashboardPage() {
                   type="submit"
                   className="bg-[#D4E627] text-[#12041D] px-5 py-2 font-punk text-base uppercase border-2 border-black shadow-[3px_3px_0px_#000]"
                 >
-                  Simpan Album Gigs
+                  {editingAlbumId ? "Simpan Perubahan Album" : "Simpan Album Gigs"}
                 </button>
               </div>
             </form>
@@ -1634,10 +1807,10 @@ export default function AdminDashboardPage() {
             </button>
 
             <h3 className="text-2xl font-punk uppercase text-[#D4E627] mb-4">
-              Tambah Jadwal Gigs & Flyer
+              {editingGigId ? "Edit Jadwal Gigs & Flyer" : "Tambah Jadwal Gigs & Flyer"}
             </h3>
 
-            <form onSubmit={handleCreateGig} className="space-y-4">
+            <form onSubmit={handleSaveGig} className="space-y-4">
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
                   Nama Acara / Gigs
@@ -1809,7 +1982,7 @@ export default function AdminDashboardPage() {
                   type="submit"
                   className="bg-[#D4E627] text-[#12041D] px-5 py-2 font-punk text-base uppercase border-2 border-black shadow-[3px_3px_0px_#000]"
                 >
-                  Simpan Jadwal Gigs
+                  {editingGigId ? "Simpan Perubahan Gigs" : "Simpan Jadwal Gigs"}
                 </button>
               </div>
             </form>
@@ -1831,10 +2004,10 @@ export default function AdminDashboardPage() {
             </button>
 
             <h3 className="text-2xl font-punk uppercase text-[#D4E627] mb-4">
-              Tambah Produk Merch Baru
+              {editingMerchId ? "Edit Produk Merch" : "Tambah Produk Merch Baru"}
             </h3>
 
-            <form onSubmit={handleCreateMerch} className="space-y-4">
+            <form onSubmit={handleSaveMerch} className="space-y-4">
               <div>
                 <label className="block text-xs font-mono font-bold text-[#CBB8DC] uppercase mb-1">
                   Nama Produk
@@ -1955,7 +2128,7 @@ export default function AdminDashboardPage() {
                   type="submit"
                   className="bg-[#D4E627] text-[#12041D] px-5 py-2 font-punk text-base uppercase border-2 border-black shadow-[3px_3px_0px_#000]"
                 >
-                  Simpan Produk Merch
+                  {editingMerchId ? "Simpan Perubahan Merch" : "Simpan Produk Merch"}
                 </button>
               </div>
             </form>
