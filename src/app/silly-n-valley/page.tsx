@@ -662,35 +662,12 @@ export default function SillyNValleyPage() {
         id="hero"
         className="relative pt-10 pb-20 md:pt-16 md:pb-28 border-b-4 border-black z-10 overflow-hidden bg-gradient-to-b from-[#1F0833] via-[#2A0E44] to-[#1A062B]"
       >
-        {/* Punk Stamp Seal */}
-        <div className="hidden sm:flex absolute top-6 right-10 w-28 h-28 rounded-full border-3 border-dashed border-black bg-[#D4E627] items-center justify-center rotate-12 shadow-[5px_5px_0px_#00BFA5] z-20 pointer-events-none select-none">
-          <div className="text-[10px] font-black uppercase text-center leading-tight tracking-wider text-[#12041D]">
-            ⚡ 100% DIY ⚡<br />TANGERANG<br />HARDCORE
-          </div>
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column: Zine Typography & Statement */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Badges Bar with DIY Stickers */}
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="bg-[#12041D] text-[#D4E627] text-xs font-black px-2.5 py-1 uppercase -rotate-1 border-2 border-[#D4E627] shadow-[2px_2px_0px_#B879AD]">
-                  HIGHLY MOTIVATED PUNK
-                </span>
-                <span className="bg-[#B879AD] text-[#12041D] text-xs font-black px-2.5 py-1 uppercase rotate-2 border-2 border-black shadow-[2px_2px_0px_#000]">
-                  TANGERANG HARDCORE SCENE
-                </span>
-                <span className="bg-[#00BFA5] text-[#12041D] text-xs font-black px-2.5 py-1 uppercase -rotate-2 border-2 border-black shadow-[2px_2px_0px_#D4E627]">
-                  CASSETTE C-30 OUT NOW
-                </span>
-              </div>
-
               {/* Headline */}
               <div className="space-y-3">
-                <div className="inline-block bg-[#00BFA5] text-[#12041D] px-3 py-1 font-black text-xs sm:text-sm uppercase border-2 border-black -rotate-1 shadow-[3px_3px_0px_#000]">
-                  SURAT KABAR BAWAH TANAH EDISI KHUSUS
-                </div>
 
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-punk uppercase tracking-normal leading-[0.9] text-[#F3EFE0]">
                   SILLY N <br />
@@ -742,28 +719,6 @@ export default function SillyNValleyPage() {
                 >
                   <Flame className="w-4 h-4 text-[#12041D]" /> About Us
                 </a>
-              </div>
-
-              {/* Quick DIY Stats Badges */}
-              <div className="pt-4 grid grid-cols-3 gap-2 sm:gap-3 border-t-2 border-dashed border-[#D4E627]/40 max-w-lg">
-                <div className="bg-[#240A3D] border-2 border-[#D4E627] p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-punk text-[#D4E627]">C-30 TAPE</div>
-                  <div className="text-[9px] sm:text-[10px] text-[#CBB8DC] font-bold uppercase">
-                    Rilisan Fisik
-                  </div>
-                </div>
-                <div className="bg-[#D4E627] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-punk text-[#12041D]">100% DIY</div>
-                  <div className="text-[9px] sm:text-[10px] text-[#12041D] font-bold uppercase">
-                    Swadaya Mandiri
-                  </div>
-                </div>
-                <div className="bg-[#00BFA5] border-2 border-black p-2 sm:p-2.5 shadow-[3px_3px_0px_#000] -rotate-2 hover:rotate-0 transition-transform">
-                  <div className="text-xl sm:text-2xl font-punk text-[#12041D]">ZERO</div>
-                  <div className="text-[9px] sm:text-[10px] text-[#12041D] font-bold uppercase">
-                    Kekerasan Moshpit
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -1028,17 +983,6 @@ export default function SillyNValleyPage() {
                   <p>
                     Pada akhirnya hal tersebut tetap menjaga semangat independent mereka dalam melakukan setiap dan segala keinginan, upaya dan improvement dalam menjalani eksplorasi musik dan performance didalam dan lintas scene.
                   </p>
-                </div>
-              </div>
-
-              {/* Quote Statement */}
-              <div className="bg-[#10031B] text-[#F3EFE0] border-2 border-[#D4E627] p-5 shadow-[5px_5px_0px_#00BFA5] relative text-sm">
-                <div className="font-bold italic">
-                  &quot;Kami bikin konten bukan demi jadi selebriti, tapi supaya anak muda Tangerang tahu kalau mereka punya rumah dan distorsi yang siap merangkul mereka kapan saja.&quot;
-                </div>
-                <div className="mt-2 text-[#D4E627] text-xs font-mono font-black uppercase flex items-center justify-between">
-                  <span>(Silly N Valley Official Statement)</span>
-                  <span className="w-2 h-2 rounded-full bg-[#00BFA5] animate-ping" />
                 </div>
               </div>
             </div>
@@ -1332,29 +1276,6 @@ export default function SillyNValleyPage() {
                 >
                   <Disc className="w-4 h-4" /> Cari EP Rantai Reaksi
                 </a>
-              </div>
-            </div>
-
-            {/* Spotify Embedded Web Player Frame */}
-            <div className="mt-8 pt-6 border-t-2 border-dashed border-[#572288]">
-              <div className="flex items-center justify-between mb-3 text-xs font-mono font-bold">
-                <span className="text-[#00BFA5] uppercase flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#1DB954] animate-ping" />
-                  SPOTIFY EMBEDDED PREVIEW
-                </span>
-                <span className="text-[#888]">Langsung dengarkan tanpa tinggalkan halaman</span>
-              </div>
-              <div className="rounded-lg overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000]">
-                <iframe
-                  style={{ borderRadius: "8px" }}
-                  src="https://open.spotify.com/embed/search/Silly%20N%20Valley"
-                  width="100%"
-                  height="232"
-                  frameBorder="0"
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                  className="w-full bg-[#12041D]"
-                />
               </div>
             </div>
           </div>
