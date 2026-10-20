@@ -17,7 +17,10 @@ import {
   Maximize2,
   ChevronLeft,
   ChevronRight,
-  Camera
+  Camera,
+  Clock,
+  Tag,
+  ExternalLink
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -364,6 +367,11 @@ interface GigEvent {
   vibe: string;
   photoSrc: string;
   collab?: string;
+  time?: string;
+  htm?: string;
+  instagramUrl?: string;
+  flyerImages?: string[];
+  status?: "upcoming" | "completed" | "cancelled" | string;
 }
 
 const GIGS_TIMELINE: GigEvent[] = [
@@ -371,8 +379,13 @@ const GIGS_TIMELINE: GigEvent[] = [
     id: 1,
     title: "Latihan Di Lihatin (Vol. 03)",
     date: "SABTU, 16 NOVEMBER 2024",
+    time: "19:00 WIB",
     venue: "HALA Koffie Space, Cipondoh",
     city: "Kota Tangerang",
+    htm: "Bayar Seikhlasnya",
+    instagramUrl: "https://instagram.com/silly.n.valley",
+    flyerImages: ["/assets/silly-n-valley/photo_1.jpg"],
+    status: "upcoming",
     category: "SHOWCASE MANDIRI",
     vibe: "Showcase rutin mandiri tanpa tiket, full sing-along dan circle karaoke gratis.",
     photoSrc: "/assets/silly-n-valley/photo_1.jpg",
@@ -382,8 +395,13 @@ const GIGS_TIMELINE: GigEvent[] = [
     id: 2,
     title: "Gigsgoks Fest: Solidaritas Jalanan",
     date: "MINGGU, 27 OKTOBER 2024",
+    time: "16:00 WIB",
     venue: "Tangerang Underground Warehouse",
     city: "Tangerang",
+    htm: "Rp 35.000",
+    instagramUrl: "https://instagram.com/silly.n.valley",
+    flyerImages: ["/assets/silly-n-valley/photo_6.jpg"],
+    status: "upcoming",
     category: "FESTIVAL",
     vibe: "Festival kolektif 12 band hardcore/punk Tangerang Raya.",
     photoSrc: "/assets/silly-n-valley/photo_6.jpg",
@@ -393,8 +411,13 @@ const GIGS_TIMELINE: GigEvent[] = [
     id: 3,
     title: "D-Beat Distortion Night",
     date: "JUMAT, 13 SEPTEMBER 2024",
+    time: "19:30 WIB",
     venue: "Rooftop Kolektif Pasar Lama",
     city: "Kota Tangerang",
+    htm: "Donasi",
+    instagramUrl: "https://instagram.com/silly.n.valley",
+    flyerImages: ["/assets/silly-n-valley/photo_9.jpg"],
+    status: "upcoming",
     category: "SHOWCASE MANDIRI",
     vibe: "Rilis perdana single 'Berhala-Run!' bersama Tabraklari.",
     photoSrc: "/assets/silly-n-valley/photo_9.jpg",
@@ -404,8 +427,13 @@ const GIGS_TIMELINE: GigEvent[] = [
     id: 4,
     title: "Authenticity Soundroom Showcase",
     date: "SABTU, 20 JULI 2024",
+    time: "15:00 WIB",
     venue: "Creative Hub Stage",
     city: "Tangerang",
+    htm: "Gratis",
+    instagramUrl: "https://instagram.com/silly.n.valley",
+    flyerImages: ["/assets/silly-n-valley/photo_11.jpg"],
+    status: "completed",
     category: "KOMPETISI",
     vibe: "Showcase kompetitif berskala nasional, membuktikan taji punk Tangerang.",
     photoSrc: "/assets/silly-n-valley/photo_11.jpg",
@@ -468,6 +496,10 @@ export default function SillyNValleyPage() {
   // Gallery & Lightbox states
   const [galleryCategory, setGalleryCategory] = useState<string>("all");
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+
+  // Gigs & Flyer Lightbox states
+  const [activeGigIndex, setActiveGigIndex] = useState<number | null>(null);
+  const [activeGigFlyerIndex, setActiveGigFlyerIndex] = useState<number>(0);
 
   // Merch selector states
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({
@@ -579,20 +611,29 @@ export default function SillyNValleyPage() {
 
         if (gigData && gigData.length > 0) {
           setGigsList(
-            gigData.map((g: any, idx: number) => ({
-              id: g.id || idx + 1,
-              title: g.title,
-              date: g.date,
-              venue: g.venue,
-              city: g.city || "Kota Tangerang",
-              category: (g.status === "upcoming" ? "SHOWCASE MANDIRI" : "FESTIVAL") as any,
-              vibe: `${g.time || "19:00 WIB"} | HTM: ${g.htm || "Donasi"} | Silly N Valley Live Stage`,
-              photoSrc:
+            gigData.map((g: any, idx: number) => {
+              const flyerArr: string[] =
                 Array.isArray(g.flyer_images) && g.flyer_images.length > 0
-                  ? g.flyer_images[0]
-                  : "/assets/silly-n-valley/photo_1.jpg",
-              collab: g.instagram_url ? "@silly.n.valley" : undefined
-            }))
+                  ? g.flyer_images
+                  : [g.flyer_images || "/assets/silly-n-valley/photo_1.jpg"];
+
+              return {
+                id: g.id || idx + 1,
+                title: g.title,
+                date: g.date,
+                time: g.time || "19:00 WIB",
+                venue: g.venue,
+                city: g.city || "Kota Tangerang",
+                htm: g.htm || "Donasi",
+                instagramUrl: g.instagram_url || "https://instagram.com/silly.n.valley",
+                flyerImages: flyerArr,
+                status: g.status || "upcoming",
+                category: (g.status === "upcoming" ? "SHOWCASE MANDIRI" : "FESTIVAL") as any,
+                vibe: `${g.time || "19:00 WIB"} | HTM: ${g.htm || "Donasi"} | Silly N Valley Live Stage`,
+                photoSrc: flyerArr[0] || "/assets/silly-n-valley/photo_1.jpg",
+                collab: g.instagram_url ? "@silly.n.valley" : undefined
+              };
+            })
           );
         }
 
@@ -1623,72 +1664,98 @@ export default function SillyNValleyPage() {
             </a>
           </div>
 
-          {/* Flyers Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {gigsList.map((gig, idx) => (
-              <div
-                key={gig.id}
-                className={`bg-[#280D41] border-3 border-black p-6 shadow-[7px_7px_0px_#10031B] relative flex flex-col justify-between group hover:rotate-0 hover:scale-[1.01] hover:shadow-[10px_10px_0px_#D4E627] transition-all duration-300 ${
-                  idx % 2 === 0 ? "-rotate-1" : "rotate-1"
-                }`}
-              >
-                <DuctTape
-                  className="-top-3 left-12 w-20 -rotate-3"
-                  color={idx % 2 === 0 ? "yellow" : "purple"}
-                />
+          {/* Flyers Grid: Sized identical to Fanzine Photo Gallery */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
+            {gigsList.map((gig, idx) => {
+              const rotateClasses = [
+                "-rotate-1 hover:rotate-0",
+                "rotate-2 hover:rotate-0",
+                "-rotate-2 hover:rotate-0",
+                "rotate-1 hover:rotate-0"
+              ];
+              const rotation = rotateClasses[idx % rotateClasses.length];
+              const flyerImg =
+                (gig.flyerImages && gig.flyerImages.length > 0 ? gig.flyerImages[0] : null) ||
+                gig.photoSrc ||
+                "/assets/silly-n-valley/photo_1.jpg";
 
-                <div>
-                  {/* Top Badges */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs">
-                    <span className="bg-[#B879AD] text-[#12041D] px-2 py-0.5 font-black uppercase border border-black flex items-center gap-1.5 font-mono">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#12041D] animate-ping" />
-                      {gig.category}
-                    </span>
-                    <span className="text-[#12041D] font-black flex items-center gap-1 bg-[#D4E627] px-2 py-0.5 border border-black font-mono">
-                      <Calendar className="w-3 h-3 text-[#12041D]" /> {gig.date}
-                    </span>
-                  </div>
+              return (
+                <div
+                  key={gig.id}
+                  onClick={() => {
+                    setActiveGigIndex(idx);
+                    setActiveGigFlyerIndex(0);
+                  }}
+                  className={`bg-[#F3EFE0] text-[#12041D] p-3 border-3 border-black shadow-[6px_6px_0px_#10031B] cursor-pointer group transition-all duration-300 hover:scale-[1.03] hover:shadow-[10px_10px_0px_#D4E627] relative flex flex-col justify-between ${rotation}`}
+                >
+                  <DuctTape
+                    className="-top-3 left-1/2 -translate-x-1/2 w-20"
+                    color={idx % 3 === 0 ? "yellow" : idx % 3 === 1 ? "purple" : "cyan"}
+                  />
 
-                  <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#F3EFE0] leading-tight mb-2">
-                    {gig.title}
-                  </h3>
+                  <div>
+                    {/* Top Tag & Status */}
+                    <div className="flex items-center justify-between text-[10px] font-mono font-black mb-2 gap-1">
+                      <span className="bg-[#12041D] text-[#D4E627] px-1.5 py-0.5 border border-black uppercase truncate">
+                        {gig.status === "completed" ? "SELESAI" : "UPCOMING"}
+                      </span>
+                      <span className="text-[#333] font-bold truncate">
+                        {gig.date}
+                      </span>
+                    </div>
 
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#D4E627] mb-4">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>
-                      {gig.venue}, {gig.city}
-                    </span>
-                  </div>
+                    {/* Flyer Image Frame: Polaroid style aspect-square just like fanzine photo gallery */}
+                    <div className="aspect-square bg-black overflow-hidden border-2 border-black relative">
+                      <img
+                        src={flyerImg}
+                        alt={gig.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter contrast-105"
+                        loading="lazy"
+                      />
 
-                  {/* Flyer Snapshot Graphic */}
-                  <div className="aspect-16/9 bg-black border-2 border-black overflow-hidden mb-4 relative">
-                    <img
-                      src={gig.photoSrc}
-                      alt={gig.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 filter contrast-110"
-                    />
-                    <div className="absolute bottom-2 right-2 bg-[#12041D] text-[#D4E627] text-[10px] font-mono px-2 py-0.5 border border-[#D4E627] uppercase">
-                      ARSIP LIVE
+                      <div className="absolute inset-0 bg-[#12041D]/0 group-hover:bg-[#12041D]/35 transition-colors flex items-center justify-center">
+                        <span className="opacity-0 group-hover:opacity-100 bg-[#D4E627] text-[#12041D] text-xs font-black uppercase px-2.5 py-1 border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1 transition-opacity">
+                          <Maximize2 className="w-3.5 h-3.5" /> Buka Flyer
+                        </span>
+                      </div>
+
+                      {gig.time && (
+                        <span className="absolute bottom-2 left-2 bg-[#12041D]/85 text-[#D4E627] text-[9px] font-mono font-bold px-1.5 py-0.5 border border-[#D4E627]">
+                          {gig.time}
+                        </span>
+                      )}
+
+                      {gig.flyerImages && gig.flyerImages.length > 1 && (
+                        <span className="absolute top-2 right-2 bg-[#00BFA5] text-[#12041D] text-[9px] font-mono font-black px-1.5 py-0.5 border border-black">
+                          {gig.flyerImages.length} FLYER
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title & Venue */}
+                    <div className="pt-3 px-1">
+                      <h3 className="text-base sm:text-lg font-punk uppercase text-[#12041D] leading-tight line-clamp-1 group-hover:text-[#6B249E] transition-colors">
+                        {gig.title}
+                      </h3>
+                      <p className="text-[11px] font-mono font-bold text-[#555] flex items-center gap-1 mt-1 truncate">
+                        <MapPin className="w-3 h-3 text-[#12041D] shrink-0" />
+                        <span>{gig.venue}, {gig.city}</span>
+                      </p>
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#D8CCE6] font-mono leading-relaxed">
-                    {gig.vibe}
-                  </p>
+                  {/* Card Footer */}
+                  <div className="mt-3 pt-2 border-t border-dashed border-black/30 flex justify-between items-center text-[10px] text-[#444] font-mono">
+                    <span className="text-[#12041D] font-black uppercase flex items-center gap-1">
+                      <InstagramIcon className="w-3 h-3 text-[#12041D]" /> Info Gigs
+                    </span>
+                    <span className="bg-[#D4E627] text-[#12041D] px-1.5 py-0.5 font-black uppercase border border-black group-hover:bg-[#12041D] group-hover:text-[#D4E627] transition-colors">
+                      Klik Detail →
+                    </span>
+                  </div>
                 </div>
-
-                <div className="mt-5 pt-3 border-t-2 border-dashed border-[#572288] flex justify-between items-center text-xs">
-                  <span className="text-[#D4E627] font-punk text-sm">
-                    STATUS: SELESAI DIGUNCANG
-                  </span>
-                  {gig.collab && (
-                    <div className="text-[#CBB8DC] text-[11px] font-mono font-bold">
-                      Collab: <span className="text-[#00BFA5] font-black">{gig.collab}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Interactive Showcase Box for HALA Koffie */}
@@ -1716,6 +1783,188 @@ export default function SillyNValleyPage() {
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          GIGS & FLYER LIGHTBOX MODAL
+      ========================================================================= */}
+      {activeGigIndex !== null && gigsList[activeGigIndex] && (() => {
+        const currentGig = gigsList[activeGigIndex];
+        const allFlyers: string[] =
+          currentGig.flyerImages && currentGig.flyerImages.length > 0
+            ? currentGig.flyerImages
+            : [currentGig.photoSrc || "/assets/silly-n-valley/photo_1.jpg"];
+        const currentFlyerUrl = allFlyers[activeGigFlyerIndex % allFlyers.length];
+        const instagramTarget =
+          currentGig.instagramUrl && currentGig.instagramUrl.trim() !== ""
+            ? currentGig.instagramUrl
+            : profile.instagramUrl || "https://instagram.com/silly.n.valley";
+
+        return (
+          <div
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-50 bg-[#12041D]/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+            onClick={() => setActiveGigIndex(null)}
+          >
+            <div
+              className="bg-[#1A062B] border-4 border-black max-w-4xl w-full p-4 sm:p-6 shadow-[10px_10px_0px_#D4E627] relative my-auto max-h-[94vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setActiveGigIndex(null)}
+                className="absolute -top-3 -right-3 bg-[#D90429] text-white p-2 border-2 border-black font-black hover:scale-110 transition-transform shadow-[2px_2px_0px_#000] z-20 cursor-pointer"
+                aria-label="Tutup popup flyer gigs"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                {/* Left Flyer Column */}
+                <div className="md:col-span-7 flex flex-col items-center">
+                  <div className="w-full bg-black border-2 border-black overflow-hidden relative flex items-center justify-center min-h-[300px] max-h-[62vh]">
+                    <img
+                      src={currentFlyerUrl}
+                      alt={currentGig.title}
+                      className="w-full h-full max-h-[62vh] object-contain"
+                    />
+
+                    {allFlyers.length > 1 && (
+                      <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setActiveGigFlyerIndex(prev => (prev - 1 + allFlyers.length) % allFlyers.length);
+                          }}
+                          className="bg-[#12041D]/80 hover:bg-[#D4E627] text-white hover:text-[#12041D] p-2 border-2 border-black cursor-pointer pointer-events-auto transition-colors"
+                          aria-label="Flyer sebelumnya"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setActiveGigFlyerIndex(prev => (prev + 1) % allFlyers.length);
+                          }}
+                          className="bg-[#12041D]/80 hover:bg-[#D4E627] text-white hover:text-[#12041D] p-2 border-2 border-black cursor-pointer pointer-events-auto transition-colors"
+                          aria-label="Flyer berikutnya"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                      </div>
+                    )}
+
+                    {allFlyers.length > 1 && (
+                      <div className="absolute bottom-2 right-2 bg-[#12041D]/90 text-[#D4E627] text-[10px] font-mono px-2 py-0.5 border border-[#D4E627]">
+                        {activeGigFlyerIndex + 1} / {allFlyers.length} FLYER
+                      </div>
+                    )}
+                  </div>
+
+                  {allFlyers.length > 1 && (
+                    <div className="flex gap-2 mt-2 overflow-x-auto max-w-full py-1">
+                      {allFlyers.map((f, fIdx) => (
+                        <button
+                          key={fIdx}
+                          type="button"
+                          onClick={() => setActiveGigFlyerIndex(fIdx)}
+                          className={`w-12 h-12 shrink-0 border-2 overflow-hidden cursor-pointer transition-all ${
+                            activeGigFlyerIndex === fIdx
+                              ? "border-[#D4E627] scale-105 shadow-[2px_2px_0px_#000]"
+                              : "border-black/50 opacity-60 hover:opacity-100"
+                          }`}
+                        >
+                          <img src={f} alt="" className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Details Column */}
+                <div className="md:col-span-5 flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="bg-[#B879AD] text-[#12041D] px-2.5 py-0.5 text-xs font-black uppercase border border-black font-mono">
+                        {currentGig.category || "GIGS"}
+                      </span>
+                      <span className="bg-[#D4E627] text-[#12041D] px-2.5 py-0.5 text-xs font-black uppercase border border-black font-mono">
+                        {currentGig.status === "completed" ? "SELESAI" : "UPCOMING"}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#F3EFE0] leading-tight">
+                      {currentGig.title}
+                    </h3>
+
+                    {/* Venue & Time Specs Box */}
+                    <div className="bg-[#240A3D] border-2 border-black p-3.5 space-y-2.5 text-xs font-mono">
+                      <div className="flex items-start gap-2 text-[#D4E627]">
+                        <Calendar className="w-4 h-4 shrink-0 mt-0.5" />
+                        <div>
+                          <div className="text-[10px] text-[#A992C4] uppercase">TANGGAL & WAKTU</div>
+                          <span className="font-bold text-[#F3EFE0]">{currentGig.date}</span>
+                          {currentGig.time && <span className="text-[#D4E627]"> • {currentGig.time}</span>}
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-2 text-[#D4E627]">
+                        <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
+                        <div>
+                          <div className="text-[10px] text-[#A992C4] uppercase">VENUE & KOTA</div>
+                          <span className="font-bold text-[#F3EFE0]">{currentGig.venue}, {currentGig.city}</span>
+                        </div>
+                      </div>
+
+                      {currentGig.htm && (
+                        <div className="flex items-start gap-2 text-[#00BFA5]">
+                          <Tag className="w-4 h-4 shrink-0 mt-0.5" />
+                          <div>
+                            <div className="text-[10px] text-[#A992C4] uppercase">TIKET / HTM</div>
+                            <span className="font-bold text-[#00BFA5]">{currentGig.htm}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {currentGig.vibe && (
+                      <p className="text-xs text-[#D8CCE6] font-mono leading-relaxed bg-[#140224] p-3 border border-[#3E165B]">
+                        {currentGig.vibe}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Actions: Link to Instagram Post */}
+                  <div className="pt-2 space-y-2.5">
+                    <a
+                      href={instagramTarget}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-3 px-4 font-punk text-sm sm:text-base uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#00BFA5] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                    >
+                      <InstagramIcon className="w-4 h-4 text-[#12041D]" />
+                      <span>Kunjungi Postingan Instagram</span>
+                      <ArrowUpRight className="w-4 h-4 text-[#12041D] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </a>
+
+                    <div className="flex items-center justify-between text-xs font-mono text-[#A992C4] pt-1">
+                      <span>#SillyNValleyLive</span>
+                      <button
+                        type="button"
+                        onClick={() => setActiveGigIndex(null)}
+                        className="text-[#D4E627] hover:underline cursor-pointer"
+                      >
+                        Tutup [ESC]
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* =========================================================================
           SECTION 7: BOOKING & KOLABORASI
