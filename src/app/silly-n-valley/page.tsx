@@ -317,6 +317,59 @@ const INITIAL_ALBUMS: FanzineAlbum[] = [
   }
 ];
 
+export interface ViralReelItem {
+  id: string;
+  image: string;
+  caption: string;
+  views: string;
+  instagramUrl?: string;
+}
+
+export const INITIAL_REELS: ViralReelItem[] = [
+  {
+    id: "reel-1",
+    image: "/assets/silly-n-valley/reels/reel_2.jpg",
+    caption: "MERDEKA TAPI MAMPUS! Suara perlawanan murni tanpa kompromi.",
+    views: "1.8M",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-2",
+    image: "/assets/silly-n-valley/reels/reel_1.jpg",
+    caption: "POV ketika lo lagi seneng2 di moshpit tapi tiba2 lo gak bisa ngerasain tonjolan kotak di kantong celana...",
+    views: "956K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-3",
+    image: "/assets/silly-n-valley/reels/reel_3.jpg",
+    caption: "..pas udah gede malah pura2 sober (belaga biar dikira kuat gitu deh)",
+    views: "922K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-4",
+    image: "/assets/silly-n-valley/reels/reel_5.jpg",
+    caption: "POV di festival musik dan lo papasan sama satu stranger yg sering lo liat di setiap gigs musik..",
+    views: "103K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-5",
+    image: "/assets/silly-n-valley/reels/reel_6.jpg",
+    caption: "fest DAY 2 synchronize: energi distorsi panggung festival!",
+    views: "3.9K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-6",
+    image: "/assets/silly-n-valley/reels/reel_4.jpg",
+    caption: "fest DAY 3 synchronize: perayaan crowd & circle pit tanpa sekat.",
+    views: "2.1K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  }
+];
+
 interface GigEvent {
   id: number | string;
   title: string;
@@ -421,36 +474,7 @@ export default function SillyNValleyPage() {
     whatsappHotline: "+62 812-9909-5137",
     instagramUrl: "https://instagram.com/silly.n.valley",
     spotifyUrl: "https://open.spotify.com/search/Silly%20N%20Valley",
-    coreValues: [
-      {
-        title: "Ruang Aman (Safe Space)",
-        badge: "Moshpit Etiquette",
-        image: "/assets/silly-n-valley/photo_2.jpg",
-        description:
-          "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
-      },
-      {
-        title: "DIY Culture & Swadaya",
-        badge: "Mandiri",
-        image: "/assets/silly-n-valley/photo_5.jpg",
-        description:
-          "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
-      },
-      {
-        title: "Highly Motivated",
-        badge: "Anti Burnout",
-        image: "/assets/silly-n-valley/photo_6.jpg",
-        description:
-          "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
-      },
-      {
-        title: "Tangerang Underground (2022)",
-        badge: "Est. 2022",
-        image: "/assets/silly-n-valley/photo_11.jpg",
-        description:
-          "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
-      }
-    ]
+    coreValues: INITIAL_REELS
   });
 
   const [merchList, setMerchList] = useState<MerchItem[]>(MERCH_CATALOG);
@@ -509,44 +533,14 @@ export default function SillyNValleyPage() {
             instagramUrl: profData.instagram_url || "https://instagram.com/silly.n.valley",
             spotifyUrl: profData.spotify_url || "https://open.spotify.com/search/Silly%20N%20Valley",
             coreValues: Array.isArray(profData.core_values) && profData.core_values.length > 0
-              ? profData.core_values.map((cv: any, i: number) => {
-                  const fallbackImgs = [
-                    "/assets/silly-n-valley/photo_2.jpg",
-                    "/assets/silly-n-valley/photo_5.jpg",
-                    "/assets/silly-n-valley/photo_6.jpg",
-                    "/assets/silly-n-valley/photo_11.jpg"
-                  ];
-                  return {
-                    ...cv,
-                    image: cv.image || fallbackImgs[i % fallbackImgs.length]
-                  };
-                })
-              : [
-                  {
-                    title: "Ruang Aman (Safe Space)",
-                    badge: "Moshpit Etiquette",
-                    image: "/assets/silly-n-valley/photo_2.jpg",
-                    description: "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
-                  },
-                  {
-                    title: "DIY Culture & Swadaya",
-                    badge: "Mandiri",
-                    image: "/assets/silly-n-valley/photo_5.jpg",
-                    description: "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
-                  },
-                  {
-                    title: "Highly Motivated",
-                    badge: "Anti Burnout",
-                    image: "/assets/silly-n-valley/photo_6.jpg",
-                    description: "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
-                  },
-                  {
-                    title: "Tangerang Underground (2022)",
-                    badge: "Est. 2022",
-                    image: "/assets/silly-n-valley/photo_11.jpg",
-                    description: "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
-                  }
-                ]
+              ? profData.core_values.map((item: any, idx: number) => ({
+                  id: item.id || `reel-${idx + 1}`,
+                  image: item.image || INITIAL_REELS[idx % INITIAL_REELS.length].image,
+                  caption: item.caption || item.description || item.title || "Konten Viral Silly N Valley",
+                  views: item.views || item.badge || "100K",
+                  instagramUrl: item.instagramUrl || "https://instagram.com/silly.n.valley"
+                }))
+              : INITIAL_REELS
           });
         }
 
@@ -1232,91 +1226,83 @@ export default function SillyNValleyPage() {
               </div>
             </div>
 
-            {/* Right Bento Grid of Core Values */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {profile.coreValues.map((val, idx) => {
-                const styles = [
-                  {
-                    bg: "bg-[#2E104B]",
-                    rot: "-rotate-1",
-                    iconBg: "bg-[#00BFA5] text-[#12041D]",
-                    titleColor: "text-[#00BFA5]",
-                    descColor: "text-[#D8CCE6]",
-                    badgeBg: "border-[#00BFA5] text-[#00BFA5]",
-                    tapeColor: "cyan" as const,
-                    icon: <ShieldCheck className="w-5 h-5" />
-                  },
-                  {
-                    bg: "bg-[#D4E627]",
-                    rot: "rotate-1",
-                    iconBg: "bg-[#12041D] text-[#D4E627]",
-                    titleColor: "text-[#12041D]",
-                    descColor: "text-[#12041D] font-bold",
-                    badgeBg: "border-black text-black",
-                    tapeColor: "purple" as const,
-                    icon: <Zap className="w-5 h-5" />
-                  },
-                  {
-                    bg: "bg-[#B879AD]",
-                    rot: "rotate-1",
-                    iconBg: "bg-[#12041D] text-[#B879AD]",
-                    titleColor: "text-[#12041D]",
-                    descColor: "text-[#12041D] font-bold",
-                    badgeBg: "border-black text-black",
-                    tapeColor: "yellow" as const,
-                    icon: <Flame className="w-5 h-5 text-[#D4E627]" />
-                  },
-                  {
-                    bg: "bg-[#240A3D]",
-                    rot: "-rotate-1",
-                    iconBg: "bg-[#D4E627] text-[#12041D]",
-                    titleColor: "text-[#D4E627]",
-                    descColor: "text-[#D8CCE6]",
-                    badgeBg: "border-[#D4E627] text-[#D4E627]",
-                    tapeColor: "cyan" as const,
-                    icon: <MapPin className="w-5 h-5 text-[#12041D]" />
-                  }
-                ];
-                const s = styles[idx % styles.length];
+            {/* Right Column: Viral Reels & Memes ("Punk Kok Ngonten!?") */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b-2 border-dashed border-[#D4E627]/40">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 bg-[#D4E627] text-[#12041D] px-2.5 py-0.5 text-[10px] font-black uppercase border border-black font-mono">
+                    <Flame className="w-3.5 h-3.5" /> PUNK KOK NGONTEN!?
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-punk uppercase text-[#F3EFE0] leading-tight">
+                    BUKTI NYATA: ALGORITMA DIBAJAK
+                  </h3>
+                </div>
+                <span className="text-[11px] font-mono text-[#00BFA5] font-bold">
+                  @silly.n.valley
+                </span>
+              </div>
 
-                return (
-                  <div
-                    key={idx}
-                    className={`${s.bg} border-3 border-black p-4 sm:p-5 shadow-[4px_4px_0px_#000] space-y-2.5 ${s.rot} relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all flex flex-col justify-between`}
-                  >
-                    <DuctTape className="-top-3 right-6 w-14" color={s.tapeColor} />
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className={`w-9 h-9 ${s.iconBg} border-2 border-black flex items-center justify-center font-black`}>
-                          {s.icon}
-                        </div>
-                        <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 border ${s.badgeBg}`}>
-                          {val.badge}
-                        </span>
-                      </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+                {profile.coreValues.map((reel: any, idx: number) => {
+                  const rotateClasses = [
+                    "-rotate-1 hover:rotate-0",
+                    "rotate-1 hover:rotate-0",
+                    "-rotate-2 hover:rotate-0",
+                    "rotate-2 hover:rotate-0",
+                    "rotate-1 hover:rotate-0",
+                    "-rotate-1 hover:rotate-0"
+                  ];
+                  const rotation = rotateClasses[idx % rotateClasses.length];
+                  const instagramTarget = reel.instagramUrl || profile.instagramUrl || "https://instagram.com/silly.n.valley";
 
-                      {/* Mini Photo per Core Value */}
-                      {val.image && (
-                        <div className="w-full aspect-16/9 bg-black overflow-hidden border-2 border-black relative my-2 shadow-[2px_2px_0px_#000] group/img">
+                  return (
+                    <a
+                      key={reel.id || idx}
+                      href={instagramTarget}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`bg-[#1F0833] text-[#F3EFE0] p-2 sm:p-2.5 border-3 border-black shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#D4E627] hover:scale-[1.03] transition-all duration-300 relative group flex flex-col justify-between ${rotation}`}
+                    >
+                      <DuctTape
+                        className="-top-3 left-1/2 -translate-x-1/2 w-14"
+                        color={idx % 3 === 0 ? "yellow" : idx % 3 === 1 ? "purple" : "cyan"}
+                      />
+                      <div>
+                        <div className="aspect-9/16 bg-black overflow-hidden border-2 border-black relative">
                           <img
-                            src={val.image}
-                            alt={val.title}
-                            className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300 filter contrast-105"
+                            src={reel.image}
+                            alt={reel.caption}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 filter contrast-105"
                             loading="lazy"
                           />
+                          <div className="absolute top-1.5 right-1.5 bg-[#12041D]/80 text-white p-1 rounded-full border border-black/40">
+                            <InstagramIcon className="w-3 h-3 text-[#D4E627]" />
+                          </div>
+                          <div className="absolute bottom-1.5 left-1.5 bg-[#12041D]/90 text-[#D4E627] text-[10px] sm:text-xs font-mono font-black px-2 py-0.5 border border-[#D4E627] shadow-[1px_1px_0px_#000] flex items-center gap-1">
+                            <span>🔥 {reel.views || "100K"}</span>
+                            <span className="text-[9px] text-[#CBB8DC] hidden sm:inline">VIEWS</span>
+                          </div>
+                          <div className="absolute inset-0 bg-[#12041D]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
+                            <span className="bg-[#D4E627] text-[#12041D] text-[10px] font-black uppercase px-2 py-1 border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1">
+                              <span>Buka Reel</span>
+                              <ArrowUpRight className="w-3 h-3" />
+                            </span>
+                          </div>
                         </div>
-                      )}
-
-                      <h3 className={`text-lg sm:text-xl font-punk uppercase ${s.titleColor} tracking-wide leading-tight`}>
-                        {val.title}
-                      </h3>
-                      <p className={`text-xs ${s.descColor} leading-normal font-mono`}>
-                        {val.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+                        <div className="pt-2 px-0.5">
+                          <p className="text-[11px] sm:text-xs font-mono font-bold leading-snug line-clamp-2 text-[#F3EFE0] group-hover:text-[#D4E627] transition-colors">
+                            {reel.caption}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-2 pt-1.5 border-t border-dashed border-[#572288] flex justify-between items-center text-[9px] text-[#A992C4] font-mono">
+                        <span>#PUNKKOKNGONTEN</span>
+                        <span className="text-[#00BFA5] font-bold">REELS #{idx + 1}</span>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

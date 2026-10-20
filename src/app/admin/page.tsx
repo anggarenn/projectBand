@@ -83,6 +83,14 @@ export interface BookingMessage {
   status: "unread" | "replied" | "archived";
 }
 
+export interface ViralReelItem {
+  id: string;
+  image: string;
+  caption: string;
+  views: string;
+  instagramUrl?: string;
+}
+
 export interface ProfileData {
   bandName: string;
   tagline: string;
@@ -94,17 +102,57 @@ export interface ProfileData {
   whatsappHotline: string;
   instagramUrl: string;
   spotifyUrl: string;
-  coreValues: {
-    title: string;
-    description: string;
-    badge: string;
-    image?: string;
-  }[];
+  coreValues: ViralReelItem[];
 }
 
 // =========================================================================
 // INITIAL DEFAULT DATA (SILLY N VALLEY CANONICAL)
 // =========================================================================
+
+export const INITIAL_REELS: ViralReelItem[] = [
+  {
+    id: "reel-1",
+    image: "/assets/silly-n-valley/reels/reel_2.jpg",
+    caption: "MERDEKA TAPI MAMPUS! Suara perlawanan murni tanpa kompromi.",
+    views: "1.8M",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-2",
+    image: "/assets/silly-n-valley/reels/reel_1.jpg",
+    caption: "POV ketika lo lagi seneng2 di moshpit tapi tiba2 lo gak bisa ngerasain tonjolan kotak di kantong celana...",
+    views: "956K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-3",
+    image: "/assets/silly-n-valley/reels/reel_3.jpg",
+    caption: "..pas udah gede malah pura2 sober (belaga biar dikira kuat gitu deh)",
+    views: "922K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-4",
+    image: "/assets/silly-n-valley/reels/reel_5.jpg",
+    caption: "POV di festival musik dan lo papasan sama satu stranger yg sering lo liat di setiap gigs musik..",
+    views: "103K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-5",
+    image: "/assets/silly-n-valley/reels/reel_6.jpg",
+    caption: "fest DAY 2 synchronize: energi distorsi panggung festival!",
+    views: "3.9K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  },
+  {
+    id: "reel-6",
+    image: "/assets/silly-n-valley/reels/reel_4.jpg",
+    caption: "fest DAY 3 synchronize: perayaan crowd & circle pit tanpa sekat.",
+    views: "2.1K",
+    instagramUrl: "https://instagram.com/silly.n.valley"
+  }
+];
 
 const INITIAL_PROFILE: ProfileData = {
   bandName: "Silly N Valley",
@@ -120,36 +168,7 @@ const INITIAL_PROFILE: ProfileData = {
   whatsappHotline: "+62 812-9909-5137",
   instagramUrl: "https://instagram.com/silly.n.valley",
   spotifyUrl: "https://open.spotify.com/search/Silly%20N%20Valley",
-  coreValues: [
-    {
-      title: "Ruang Aman (Safe Space)",
-      badge: "Moshpit Etiquette",
-      image: "/assets/silly-n-valley/photo_2.jpg",
-      description:
-        "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
-    },
-    {
-      title: "DIY Culture & Swadaya",
-      badge: "Mandiri",
-      image: "/assets/silly-n-valley/photo_5.jpg",
-      description:
-        "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
-    },
-    {
-      title: "Highly Motivated",
-      badge: "Anti Burnout",
-      image: "/assets/silly-n-valley/photo_6.jpg",
-      description:
-        "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
-    },
-    {
-      title: "Tangerang Underground",
-      badge: "Est. 2022",
-      image: "/assets/silly-n-valley/photo_11.jpg",
-      description:
-        "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
-    }
-  ]
+  coreValues: INITIAL_REELS
 };
 
 const INITIAL_ALBUMS: FanzineAlbum[] = [
@@ -387,11 +406,14 @@ export default function AdminDashboardPage() {
             instagramUrl: profData.instagram_url || INITIAL_PROFILE.instagramUrl,
             spotifyUrl: profData.spotify_url || INITIAL_PROFILE.spotifyUrl,
             coreValues: Array.isArray(profData.core_values) && profData.core_values.length > 0
-              ? profData.core_values.map((cv: any, i: number) => ({
-                  ...cv,
-                  image: cv.image || INITIAL_PROFILE.coreValues[i]?.image || `/assets/silly-n-valley/photo_${(i % 12) + 1}.jpg`
+              ? profData.core_values.map((item: any, idx: number) => ({
+                  id: item.id || `reel-${idx + 1}`,
+                  image: item.image || INITIAL_REELS[idx % INITIAL_REELS.length].image,
+                  caption: item.caption || item.description || item.title || "Konten Viral Silly N Valley",
+                  views: item.views || item.badge || "100K",
+                  instagramUrl: item.instagramUrl || "https://instagram.com/silly.n.valley"
                 }))
-              : INITIAL_PROFILE.coreValues
+              : INITIAL_REELS
           });
         }
 
@@ -508,24 +530,49 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleCoreValueImageFileChange = async (
+  const handleReelImageFileChange = async (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      triggerToast(`Mengupload foto pilar #${index + 1}...`);
-      const uploadedUrl = await uploadImageToStorage(file, "core-values");
+      triggerToast(`Mengupload tangkapan layar reels #${index + 1}...`);
+      const uploadedUrl = await uploadImageToStorage(file, "reels");
       const updatedValues = [...profile.coreValues];
       updatedValues[index] = {
         ...updatedValues[index],
         image: uploadedUrl
       };
       setProfile(prev => ({ ...prev, coreValues: updatedValues }));
-      triggerToast(`Foto pilar #${index + 1} berhasil diupload!`);
+      triggerToast(`Foto reels #${index + 1} berhasil diupload!`);
     } catch (err) {
-      alert("Gagal membaca file foto pilar.");
+      alert("Gagal membaca file foto reels.");
+    }
+  };
+
+  const handleAddReel = () => {
+    const newReel: ViralReelItem = {
+      id: `reel-${Date.now()}`,
+      image: "/assets/silly-n-valley/reels/reel_1.jpg",
+      caption: "POV konten baru Silly N Valley...",
+      views: "100K",
+      instagramUrl: "https://instagram.com/silly.n.valley"
+    };
+    setProfile(prev => ({
+      ...prev,
+      coreValues: [...prev.coreValues, newReel]
+    }));
+    triggerToast("Kartu reels baru ditambahkan!");
+  };
+
+  const handleDeleteReel = (index: number) => {
+    if (confirm(`Hapus reels #${index + 1}?`)) {
+      setProfile(prev => ({
+        ...prev,
+        coreValues: prev.coreValues.filter((_, idx) => idx !== index)
+      }));
+      triggerToast("Reels dihapus dari daftar.");
     }
   };
 
@@ -1433,125 +1480,140 @@ export default function AdminDashboardPage() {
                   </div>
                 </div>
 
-                {/* 4 Core Values Editor */}
+                {/* Konten Viral & Reels Instagram Manager */}
                 <div className="bg-[#1C0830] border-3 border-black p-5 shadow-[5px_5px_0px_#000] space-y-4">
-                  <div>
-                    <h3 className="text-lg font-punk uppercase text-[#00BFA5] flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" /> 4 Pilar Nilai & Foto Mini (Core Values)
-                    </h3>
-                    <p className="text-[11px] font-mono text-[#CBB8DC] mt-1">
-                      Setiap pilar memiliki foto mini yang tampil di kotak About Us web. Pilih foto dari folder atau masukkan URL gambar.
-                    </p>
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b-2 border-black/40">
+                    <div>
+                      <h3 className="text-lg font-punk uppercase text-[#D4E627] flex items-center gap-2">
+                        <Flame className="w-4 h-4 text-[#D4E627]" /> Konten Viral & Reels Instagram
+                      </h3>
+                      <p className="text-[11px] font-mono text-[#CBB8DC] mt-0.5">
+                        Tampilkan bukti &quot;Punk Kok Ngonten!?&quot; dengan capturan reels, caption, dan view count.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAddReel}
+                      className="bg-[#00BFA5] hover:bg-[#00a892] text-[#12041D] px-3 py-1.5 font-punk text-xs uppercase border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1 cursor-pointer shrink-0"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Tambah Reels</span>
+                    </button>
                   </div>
 
-                  <div className="space-y-4">
-                    {profile.coreValues.map((cv, idx) => (
+                  <div className="space-y-4 max-h-[650px] overflow-y-auto pr-1">
+                    {profile.coreValues.map((reel, idx) => (
                       <div
-                        key={idx}
-                        className="bg-[#12041D] border-2 border-black p-3.5 space-y-3 shadow-[2px_2px_0px_#000]"
+                        key={reel.id || idx}
+                        className="bg-[#12041D] border-2 border-black p-3.5 space-y-3 shadow-[2px_2px_0px_#000] relative"
                       >
                         <div className="flex items-center justify-between border-b border-black/50 pb-2">
-                          <span className="text-[10px] bg-[#D4E627] text-[#12041D] font-mono font-black uppercase px-2 py-0.5 border border-black">
-                            PILAR #{idx + 1}
-                          </span>
-                          <span className="text-[10px] bg-[#2E104B] text-[#00BFA5] font-mono px-2 py-0.5 border border-black">
-                            {cv.badge || "Etiquette"}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] bg-[#D4E627] text-[#12041D] font-mono font-black uppercase px-2 py-0.5 border border-black">
+                              REELS #{idx + 1}
+                            </span>
+                            <span className="text-[10px] bg-[#B879AD] text-[#12041D] font-mono font-black uppercase px-2 py-0.5 border border-black">
+                              {reel.views || "100K"} VIEWS
+                            </span>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteReel(idx)}
+                            className="text-[#FF4D4D] hover:bg-[#D90429] hover:text-white p-1 border border-transparent hover:border-black transition-colors"
+                            title="Hapus reels ini"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
                         </div>
 
-                        {/* Title & Badge Inputs */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          <div>
-                            <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
-                              Judul Pilar
+                        <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start">
+                          {/* Image preview (Aspect 9:16 vertical reels) */}
+                          <div className="sm:col-span-4 w-full aspect-9/16 max-h-[220px] bg-black border-2 border-black overflow-hidden relative shadow-[2px_2px_0px_#000] flex items-center justify-center">
+                            {reel.image ? (
+                              <img
+                                src={reel.image}
+                                alt={reel.caption}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="text-[9px] font-mono text-[#888]">No Image</div>
+                            )}
+                          </div>
+
+                          {/* Inputs */}
+                          <div className="sm:col-span-8 space-y-2">
+                            <label className="cursor-pointer w-full inline-flex items-center justify-center gap-1.5 bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-1.5 px-3 font-punk text-xs uppercase tracking-wider border border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-all">
+                              <FolderOpen className="w-3.5 h-3.5" />
+                              <span>Pilih Screenshot dari Folder</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={e => handleReelImageFileChange(idx, e)}
+                              />
                             </label>
+
                             <input
                               type="text"
-                              value={cv.title}
+                              placeholder="Path / URL Gambar..."
+                              value={reel.image}
                               onChange={e => {
                                 const nextVals = [...profile.coreValues];
-                                nextVals[idx] = { ...nextVals[idx], title: e.target.value };
+                                nextVals[idx] = { ...nextVals[idx], image: e.target.value };
                                 setProfile({ ...profile, coreValues: nextVals });
                               }}
-                              className="w-full bg-[#1B052B] border border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                              className="w-full bg-[#1B052B] border border-black p-1.5 text-[11px] font-mono text-white focus:outline-none focus:border-[#D4E627]"
                             />
-                          </div>
-                          <div>
-                            <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
-                              Badge / Label Singkat
-                            </label>
-                            <input
-                              type="text"
-                              value={cv.badge}
-                              onChange={e => {
-                                const nextVals = [...profile.coreValues];
-                                nextVals[idx] = { ...nextVals[idx], badge: e.target.value };
-                                setProfile({ ...profile, coreValues: nextVals });
-                              }}
-                              className="w-full bg-[#1B052B] border border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
-                            />
-                          </div>
-                        </div>
 
-                        {/* Description Textarea */}
-                        <div>
-                          <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
-                            Deskripsi Nilai
-                          </label>
-                          <textarea
-                            rows={2}
-                            value={cv.description}
-                            onChange={e => {
-                              const nextVals = [...profile.coreValues];
-                              nextVals[idx] = { ...nextVals[idx], description: e.target.value };
-                              setProfile({ ...profile, coreValues: nextVals });
-                            }}
-                            className="w-full bg-[#1B052B] border border-black p-2 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627] leading-relaxed"
-                          />
-                        </div>
-
-                        {/* Photo Mini Image Uploader */}
-                        <div>
-                          <label className="block text-[10px] font-mono font-bold text-[#D4E627] uppercase mb-1">
-                            Foto Mini Kotak Pilar #{idx + 1}
-                          </label>
-                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                            <div className="w-24 h-16 bg-black border-2 border-black shrink-0 overflow-hidden relative shadow-[2px_2px_0px_#000]">
-                              {cv.image ? (
-                                <img
-                                  src={cv.image}
-                                  alt={cv.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center text-[9px] font-mono text-[#888]">
-                                  No Photo
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="space-y-1.5 flex-1 w-full">
-                              <label className="cursor-pointer inline-flex items-center gap-1.5 bg-[#D4E627] hover:bg-[#c3d51f] text-[#12041D] py-1.5 px-3 font-punk text-xs uppercase tracking-wider border border-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 transition-all">
-                                <FolderOpen className="w-3.5 h-3.5" />
-                                <span>Pilih Foto dari Folder</span>
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  className="hidden"
-                                  onChange={e => handleCoreValueImageFileChange(idx, e)}
-                                />
+                            <div>
+                              <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
+                                Angka Views (Contoh: 1.8M, 956K, 103K)
                               </label>
-
                               <input
                                 type="text"
-                                placeholder="Atau paste URL foto..."
-                                value={cv.image || ""}
+                                placeholder="1.8M"
+                                value={reel.views}
                                 onChange={e => {
                                   const nextVals = [...profile.coreValues];
-                                  nextVals[idx] = { ...nextVals[idx], image: e.target.value };
+                                  nextVals[idx] = { ...nextVals[idx], views: e.target.value };
                                   setProfile({ ...profile, coreValues: nextVals });
                                 }}
-                                className="w-full bg-[#1B052B] border border-black p-1.5 text-[11px] font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                                className="w-full bg-[#1B052B] border border-black p-1.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
+                                Caption / Punchline POV
+                              </label>
+                              <textarea
+                                rows={2}
+                                placeholder="MERDEKA TAPI MAMPUS!"
+                                value={reel.caption}
+                                onChange={e => {
+                                  const nextVals = [...profile.coreValues];
+                                  nextVals[idx] = { ...nextVals[idx], caption: e.target.value };
+                                  setProfile({ ...profile, coreValues: nextVals });
+                                }}
+                                className="w-full bg-[#1B052B] border border-black p-1.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627] leading-tight"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-mono font-bold text-[#CBB8DC] uppercase mb-0.5">
+                                Link Instagram Reel
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="https://instagram.com/silly.n.valley"
+                                value={reel.instagramUrl || ""}
+                                onChange={e => {
+                                  const nextVals = [...profile.coreValues];
+                                  nextVals[idx] = { ...nextVals[idx], instagramUrl: e.target.value };
+                                  setProfile({ ...profile, coreValues: nextVals });
+                                }}
+                                className="w-full bg-[#1B052B] border border-black p-1.5 text-xs font-mono text-white focus:outline-none focus:border-[#D4E627]"
                               />
                             </div>
                           </div>
