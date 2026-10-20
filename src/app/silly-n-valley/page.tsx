@@ -425,24 +425,28 @@ export default function SillyNValleyPage() {
       {
         title: "Ruang Aman (Safe Space)",
         badge: "Moshpit Etiquette",
+        image: "/assets/silly-n-valley/photo_2.jpg",
         description:
           "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
       },
       {
         title: "DIY Culture & Swadaya",
         badge: "Mandiri",
+        image: "/assets/silly-n-valley/photo_5.jpg",
         description:
           "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
       },
       {
         title: "Highly Motivated",
         badge: "Anti Burnout",
+        image: "/assets/silly-n-valley/photo_6.jpg",
         description:
           "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
       },
       {
         title: "Tangerang Underground (2022)",
         badge: "Est. 2022",
+        image: "/assets/silly-n-valley/photo_11.jpg",
         description:
           "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
       }
@@ -505,26 +509,41 @@ export default function SillyNValleyPage() {
             instagramUrl: profData.instagram_url || "https://instagram.com/silly.n.valley",
             spotifyUrl: profData.spotify_url || "https://open.spotify.com/search/Silly%20N%20Valley",
             coreValues: Array.isArray(profData.core_values) && profData.core_values.length > 0
-              ? profData.core_values
+              ? profData.core_values.map((cv: any, i: number) => {
+                  const fallbackImgs = [
+                    "/assets/silly-n-valley/photo_2.jpg",
+                    "/assets/silly-n-valley/photo_5.jpg",
+                    "/assets/silly-n-valley/photo_6.jpg",
+                    "/assets/silly-n-valley/photo_11.jpg"
+                  ];
+                  return {
+                    ...cv,
+                    image: cv.image || fallbackImgs[i % fallbackImgs.length]
+                  };
+                })
               : [
                   {
                     title: "Ruang Aman (Safe Space)",
                     badge: "Moshpit Etiquette",
+                    image: "/assets/silly-n-valley/photo_2.jpg",
                     description: "Zero tolerance terhadap pelecehan seksual, kekerasan fisik, dan maskulinitas beracun di moshpit. Semua orang berhak pogo tanpa rasa takut."
                   },
                   {
                     title: "DIY Culture & Swadaya",
                     badge: "Mandiri",
+                    image: "/assets/silly-n-valley/photo_5.jpg",
                     description: "Mulai dari produksi fisik kaset pita, desain merch, hingga showcase mandiri 'Latihan Di Lihatin', kami mengorganisirnya secara swadaya."
                   },
                   {
                     title: "Highly Motivated",
                     badge: "Anti Burnout",
+                    image: "/assets/silly-n-valley/photo_6.jpg",
                     description: "Punk yang tidak cuma mengeluh, tapi memicu tindakan nyata. Melawan burnout dan apatisme harian dengan riff cepat dan optimisme keras kepala."
                   },
                   {
                     title: "Tangerang Underground (2022)",
                     badge: "Est. 2022",
+                    image: "/assets/silly-n-valley/photo_11.jpg",
                     description: "Menghidupkan ekosistem dan venue kota sendiri. Kami percaya pergerakan tidak harus selalu berpusat di Jakarta untuk bisa berdampak luas."
                   }
                 ]
@@ -1263,23 +1282,38 @@ export default function SillyNValleyPage() {
                 return (
                   <div
                     key={idx}
-                    className={`${s.bg} border-3 border-black p-5 shadow-[4px_4px_0px_#000] space-y-2 ${s.rot} relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all`}
+                    className={`${s.bg} border-3 border-black p-4 sm:p-5 shadow-[4px_4px_0px_#000] space-y-2.5 ${s.rot} relative hover:rotate-0 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#D4E627] transition-all flex flex-col justify-between`}
                   >
                     <DuctTape className="-top-3 right-6 w-14" color={s.tapeColor} />
-                    <div className="flex items-center justify-between">
-                      <div className={`w-10 h-10 ${s.iconBg} border-2 border-black flex items-center justify-center font-black`}>
-                        {s.icon}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className={`w-9 h-9 ${s.iconBg} border-2 border-black flex items-center justify-center font-black`}>
+                          {s.icon}
+                        </div>
+                        <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 border ${s.badgeBg}`}>
+                          {val.badge}
+                        </span>
                       </div>
-                      <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 border ${s.badgeBg}`}>
-                        {val.badge}
-                      </span>
+
+                      {/* Mini Photo per Core Value */}
+                      {val.image && (
+                        <div className="w-full aspect-16/9 bg-black overflow-hidden border-2 border-black relative my-2 shadow-[2px_2px_0px_#000] group/img">
+                          <img
+                            src={val.image}
+                            alt={val.title}
+                            className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300 filter contrast-105"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+
+                      <h3 className={`text-lg sm:text-xl font-punk uppercase ${s.titleColor} tracking-wide leading-tight`}>
+                        {val.title}
+                      </h3>
+                      <p className={`text-xs ${s.descColor} leading-normal font-mono`}>
+                        {val.description}
+                      </p>
                     </div>
-                    <h3 className={`text-xl font-punk uppercase ${s.titleColor} tracking-wide`}>
-                      {val.title}
-                    </h3>
-                    <p className={`text-xs ${s.descColor} leading-normal font-mono`}>
-                      {val.description}
-                    </p>
                   </div>
                 );
               })}
