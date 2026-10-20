@@ -262,98 +262,58 @@ const MERCH_CATALOG: MerchItem[] = [
   }
 ];
 
-interface PhotoItem {
-  id: number;
-  src: string;
-  caption: string;
-  category: "stage" | "crowd" | "gear" | "backstage";
-  timestamp: string;
+interface FanzineAlbum {
+  id: string;
+  title: string;
+  date: string;
+  venue: string;
+  photographer: string;
+  coverImage: string;
+  photos: string[];
 }
 
-const INSTAGRAM_PHOTOS: PhotoItem[] = [
+const INITIAL_ALBUMS: FanzineAlbum[] = [
   {
-    id: 1,
-    src: "/assets/silly-n-valley/photo_1.jpg",
-    caption: "Distorsi power-chord dan teriakan tanpa kompromi di panggung mandiri HALA Koffie.",
-    category: "stage",
-    timestamp: "OKTOBER 2024"
+    id: "alb-1",
+    title: "Showcase HALA Koffie: Rantai Reaksi",
+    date: "14 Oktober 2024",
+    venue: "HALA Koffie, Kota Tangerang",
+    photographer: "@mqrifisnqini",
+    coverImage: "/assets/silly-n-valley/photo_1.jpg",
+    photos: [
+      "/assets/silly-n-valley/photo_1.jpg",
+      "/assets/silly-n-valley/photo_2.jpg",
+      "/assets/silly-n-valley/photo_3.jpg",
+      "/assets/silly-n-valley/photo_4.jpg"
+    ]
   },
   {
-    id: 2,
-    src: "/assets/silly-n-valley/photo_2.jpg",
-    caption: "Circle sing-along! Tak ada sekat antara band dan kawan pogo di depan panggung.",
-    category: "crowd",
-    timestamp: "SEPTEMBER 2024"
+    id: "alb-2",
+    title: "Moshpit Chaos di Gigsgoks Fest",
+    date: "28 September 2024",
+    venue: "Tangerang Creative Space",
+    photographer: "@silly.n.valley",
+    coverImage: "/assets/silly-n-valley/photo_5.jpg",
+    photos: [
+      "/assets/silly-n-valley/photo_5.jpg",
+      "/assets/silly-n-valley/photo_6.jpg",
+      "/assets/silly-n-valley/photo_7.jpg",
+      "/assets/silly-n-valley/photo_8.jpg"
+    ]
   },
   {
-    id: 3,
-    src: "/assets/silly-n-valley/photo_3.jpg",
-    caption: "Check sound instrumen dan ampli tabung sebelum gemuruh distorsi dinyalakan.",
-    category: "stage",
-    timestamp: "AGUSTUS 2024"
-  },
-  {
-    id: 4,
-    src: "/assets/silly-n-valley/photo_4.jpg",
-    caption: "Momen intim backstage: nafas sejenak, ngopi lokal, dan obrolan kawan pergerakan.",
-    category: "backstage",
-    timestamp: "JULI 2024"
-  },
-  {
-    id: 5,
-    src: "/assets/silly-n-valley/photo_5.jpg",
-    caption: "Rilisan fisik kaset pita C-30 'Rantai Reaksi: Abu Tanpa Api' siap didistribusikan ke distro.",
-    category: "gear",
-    timestamp: "JUNI 2024"
-  },
-  {
-    id: 6,
-    src: "/assets/silly-n-valley/photo_6.jpg",
-    caption: "Keringat, desak-desakan, dan energi positif murni tanpa kekerasan di tengah moshpit.",
-    category: "crowd",
-    timestamp: "MEI 2024"
-  },
-  {
-    id: 7,
-    src: "/assets/silly-n-valley/photo_7.jpg",
-    caption: "Lead vocal take-over: meneriakkan lirik 'Merdeka Tapi Mampus' bersama massa.",
-    category: "stage",
-    timestamp: "APRIL 2024"
-  },
-  {
-    id: 8,
-    src: "/assets/silly-n-valley/photo_8.jpg",
-    caption: "Rundown flyer fotokopian manual yang ditempel di dinding venue acara.",
-    category: "gear",
-    timestamp: "MARET 2024"
-  },
-  {
-    id: 9,
-    src: "/assets/silly-n-valley/photo_9.jpg",
-    caption: "Luthfi Tank Grunge (Tabraklari) berbagi mic untuk track Berhala-Run!",
-    category: "stage",
-    timestamp: "FEBRUARI 2024"
-  },
-  {
-    id: 10,
-    src: "/assets/silly-n-valley/photo_10.jpg",
-    caption: "Persiapan merch booth DIY: kaset, kaos sablon tangan, dan booklet zine.",
-    category: "backstage",
-    timestamp: "JANUARI 2024"
-  },
-  {
-    id: 11,
-    src: "/assets/silly-n-valley/photo_11.jpg",
-    caption: "Panggung Authenticity Soundroom Tangerang. Suara punk menembus batas skena.",
-    category: "stage",
-    timestamp: "DESEMBER 2023"
-  },
-  {
-    id: 12,
-    src: "/assets/silly-n-valley/photo_12.jpg",
-    caption: "Grup foto bersama seluruh audiens & kru seusai showcase berdarah-darah tapi bahagia.",
-    category: "crowd",
-    timestamp: "NOVEMBER 2023"
+    id: "alb-3",
+    title: "Tape Cassette C-30 Production & Gear",
+    date: "Agustus 2024",
+    venue: "Silly DIY Workshop",
+    photographer: "@silly.n.valley",
+    coverImage: "/assets/silly-n-valley/photo_9.jpg",
+    photos: [
+      "/assets/silly-n-valley/photo_9.jpg",
+      "/assets/silly-n-valley/photo_10.jpg",
+      "/assets/silly-n-valley/photo_11.jpg",
+      "/assets/silly-n-valley/photo_12.jpg"
+    ]
   }
 ];
 
@@ -491,11 +451,11 @@ export default function SillyNValleyPage() {
 
   const [merchList, setMerchList] = useState<MerchItem[]>(MERCH_CATALOG);
   const [gigsList, setGigsList] = useState<GigEvent[]>(GIGS_TIMELINE);
-  const [photosList, setPhotosList] = useState<PhotoItem[]>(INSTAGRAM_PHOTOS);
+  const [albumsList, setAlbumsList] = useState<FanzineAlbum[]>(INITIAL_ALBUMS);
 
-  // Gallery & Lightbox states
-  const [galleryCategory, setGalleryCategory] = useState<string>("all");
-  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+  // Album Lightbox states
+  const [activeAlbumIndex, setActiveAlbumIndex] = useState<number | null>(null);
+  const [activeAlbumPhotoIndex, setActiveAlbumPhotoIndex] = useState<number>(0);
 
   // Gigs & Flyer Lightbox states
   const [activeGigIndex, setActiveGigIndex] = useState<number | null>(null);
@@ -637,40 +597,30 @@ export default function SillyNValleyPage() {
           );
         }
 
-        // 4. Albums / Photos
+        // 4. Albums / Fanzine Gallery
         const { data: albumData } = await supabase
           .from("fanzine_albums")
           .select("*")
           .order("created_at", { ascending: false });
 
         if (albumData && albumData.length > 0) {
-          const dynamicPhotos: PhotoItem[] = [];
-          let pId = 1;
-          albumData.forEach((alb: any) => {
-            const photosArr: string[] =
-              Array.isArray(alb.photos) && alb.photos.length > 0
-                ? alb.photos
-                : [alb.cover_image];
-            photosArr.forEach((src: string, pIdx: number) => {
-              dynamicPhotos.push({
-                id: pId++,
-                src,
-                caption: `${alb.title} - ${alb.venue} (${alb.date})`,
-                category:
-                  pIdx % 4 === 0
-                    ? "stage"
-                    : pIdx % 4 === 1
-                    ? "crowd"
-                    : pIdx % 4 === 2
-                    ? "gear"
-                    : "backstage",
-                timestamp: alb.date
-              });
-            });
-          });
-          if (dynamicPhotos.length > 0) {
-            setPhotosList(dynamicPhotos);
-          }
+          setAlbumsList(
+            albumData.map((alb: any) => {
+              const photosArr: string[] =
+                Array.isArray(alb.photos) && alb.photos.length > 0
+                  ? alb.photos
+                  : [alb.cover_image || "/assets/silly-n-valley/photo_1.jpg"];
+              return {
+                id: alb.id,
+                title: alb.title,
+                date: alb.date,
+                venue: alb.venue,
+                photographer: alb.photographer || "@silly.n.valley",
+                coverImage: alb.cover_image || photosArr[0] || "/assets/silly-n-valley/photo_1.jpg",
+                photos: photosArr
+              };
+            })
+          );
         }
       } catch (err) {
         console.warn("Supabase fetchLiveContent fallback:", err);
@@ -680,10 +630,29 @@ export default function SillyNValleyPage() {
     fetchLiveContent();
   }, []);
 
-  const filteredPhotos =
-    galleryCategory === "all"
-      ? photosList
-      : photosList.filter(p => p.category === galleryCategory);
+  // Keyboard navigation for Album Carousel Modal
+  useEffect(() => {
+    if (activeAlbumIndex === null) return;
+    const currentAlbum = albumsList[activeAlbumIndex];
+    if (!currentAlbum) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveAlbumIndex(null);
+      } else if (e.key === "ArrowLeft") {
+        setActiveAlbumPhotoIndex(prev =>
+          (prev - 1 + currentAlbum.photos.length) % currentAlbum.photos.length
+        );
+      } else if (e.key === "ArrowRight") {
+        setActiveAlbumPhotoIndex(prev =>
+          (prev + 1) % currentAlbum.photos.length
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeAlbumIndex, albumsList]);
 
   // WhatsApp generator for Merch Order
   const handleOrderMerch = (item: MerchItem) => {
@@ -875,7 +844,7 @@ export default function SillyNValleyPage() {
               onClick={() => setMobileMenuOpen(false)}
               className="block font-bold text-[#F3EFE0] hover:text-[#D4E627] flex items-center gap-2"
             >
-              <Camera className="w-4 h-4 text-[#D4E627]" /> Galeri Zine & Polaroid (12 Foto)
+              <Camera className="w-4 h-4 text-[#D4E627]" /> Galeri Foto & Album Zine
             </a>
             <a
               href="#listen"
@@ -1320,7 +1289,7 @@ export default function SillyNValleyPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 4: FANZINE PHOTO GALLERY (12 REAL PHOTOS)
+          SECTION 4: FANZINE PHOTO GALLERY (ALBUMS & CAROUSEL)
       ========================================================================= */}
       <section id="photos" className="py-20 border-b-4 border-black bg-[#1E0833] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1340,33 +1309,17 @@ export default function SillyNValleyPage() {
               </p>
             </div>
 
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                { key: "all", label: `SEMUA (${photosList.length})` },
-                { key: "stage", label: "PANGGUNG" },
-                { key: "crowd", label: "MOSHPIT" },
-                { key: "gear", label: "KASET & GEAR" },
-                { key: "backstage", label: "BACKSTAGE" }
-              ].map(tab => (
-                <button
-                  key={tab.key}
-                  onClick={() => setGalleryCategory(tab.key)}
-                  className={`px-3 py-1.5 text-xs font-black uppercase border-2 border-black transition-all cursor-pointer ${
-                    galleryCategory === tab.key
-                      ? "bg-[#D4E627] text-[#12041D] shadow-[3px_3px_0px_#B879AD] -translate-y-0.5"
-                      : "bg-[#2E104B] text-[#F3EFE0] hover:bg-[#3D1563] shadow-[2px_2px_0px_#000]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+            {/* Total Album Count Badge */}
+            <div className="flex items-center gap-2">
+              <span className="bg-[#D4E627] text-[#12041D] text-xs font-black uppercase px-3 py-1.5 border-2 border-black shadow-[3px_3px_0px_#B879AD] font-mono">
+                {albumsList.length} ALBUM DOKUMENTASI
+              </span>
             </div>
           </div>
 
-          {/* Polaroid Zine Photo Grid */}
+          {/* Polaroid Zine Album Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
-            {filteredPhotos.map((photo, idx) => {
+            {albumsList.map((album, idx) => {
               const rotateClasses = [
                 "-rotate-1 hover:rotate-0",
                 "rotate-2 hover:rotate-0",
@@ -1374,45 +1327,78 @@ export default function SillyNValleyPage() {
                 "rotate-1 hover:rotate-0"
               ];
               const rotation = rotateClasses[idx % rotateClasses.length];
+              const coverImg =
+                album.coverImage ||
+                (album.photos && album.photos[0]) ||
+                "/assets/silly-n-valley/photo_1.jpg";
 
               return (
                 <div
-                  key={photo.id}
-                  onClick={() => setActivePhotoIndex(idx)}
-                  className={`bg-[#F3EFE0] text-[#12041D] p-3 border-3 border-black shadow-[6px_6px_0px_#10031B] cursor-pointer group transition-all duration-300 hover:scale-[1.03] hover:shadow-[10px_10px_0px_#D4E627] relative ${rotation}`}
+                  key={album.id || idx}
+                  onClick={() => {
+                    setActiveAlbumIndex(idx);
+                    setActiveAlbumPhotoIndex(0);
+                  }}
+                  className={`bg-[#F3EFE0] text-[#12041D] p-3 border-3 border-black shadow-[6px_6px_0px_#10031B] cursor-pointer group transition-all duration-300 hover:scale-[1.03] hover:shadow-[10px_10px_0px_#D4E627] relative flex flex-col justify-between ${rotation}`}
                 >
                   <DuctTape
                     className="-top-3 left-1/2 -translate-x-1/2 w-20"
                     color={idx % 3 === 0 ? "yellow" : idx % 3 === 1 ? "purple" : "cyan"}
                   />
 
-                  <div className="aspect-square bg-black overflow-hidden border-2 border-black relative">
-                    <img
-                      src={photo.src}
-                      alt={photo.caption}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter contrast-105"
-                      loading="lazy"
-                    />
-
-                    <div className="absolute inset-0 bg-[#12041D]/0 group-hover:bg-[#12041D]/30 transition-colors flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 bg-[#D4E627] text-[#12041D] text-xs font-black uppercase px-2.5 py-1 border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1 transition-opacity">
-                        <Maximize2 className="w-3.5 h-3.5" /> Perbesar
+                  <div>
+                    {/* Top Status Bar: Date & Photos Count */}
+                    <div className="flex items-center justify-between text-[10px] font-mono mb-2 pb-1.5 border-b border-black/20">
+                      <span className="bg-[#00BFA5] text-[#12041D] font-black uppercase px-1.5 py-0.5 border border-black">
+                        {album.photos.length} FOTO
+                      </span>
+                      <span className="text-[#333] font-bold truncate">
+                        {album.date}
                       </span>
                     </div>
 
-                    <span className="absolute bottom-2 left-2 bg-[#12041D]/80 text-[#D4E627] text-[9px] font-mono font-bold px-1.5 py-0.5 border border-[#D4E627]">
-                      {photo.timestamp}
-                    </span>
+                    {/* Thumbnail Image Frame: Polaroid style aspect-square */}
+                    <div className="aspect-square bg-black overflow-hidden border-2 border-black relative">
+                      <img
+                        src={coverImg}
+                        alt={album.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 filter contrast-105"
+                        loading="lazy"
+                      />
+
+                      <div className="absolute inset-0 bg-[#12041D]/0 group-hover:bg-[#12041D]/35 transition-colors flex items-center justify-center">
+                        <span className="opacity-0 group-hover:opacity-100 bg-[#D4E627] text-[#12041D] text-xs font-black uppercase px-2.5 py-1 border border-black shadow-[2px_2px_0px_#000] flex items-center gap-1 transition-opacity">
+                          <Maximize2 className="w-3.5 h-3.5" /> Buka Album ({album.photos.length})
+                        </span>
+                      </div>
+
+                      {album.venue && (
+                        <span className="absolute bottom-2 left-2 bg-[#12041D]/85 text-[#D4E627] text-[9px] font-mono font-bold px-1.5 py-0.5 border border-[#D4E627] truncate max-w-[85%]">
+                          {album.venue}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Album Title & Attribution */}
+                    <div className="pt-3 px-1">
+                      <h3 className="text-base sm:text-lg font-punk uppercase text-[#12041D] leading-tight line-clamp-2 group-hover:text-[#6B249E] transition-colors">
+                        {album.title}
+                      </h3>
+                      <p className="text-[11px] font-mono font-bold text-[#555] flex items-center gap-1 mt-1 truncate">
+                        <Camera className="w-3 h-3 text-[#12041D] shrink-0" />
+                        <span>Foto: {album.photographer}</span>
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="pt-3 px-1">
-                    <p className="text-xs font-mono font-bold leading-snug line-clamp-2 text-[#12041D]">
-                      {photo.caption}
-                    </p>
-                    <div className="mt-2 pt-2 border-t border-dashed border-black/30 flex justify-between items-center text-[10px] text-[#444] font-mono">
-                      <span>#SILLYNVALLEY</span>
-                      <span className="text-black font-black uppercase">FOTO #{photo.id}</span>
-                    </div>
+                  {/* Card Footer */}
+                  <div className="mt-3 pt-2 border-t border-dashed border-black/30 flex justify-between items-center text-[10px] text-[#444] font-mono">
+                    <span className="text-[#12041D] font-black uppercase flex items-center gap-1">
+                      #SILLYNVALLEY
+                    </span>
+                    <span className="bg-[#D4E627] text-[#12041D] px-1.5 py-0.5 font-black uppercase border border-black group-hover:bg-[#12041D] group-hover:text-[#D4E627] transition-colors">
+                      Lihat Foto ({album.photos.length}) →
+                    </span>
                   </div>
                 </div>
               );
@@ -1421,71 +1407,142 @@ export default function SillyNValleyPage() {
         </div>
       </section>
 
-      {/* LIGHTBOX MODAL */}
-      {activePhotoIndex !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 bg-[#12041D]/90 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setActivePhotoIndex(null)}
-        >
+      {/* =========================================================================
+          ALBUM LIGHTBOX CAROUSEL MODAL
+      ========================================================================= */}
+      {activeAlbumIndex !== null && albumsList[activeAlbumIndex] && (() => {
+        const curAlbum = albumsList[activeAlbumIndex];
+        const allPhotos: string[] =
+          Array.isArray(curAlbum.photos) && curAlbum.photos.length > 0
+            ? curAlbum.photos
+            : [curAlbum.coverImage || "/assets/silly-n-valley/photo_1.jpg"];
+        const curPhotoIndex = activeAlbumPhotoIndex % allPhotos.length;
+        const currentPhotoUrl = allPhotos[curPhotoIndex];
+
+        return (
           <div
-            className="bg-[#1A062B] border-4 border-black max-w-3xl w-full p-4 sm:p-6 shadow-[10px_10px_0px_#D4E627] relative"
-            onClick={e => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-50 bg-[#12041D]/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+            onClick={() => setActiveAlbumIndex(null)}
           >
-            <button
-              onClick={() => setActivePhotoIndex(null)}
-              className="absolute -top-4 -right-4 bg-[#D90429] text-white p-2 border-2 border-black font-black hover:scale-110 transition-transform shadow-[2px_2px_0px_#000] z-20"
-              aria-label="Tutup popup"
+            <div
+              className="bg-[#1A062B] border-4 border-black max-w-4xl w-full p-4 sm:p-6 shadow-[10px_10px_0px_#D4E627] relative my-auto max-h-[94vh] overflow-y-auto flex flex-col justify-between"
+              onClick={e => e.stopPropagation()}
             >
-              <X className="w-5 h-5" />
-            </button>
+              <button
+                onClick={() => setActiveAlbumIndex(null)}
+                className="absolute -top-3 -right-3 bg-[#D90429] text-white p-2 border-2 border-black font-black hover:scale-110 transition-transform shadow-[2px_2px_0px_#000] z-20 cursor-pointer"
+                aria-label="Tutup album foto"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="aspect-4/3 sm:aspect-16/10 bg-black overflow-hidden border-2 border-black relative">
-              <img
-                src={filteredPhotos[activePhotoIndex].src}
-                alt={filteredPhotos[activePhotoIndex].caption}
-                className="w-full h-full object-contain"
-              />
-            </div>
+              {/* Modal Header */}
+              <div className="mb-4 pb-3 border-b-2 border-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="bg-[#00BFA5] text-[#12041D] text-[10px] font-black uppercase px-2 py-0.5 border border-black font-mono">
+                      ALBUM FANZINE DOKUMENTASI
+                    </span>
+                    <span className="bg-[#D4E627] text-[#12041D] text-[10px] font-black uppercase px-2 py-0.5 border border-black font-mono">
+                      {curAlbum.date}
+                    </span>
+                    {curAlbum.venue && (
+                      <span className="text-[#CBB8DC] text-[11px] font-mono">
+                        {curAlbum.venue}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-punk uppercase text-[#F3EFE0] leading-tight">
+                    {curAlbum.title}
+                  </h3>
+                </div>
 
-            <div className="pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono">
-              <div>
-                <span className="text-[#00BFA5] font-black uppercase text-[10px]">
-                  DOKUMENTASI FOTO GIGS TANGERANG
-                </span>
-                <p className="text-sm font-bold text-[#F3EFE0] mt-0.5">
-                  {filteredPhotos[activePhotoIndex].caption}
-                </p>
+                <div className="text-xs font-mono text-[#D4E627] font-bold flex items-center gap-1.5 bg-[#2E104B] px-3 py-1.5 border border-black shrink-0">
+                  <Camera className="w-4 h-4 text-[#00BFA5]" />
+                  <span>Foto: {curAlbum.photographer}</span>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  onClick={() =>
-                    setActivePhotoIndex(
-                      (activePhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length
-                    )
-                  }
-                  className="bg-[#2A0E44] hover:bg-[#3D1563] text-[#D4E627] p-2 border-2 border-black cursor-pointer"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <span className="text-[#D4E627] font-bold px-2">
-                  {activePhotoIndex + 1} / {filteredPhotos.length}
+              {/* Carousel Main Stage */}
+              <div className="relative w-full bg-black border-2 border-black overflow-hidden flex items-center justify-center min-h-[280px] max-h-[60vh]">
+                <img
+                  src={currentPhotoUrl}
+                  alt={`${curAlbum.title} - Foto ${curPhotoIndex + 1}`}
+                  className="w-full h-full max-h-[60vh] object-contain select-none"
+                />
+
+                {/* Left / Right Carousel Controls */}
+                {allPhotos.length > 1 && (
+                  <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+                    <button
+                      type="button"
+                      onClick={e => {
+                        e.stopPropagation();
+                        setActiveAlbumPhotoIndex(prev => (prev - 1 + allPhotos.length) % allPhotos.length);
+                      }}
+                      className="bg-[#12041D]/80 hover:bg-[#D4E627] text-white hover:text-[#12041D] p-2.5 sm:p-3 border-2 border-black cursor-pointer pointer-events-auto transition-colors shadow-[2px_2px_0px_#000]"
+                      aria-label="Foto sebelumnya"
+                    >
+                      <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={e => {
+                        e.stopPropagation();
+                        setActiveAlbumPhotoIndex(prev => (prev + 1) % allPhotos.length);
+                      }}
+                      className="bg-[#12041D]/80 hover:bg-[#D4E627] text-white hover:text-[#12041D] p-2.5 sm:p-3 border-2 border-black cursor-pointer pointer-events-auto transition-colors shadow-[2px_2px_0px_#000]"
+                      aria-label="Foto berikutnya"
+                    >
+                      <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Photo Counter Badge */}
+                <div className="absolute bottom-2 right-2 bg-[#12041D]/90 text-[#D4E627] text-xs font-mono font-bold px-2.5 py-1 border border-[#D4E627] shadow-[2px_2px_0px_#000]">
+                  {curPhotoIndex + 1} / {allPhotos.length} FOTO
+                </div>
+              </div>
+
+              {/* Thumbnail Strip for Direct Navigation */}
+              {allPhotos.length > 1 && (
+                <div className="mt-3">
+                  <div className="flex gap-2 overflow-x-auto max-w-full py-1.5 scrollbar-thin scrollbar-thumb-[#D4E627]">
+                    {allPhotos.map((pUrl, pIdx) => (
+                      <button
+                        key={pIdx}
+                        type="button"
+                        onClick={() => setActiveAlbumPhotoIndex(pIdx)}
+                        className={`w-14 h-14 sm:w-16 sm:h-16 shrink-0 border-2 overflow-hidden cursor-pointer transition-all ${
+                          curPhotoIndex === pIdx
+                            ? "border-[#D4E627] scale-105 shadow-[2px_2px_0px_#000]"
+                            : "border-black/60 opacity-60 hover:opacity-100"
+                        }`}
+                        aria-label={`Pilih foto ${pIdx + 1}`}
+                      >
+                        <img src={pUrl} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Modal Footer */}
+              <div className="mt-4 pt-3 border-t border-dashed border-[#572288] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+                <span className="text-[#CBB8DC]">
+                  Gunakan tombol panah kiri / kanan keyboard atau klik gambar mini di bawah untuk navigasi.
                 </span>
-                <button
-                  onClick={() =>
-                    setActivePhotoIndex((activePhotoIndex + 1) % filteredPhotos.length)
-                  }
-                  className="bg-[#2A0E44] hover:bg-[#3D1563] text-[#D4E627] p-2 border-2 border-black cursor-pointer"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                <span className="text-[#D4E627] font-bold">
+                  Silly N Valley Visual Archive
+                </span>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* =========================================================================
           SECTION 5: LISTEN TO US (DEDICATED SPOTIFY STREAMING HUB)
