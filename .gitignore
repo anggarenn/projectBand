@@ -47,8 +47,12 @@ next-env.d.ts
 /*.log
 /*_frames/
 /__pycache__/
+
 # local temporary uploads and downloads
 /gambar/
 *.pdf
 *.crdownload
 
+# raw studio master audio stems (web uses pre-spliced snv-maxi-combined.mp3)
+public/assets/silly-n-valley/audio/*.wav
+public/assets/silly-n-valley/audio/*MASTER*

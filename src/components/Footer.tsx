@@ -1,114 +1,71 @@
-"use client";
+import React from "react";
+import { ArrowUpRightIcon } from "./Icons";
 
-import { Heart, MessageCircle, Mail } from "lucide-react";
+const SOCIAL_LINKS = [
+  { label: "Instagram", href: "https://instagram.com/silly.n.valley" },
+  { label: "YouTube", href: "https://youtube.com/@sillynvalley" },
+  {
+    label: "Spotify",
+    href: "https://open.spotify.com/album/6weIaQGMlG6TQFaZJcYk3s",
+  },
+];
 
-export default function Footer() {
+export function Footer() {
   return (
-    <footer className="bg-[#FAF8F5] border-t border-[#EAE5DD] py-16 text-[#6B655E]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#EAE5DD]">
-          {/* Brand Col */}
-          <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#A04F34] text-white flex items-center justify-center shadow-xs">
-                <Heart className="w-4 h-4 fill-white/20 stroke-white" />
-              </div>
-              <span className="font-serif-display text-2xl font-bold tracking-tight text-[#1F1D1B]">
-                Mengundang
-              </span>
+    <footer id="contact" className="bg-[#0A0A0A] text-white/70 font-sans">
+      <div className="max-w-6xl mx-auto px-6 sm:px-10">
+        <div className="border-t border-white/10 py-14 grid grid-cols-1 md:grid-cols-3 gap-10 items-start md:items-center">
+          <div className="text-center md:text-left">
+            <div className="font-bebas text-3xl sm:text-[34px] text-white tracking-wider uppercase leading-none">
+              SILLY N VALLEY
             </div>
-            <p className="text-sm text-[#6B655E] max-w-sm leading-relaxed">
-              Platform undangan pernikahan digital bernuansa hangat dan elegan. Dirancang agar mudah
-              dibuat oleh calon mempelai dan nyaman dibuka oleh para tamu di ponsel mereka.
+            <p className="text-white/50 text-[12px] tracking-wide mt-2.5">
+              Bookings, shows &amp; everything else.
             </p>
-            <div className="pt-2">
-              <span className="text-xs text-[#8A837A] block">
-                Server berlokasi di Jakarta, Indonesia • Cepat & Ringan
-              </span>
-            </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold text-[#1F1D1B] uppercase tracking-wider">Navigasi</h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <a href="#fitur" className="hover:text-[#1F1D1B] transition-colors">
-                  Fitur Utama
-                </a>
-              </li>
-              <li>
-                <a href="#generator" className="hover:text-[#1F1D1B] transition-colors">
-                  Generator WhatsApp
-                </a>
-              </li>
-              <li>
-                <a href="#tema" className="hover:text-[#1F1D1B] transition-colors">
-                  Pilihan Tema
-                </a>
-              </li>
-              <li>
-                <a href="#hari-h" className="hover:text-[#1F1D1B] transition-colors">
-                  Modul Hari Resepsi
-                </a>
-              </li>
-              <li>
-                <a href="#harga" className="hover:text-[#1F1D1B] transition-colors">
-                  Harga & Paket
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Practical Resources */}
-          <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold text-[#1F1D1B] uppercase tracking-wider">Informasi</h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <a href="#faq" className="hover:text-[#1F1D1B] transition-colors">
-                  Tanya Jawab (FAQ)
-                </a>
-              </li>
-              <li>
-                <a href="#harga" className="hover:text-[#1F1D1B] transition-colors">
-                  Kalkulator Anggaran
-                </a>
-              </li>
-              <li>
-                <a href="#simulator" className="hover:text-[#1F1D1B] transition-colors">
-                  Pratinjau Simulator
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Direct Support */}
-          <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold text-[#1F1D1B] uppercase tracking-wider">
-              Bantuan Mempelai
-            </h4>
-            <p className="text-xs text-[#6B655E] leading-relaxed">
-              Punya pertanyaan seputar pengisian data atau membutuhkan bantuan teknis? Hubungi tim
-              kami melalui WhatsApp:
-            </p>
+          <div className="text-center space-y-1.5">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block">
+              BOOKING
+            </span>
             <a
-              href="https://wa.me/6281234567890?text=Halo%20tim%20Mengundang,%20saya%20ingin%20tanya%20seputar%20undangan%20digital"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-[#EAE5DD] text-xs font-semibold text-[#1F1D1B] hover:bg-[#F7EFEA] hover:border-[#A04F34] transition-colors"
+              href="mailto:sillynvalley@gmail.com"
+              className="text-[#D4E627] hover:opacity-80 font-semibold text-sm sm:text-[15px] tracking-wide transition-opacity block"
             >
-              <MessageCircle className="w-4 h-4 text-[#25D366]" />
-              <span>Chat WhatsApp Customer Care</span>
+              sillynvalley@gmail.com
             </a>
+            <a
+              href="https://wa.me/6281299095137"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/60 hover:text-white text-xs tracking-wider transition-colors block"
+            >
+              +62 812-9909-5137
+            </a>
+          </div>
+
+          <div className="flex flex-col items-center md:items-end space-y-1.5">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-0.5">
+              SOCIALS
+            </span>
+            {SOCIAL_LINKS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-white/80 hover:text-[#D4E627] transition-colors"
+              >
+                <span>{item.label}</span>
+                <ArrowUpRightIcon className="w-3 h-3 opacity-60" />
+              </a>
+            ))}
           </div>
         </div>
 
-        {/* Copyright & Sign-off */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8A837A]">
-          <p>&copy; {new Date().getFullYear()} Mengundang. Hak cipta dilindungi undang-undang.</p>
-          <div className="flex items-center gap-1 text-[#6B655E]">
-            <span>Dibuat untuk memudahkan momen bahagia pernikahan di Indonesia</span>
-          </div>
+        <div className="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-white/35">
+          <span>&copy; 2026 Silly N Valley. All rights reserved.</span>
+          <span>Tangerang, ID</span>
         </div>
       </div>
     </footer>
